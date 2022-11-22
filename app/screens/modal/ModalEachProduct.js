@@ -30,6 +30,7 @@ const ModalEachProduct=(props) =>{
       />
 
       <Text style={{flex:0.06,fontSize: 17,fontWeight: 'bold',}}>{authStore.selectedProducts.name}</Text>
+      <Text style={{flex:0.06,fontSize: 16}}>{authStore.selectedProducts.description}</Text>
       <Text style={{flex:0.06,fontSize: 17,}}>{authStore.selectedProducts.amount}</Text>
       <View style={{flex:0.07,height:60,width:40,justifyContent:'center',alignItems:'center',marginBottom:10}}>
       <Text style={{fontSize: 17,fontWeight: 'bold',color:'#6200EE'}}>{authStore.selectedProducts.price}</Text>
