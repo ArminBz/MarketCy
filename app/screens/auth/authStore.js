@@ -26,6 +26,7 @@ class AuthStore {
 
 
 
+
             setPhoneNumber: action,
             setEmail: action,
             setCodeCheck: action,
@@ -36,6 +37,10 @@ class AuthStore {
             setSelectedProducts:action,
             setAddProducts:action,
             setUserAddress:action,
+            setLatitude:action,
+            setLongitude:action,
+
+
 
 
 
@@ -143,10 +148,20 @@ class AuthStore {
     selectedProducts={}
     addProducts=[]
     userAddress:''
+    latitude:35.2972
+    longitude:33.8969
 
 
 
 
+
+
+    setLatitude = (value) =>{
+        this.latitude = value
+    }
+    setLongitude = (value) =>{
+        this.longitude = value
+    }
 
 
     setEmail = (value) =>{

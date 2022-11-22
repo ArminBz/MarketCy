@@ -61,7 +61,8 @@ const UserAddress=(props) =>{
   left:60,right:60}}>
       <Pressable style={purpleButton}
                  onPress={() => {
-                   NavigationService.navigate('UserAddress')
+                   alert('you have Entered successfully')
+                   NavigationService.goBack()
                    setShowAddress(true)
                  }}
 

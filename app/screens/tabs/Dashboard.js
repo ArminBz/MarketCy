@@ -7,6 +7,8 @@ import { observer } from "mobx-react";
 import { IconButton, List,Colors,TextInput } from "react-native-paper";
 import NavigationService from "../../router/NavigationService";
 import { useStores } from "../../store";
+import navigationService from "../../router/NavigationService";
+
 const {
   height, width,
 } = Dimensions.get('window',)
@@ -57,11 +59,12 @@ const Dashboard: () => Node = () =>{
         left={() => <List.Icon color="#000" icon="alarm" />}
       />
       <List.Item
-        onPress={() => NavigationService.navigate('SignedOutStack')}
+        onPress={() => navigationService.goBack()}
         title="Log out"
         left={() => <List.Icon color="#000" icon="logout" />}
       />
     </List.Section>
+
 
     // <Background>
     //   <Logo />
