@@ -1,16 +1,16 @@
 import React from 'react'
 import { createNativeStackNavigator, } from '@react-navigation/native-stack'
-import Intro from "../screens/login/Intro";
+import Intro from "../screens/auth/Intro";
 import ListOfProducts from "../screens/products/ListOfProducts";
 import Home from "../screens/tabs/Home";
 import Dashboard from "../screens/tabs/Dashboard";
-import VerifyNumber from "../screens/login/VerifyNumber";
+import VerifyNumber from "../screens/auth/VerifyNumber";
 import Search from "../screens/tabs/Search";
 import Offer from "../screens/tabs/Offer";
-import ModalEachProduct from "../screens/modal/ModalEachProduct";
+import ModalEachProduct from "../screens/products/ModalEachProduct";
 import Basket from "../screens/basket/Basket";
-import UserAddress from "../screens/modal/UserAddress";
-import ReceiveOrder from "../screens/modal/ReceiveOrder";
+import ModalUserAddress from "../screens/userAddress/ModalUserAddress";
+import ModalReceiveOrder from "../screens/modal/ModalReceiveOrder";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -53,8 +53,8 @@ const SignedInStack = createNativeStackNavigator()
           </SignedInStack.Group>
         <SignedInStack.Group screenOptions={{ presentation: 'modal', }}>
           <SignedInStack.Screen name="ModalEachProduct" component={ModalEachProduct} />
-          <SignedInStack.Screen name="UserAddress" component={UserAddress} />
-          <SignedInStack.Screen name="ReceiveOrder" component={ReceiveOrder} />
+          <SignedInStack.Screen name="ModalUserAddress" component={ModalUserAddress} />
+          <SignedInStack.Screen name="ModalReceiveOrder" component={ModalReceiveOrder} />
 
         </SignedInStack.Group>
       </SignedInStack.Navigator>

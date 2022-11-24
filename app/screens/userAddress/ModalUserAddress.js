@@ -21,15 +21,13 @@ const {
 //   )
 // }
 
-const UserAddress=(props) =>{
+const ModalUserAddress=(props) =>{
   const {
-    authStore,
+    userAddressStore,
   } = useStores()
 
   const [showAddress, setShowAddress, ] = useState(false)
 
-  // console.log('props',props.route.params.name)
-  // console.log('slaam',authStore.products.map((product)=>product.description))
   let name = props?.route?.params?.name || null
   return (
 
@@ -48,12 +46,10 @@ const UserAddress=(props) =>{
         fontSize: 18,
 
         }}
-        value={authStore.userAddress}
-        onChangeText={authStore.setUserAddress}
+        value={userAddressStore.userAddress}
+        onChangeText={userAddressStore.setUserAddress}
       />
-  {/*{showAddress===true ?*/}
-  {/*  <TextInput>{authStore.userAddress}</TextInput>:<Text/>*/}
-  {/*}*/}
+
 </View>
       </List.Section>
 <View style={{position: 'absolute',
@@ -85,4 +81,4 @@ const UserAddress=(props) =>{
 
   )
 }
-export default observer(UserAddress)
+export default observer(ModalUserAddress)

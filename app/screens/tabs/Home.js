@@ -11,189 +11,178 @@ import {
   Image,
   AppRegistry, TouchableOpacity,
 } from "react-native";
-// import * as React from "react";
 import React, {useRef, useEffect,useState} from 'react';
 import { observer } from "mobx-react";
-import Icon from 'react-native-vector-icons/FontAwesome'
-// import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
-// import { DataTable } from 'react-native-paper';
 import { useStores } from "../../store";
-import { List } from 'react-native-paper';
-// import MapView, {
-//   Polyline,
-//   PROVIDER_GOOGLE,
-//   Marker
-// } from "react-native-maps";
 import MapView, {Marker, Circle} from 'react-native-maps';
 import NavigationService from "../../router/NavigationService";
 import Geolocation, { getCurrentPosition } from "react-native-geolocation-service";
 import { googleMapIsInstalled } from "react-native-maps/lib/decorateMapComponent";
-import { makePluginAPI } from "@babel/core/lib/config/helpers/config-api";
-// import { useEffect, useState } from "react";
+
 // import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
 
-const customStyle = [
-  {
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#242f3e',
-      },
-    ],
-  },
-  {
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#746855',
-      },
-    ],
-  },
-  {
-    elementType: 'labels.text.stroke',
-    stylers: [
-      {
-        color: '#242f3e',
-      },
-    ],
-  },
-  {
-    featureType: 'administrative.locality',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#F6F6F6',
-      },
-    ],
-  },
-  {
-    featureType: 'poi',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#d59563',
-      },
-    ],
-  },
-  {
-    featureType: 'poi.park',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#263c3f',
-      },
-    ],
-  },
-  {
-    featureType: 'poi.park',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#6b9a76',
-      },
-    ],
-  },
-  {
-    featureType: 'road',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#38414e',
-      },
-    ],
-  },
-  {
-    featureType: 'road',
-    elementType: 'geometry.stroke',
-    stylers: [
-      {
-        color: '#212a37',
-      },
-    ],
-  },
-  {
-    featureType: 'road',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#9ca5b3',
-      },
-    ],
-  },
-  {
-    featureType: 'road.highway',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#746855',
-      },
-    ],
-  },
-  {
-    featureType: 'road.highway',
-    elementType: 'geometry.stroke',
-    stylers: [
-      {
-        color: '#1f2835',
-      },
-    ],
-  },
-  {
-    featureType: 'road.highway',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#f3d19c',
-      },
-    ],
-  },
-  {
-    featureType: 'transit',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#2f3948',
-      },
-    ],
-  },
-  {
-    featureType: 'transit.station',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#d59563',
-      },
-    ],
-  },
-  {
-    featureType: 'water',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#17263c',
-      },
-    ],
-  },
-  {
-    featureType: 'water',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#515c6d',
-      },
-    ],
-  },
-  {
-    featureType: 'water',
-    elementType: 'labels.text.stroke',
-    stylers: [
-      {
-        color: '#17263c',
-      },
-    ],
-  },
-];
+// const customStyle = [
+//   {
+//     elementType: 'geometry',
+//     stylers: [
+//       {
+//         color: '#242f3e',
+//       },
+//     ],
+//   },
+//   {
+//     elementType: 'labels.text.fill',
+//     stylers: [
+//       {
+//         color: '#746855',
+//       },
+//     ],
+//   },
+//   {
+//     elementType: 'labels.text.stroke',
+//     stylers: [
+//       {
+//         color: '#242f3e',
+//       },
+//     ],
+//   },
+//   {
+//     featureType: 'administrative.locality',
+//     elementType: 'labels.text.fill',
+//     stylers: [
+//       {
+//         color: '#F6F6F6',
+//       },
+//     ],
+//   },
+//   {
+//     featureType: 'poi',
+//     elementType: 'labels.text.fill',
+//     stylers: [
+//       {
+//         color: '#d59563',
+//       },
+//     ],
+//   },
+//   {
+//     featureType: 'poi.park',
+//     elementType: 'geometry',
+//     stylers: [
+//       {
+//         color: '#263c3f',
+//       },
+//     ],
+//   },
+//   {
+//     featureType: 'poi.park',
+//     elementType: 'labels.text.fill',
+//     stylers: [
+//       {
+//         color: '#6b9a76',
+//       },
+//     ],
+//   },
+//   {
+//     featureType: 'road',
+//     elementType: 'geometry',
+//     stylers: [
+//       {
+//         color: '#38414e',
+//       },
+//     ],
+//   },
+//   {
+//     featureType: 'road',
+//     elementType: 'geometry.stroke',
+//     stylers: [
+//       {
+//         color: '#212a37',
+//       },
+//     ],
+//   },
+//   {
+//     featureType: 'road',
+//     elementType: 'labels.text.fill',
+//     stylers: [
+//       {
+//         color: '#9ca5b3',
+//       },
+//     ],
+//   },
+//   {
+//     featureType: 'road.highway',
+//     elementType: 'geometry',
+//     stylers: [
+//       {
+//         color: '#746855',
+//       },
+//     ],
+//   },
+//   {
+//     featureType: 'road.highway',
+//     elementType: 'geometry.stroke',
+//     stylers: [
+//       {
+//         color: '#1f2835',
+//       },
+//     ],
+//   },
+//   {
+//     featureType: 'road.highway',
+//     elementType: 'labels.text.fill',
+//     stylers: [
+//       {
+//         color: '#f3d19c',
+//       },
+//     ],
+//   },
+//   {
+//     featureType: 'transit',
+//     elementType: 'geometry',
+//     stylers: [
+//       {
+//         color: '#2f3948',
+//       },
+//     ],
+//   },
+//   {
+//     featureType: 'transit.station',
+//     elementType: 'labels.text.fill',
+//     stylers: [
+//       {
+//         color: '#d59563',
+//       },
+//     ],
+//   },
+//   {
+//     featureType: 'water',
+//     elementType: 'geometry',
+//     stylers: [
+//       {
+//         color: '#17263c',
+//       },
+//     ],
+//   },
+//   {
+//     featureType: 'water',
+//     elementType: 'labels.text.fill',
+//     stylers: [
+//       {
+//         color: '#515c6d',
+//       },
+//     ],
+//   },
+//   {
+//     featureType: 'water',
+//     elementType: 'labels.text.stroke',
+//     stylers: [
+//       {
+//         color: '#17263c',
+//       },
+//     ],
+//   },
+// ];
 
 const {
   height, width,
@@ -212,6 +201,12 @@ const CARD_WIDTH = CARD_HEIGHT - 50;
 
 
 const Home: () => Node = () =>{
+  const {
+    userLocationStore,
+    authStore,
+  } = useStores()
+
+
   const [markers, setMarkers] = useState([
     {
       coordinate: {
@@ -257,17 +252,13 @@ const Home: () => Node = () =>{
     longitudeDelta: 0.040142817690068,
   });
   const [regionTimeout, setRegionTimeout] = useState(0);
-
-
   const [animationState,setAnimation]=useState(new Animated.Value(0));
   const [item,setItem]=useState(0);
  let mapRef = useRef();
 
 
 
-  const {
-    authStore,
-  } = useStores()
+
 
   useEffect(()=>{
 
@@ -301,8 +292,8 @@ const Home: () => Node = () =>{
 
     Geolocation.getCurrentPosition(
       position => {
-        authStore.setLatitude(position.coords.latitude)
-        authStore.setLongitude(position.coords.longitude)
+        userLocationStore.setLatitude(position.coords.latitude)
+        userLocationStore.setLongitude(position.coords.longitude)
       },
       error => {
         Alert.alert(error.message.toString());
@@ -430,6 +421,7 @@ const Home: () => Node = () =>{
 
       <MapView
         ref={mapRef}
+        showsUserLocation={true}
         initialRegion={region}
         style={styles.container}
         // annotations={markers}
@@ -447,7 +439,6 @@ const Home: () => Node = () =>{
           opacity: interpolations[index].opacity,
         };
         return (
-
           <Marker key={index} coordinate={marker.coordinate}>
             <TouchableOpacity onPress={() => NavigationService.navigate('ListOfProducts')}>
             <Animated.View style={[styles.markerWrap, opacityStyle]}>
@@ -459,7 +450,12 @@ const Home: () => Node = () =>{
 
         );
       })}
-
+        <Marker
+          coordinate={{
+            latitude: userLocationStore.latitude,
+            longitude: userLocationStore.longitude,
+          }}>
+        </Marker>
 
       </MapView>
 

@@ -49,7 +49,7 @@ const Dashboard: () => Node = () =>{
       </View>
       <List.Subheader style={{paddingTop:30}}>Profile</List.Subheader>
       <List.Item
-        onPress={() => NavigationService.navigate('UserAddress')}
+        onPress={() => NavigationService.navigate('ModalUserAddress')}
         title="Set Address"
         left={() => <List.Icon color="#000" icon="home" />}
       />

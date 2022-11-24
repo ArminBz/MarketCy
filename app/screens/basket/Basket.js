@@ -21,6 +21,7 @@ const Basket: () => Node = () =>{
 
   const {
     authStore,
+    productStore,
   } = useStores()
 
 
@@ -30,10 +31,10 @@ const Basket: () => Node = () =>{
  const deleteItemById = (id) => {
 
    // console.log('id=>',id)
-   let index = authStore.addProducts.findIndex((product)=>product.id == id)
+   let index = productStore.addProducts.findIndex((product)=>product.id == id)
    // console.log('index=>',index)
 
-   authStore.addProducts.splice(index, 1)
+   productStore.addProducts.splice(index, 1)
   }
 
   const renderItem = ({item}) =>(
@@ -49,7 +50,7 @@ const Basket: () => Node = () =>{
         borderWidth: 1,
         borderColor: '#E2E2E2'
       }} onPress={() => {
-        authStore.setSelectedProducts(item)
+        productStore.setSelectedProducts(item)
         NavigationService.navigate('ModalEachProduct')
       }}>
 
@@ -93,36 +94,24 @@ const Basket: () => Node = () =>{
     </ScrollView>
   );
 
-  // console.log('authStore.addProducts',authStore.addProducts)
-  // let quantity
-  // let sum=0
-  // for (const value of authStore.addProducts)
-  // {
-  //    quantity=value.quantityOfProduct
-  //   sum += value.price*quantity;
-  //
-  // }
-  // console.log('ann',quantity)
-  // let sum = authStore.addProducts.price.reduce((partialSum, a) => partialSum + a, 0);
-  // console.log('salam',sum)
 
   return (
 
 <View style={{flex:1}}>
-  {authStore.addProducts.length > 0 ?
+  {productStore.addProducts.length > 0 ?
     <View style={{flex:1}}>
       <FlatList
-      extraData={authStore.addProducts}
-      data={authStore.addProducts}
+      extraData={productStore.addProducts}
+      data={productStore.addProducts}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
       >
 
     </FlatList>
 <View style={{justifyContent:'center',alignItems:'center',alignContent:'center',}}>
-        <Text style={{marginBottom:2,marginTop:20,fontSize: 17, fontWeight: 'bold', color: '#6200EE'}}>Total: {authStore.sumOfBasket()}$</Text>
+        <Text style={{marginBottom:2,marginTop:20,fontSize: 17, fontWeight: 'bold', color: '#6200EE'}}>Total: {productStore.sumOfBasket()}$</Text>
 </View>
-    <Pressable style={purpleButton} onPress={() => NavigationService.navigate('ReceiveOrder')}>
+    <Pressable style={purpleButton} onPress={() => NavigationService.navigate('ModalReceiveOrder')}>
       <Text style={{ fontSize: 16,
         lineHeight: 21,
         fontWeight: 'bold',

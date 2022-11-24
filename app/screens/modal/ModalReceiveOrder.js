@@ -51,11 +51,13 @@ const {
 //   )
 // }
 
-const ReceiveOrder=(props) =>{
+const ModalReceiveOrder=(props) =>{
 
 
   const {
     authStore,
+    productStore,
+    userAddressStore,
   } = useStores()
 
 
@@ -98,8 +100,6 @@ const ReceiveOrder=(props) =>{
 
   const [showAddress, setShowAddress, ] = useState(false)
 
-  // console.log('props',props.route.params.name)
-  // console.log('slaam',authStore.products.map((product)=>product.description))
   let name = props?.route?.params?.name || null
   return (
 
@@ -117,19 +117,17 @@ const ReceiveOrder=(props) =>{
               borderColor: '#888888',
               fontSize: 18
             }}
-            value={authStore.userAddress}
-            onChangeText={authStore.setUserAddress}
+            value={userAddressStore.userAddress}
+            onChangeText={userAddressStore.setUserAddress}
           />
-          {/*{showAddress===true ?*/}
-          {/*  <TextInput>{authStore.userAddress}</TextInput>:<Text/>*/}
-          {/*}*/}
+
         </View>
 
       </List.Section>
 
       <FlatList
-        extraData={authStore.addProducts}
-        data={authStore.addProducts}
+        extraData={productStore.addProducts}
+        data={productStore.addProducts}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
       >
@@ -140,7 +138,7 @@ const ReceiveOrder=(props) =>{
         bottom:40,
         left:60,right:60}}>
         <View style={{justifyContent:'center',alignItems:'center',alignContent:'center',}}>
-          <Text style={{marginBottom:2,marginTop:20,fontSize: 17, fontWeight: 'bold', color: '#6200EE'}}>Total: {authStore.sumOfBasket()}$</Text>
+          <Text style={{marginBottom:2,marginTop:20,fontSize: 17, fontWeight: 'bold', color: '#6200EE'}}>Total: {productStore.sumOfBasket()}$</Text>
         </View>
         <Pressable style={purpleButton}
                    onPress={() => {
@@ -170,4 +168,4 @@ const ReceiveOrder=(props) =>{
 
   )
 }
-export default observer(ReceiveOrder)
+export default observer(ModalReceiveOrder)

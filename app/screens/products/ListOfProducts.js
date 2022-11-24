@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 import NavigationService from "../../router/NavigationService";
 import { useStores } from "../../store";
 import Icon from "react-native-vector-icons/FontAwesome";
-import Button from '../../components/Button'
+
 
 const {
   height, width,
@@ -15,6 +15,8 @@ const optionsPerPage = [2, 3, 4];
 const ListOfProducts: () => Node = () =>{
   const {
     authStore,
+    productStore,
+    categoryStore,
   } = useStores()
 
 
@@ -28,7 +30,7 @@ const ListOfProducts: () => Node = () =>{
 
   const renderItem = ({item}) => (
     <TouchableOpacity style={{flex:1,marginBottom: 15,marginTop: 5,padding: 10,width:width,borderWidth: 0.8,borderColor:'#C6C6C6',backgroundColor:'white'}} onPress={() => {
-      authStore.setSelectedProducts(item)
+      productStore.setSelectedProducts(item)
       NavigationService.navigate('ModalEachProduct')
     }}>
       <Image style={{height:150,width:150,marginBottom:7, marginLeft:'auto',marginRight:'auto',display: 'flex'}}
@@ -73,13 +75,13 @@ const ListOfProducts: () => Node = () =>{
     <View>
 
       <FlatList
-        data={authStore.categories}
+        data={categoryStore.categories}
         renderItem={renderItemHeader}
         horizontal={true}
       />
 
       <FlatList
-        data={authStore.products}
+        data={productStore.products}
         renderItem={renderItem}
         horizontal={false}
         numColumns={2}

@@ -28,10 +28,16 @@ const {
 
 
 const Search = (props) => {
+  const {
+    productStore,
+    categoryStore,
+  } = useStores()
+
+
 
   const [searchQuery, setSearchQuery] = React.useState('');
 
-  const onChangeSearch = query => setSearchQuery(authStore.products.find(x => x.name === query));
+  const onChangeSearch = query => setSearchQuery(productStore.products.find(x => x.name === query));
 
 
   const renderItemHeader = ({item}) => (
@@ -42,9 +48,7 @@ const Search = (props) => {
     </TouchableOpacity>
   );
 
-  const {
-    authStore,
-  } = useStores()
+
   return (
     <View style={{flex:1}}>
       <Searchbar
@@ -55,7 +59,7 @@ const Search = (props) => {
 
 <View style={{paddingTop:20}}>
   <FlatList
-    data={authStore.categories}
+    data={categoryStore.categories}
     renderItem={renderItemHeader}
     horizontal={true}
   />

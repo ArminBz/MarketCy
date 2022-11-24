@@ -16,7 +16,7 @@ const {
 
 const Offer: () => Node = () =>{
   const {
-    authStore,
+    offerStore,
   } = useStores()
 
 
@@ -57,8 +57,8 @@ const Offer: () => Node = () =>{
   return (
     <View style={{flex:1}}>
       <FlatList
-        extraData={authStore.offer}
-        data={authStore.offer}
+        extraData={offerStore.offer}
+        data={offerStore.offer}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
       >
