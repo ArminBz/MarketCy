@@ -10,7 +10,7 @@ import { Colors, IconButton } from "react-native-paper";
 import NumericInput from "react-native-numeric-input";
 import { greenButton, purpleButton } from "../../style";
 import Icon from 'react-native-vector-icons/FontAwesome'
-// import Swipeable from 'react-native-gesture-handler/Swipeable';
+
 
 const {
   height, width,

@@ -3,6 +3,7 @@ import {
   action, makeObservable, observable,
 } from 'mobx'
 import { Stores, } from '../../store'
+import { getOffersApi } from "../../api/api";
 
 
 class offerStore {
@@ -38,6 +39,19 @@ class offerStore {
   setOffer = (value) =>{
     this.offer = value
   }
+
+
+  getOffers = async () => {
+    try {
+        let data = await getOffersApi()
+        // this.offer(data,)
+
+        console.log('offers', this.offer,)
+
+    } catch (err) {
+      console.log('offers err', err,)
+    }
+  };
 
 }
 

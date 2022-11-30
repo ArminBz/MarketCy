@@ -1,7 +1,4 @@
 import React from 'react'
-import Background from '../../components/Background'
-import Logo from '../../components/Logo'
-import Button from '../../components/Button'
 import { Dimensions, Text, View } from "react-native";
 import { observer } from "mobx-react";
 import { IconButton, List,Colors,TextInput } from "react-native-paper";

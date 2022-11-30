@@ -3,6 +3,7 @@ import {
   action, makeObservable, observable,
 } from 'mobx'
 import { Stores, } from '../../store'
+import { getCategoriesApi, getProductApi } from "../../api/api";
 
 
 class categoryStore {
@@ -52,6 +53,20 @@ class categoryStore {
   setCategory = (value) =>{
     this.categories = value
   }
+
+
+  getCategories = async () => {
+    try {
+      let data = await getCategoriesApi()
+      // this.categories(data,)
+
+      console.log('categories', this.categories,)
+
+    } catch (err) {
+      console.log('categories err', err,)
+    }
+  };
+
 }
 
 

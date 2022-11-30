@@ -2,6 +2,12 @@
 import {
   action, makeObservable, observable,
 } from 'mobx'
+import { basketReceiptApi, getOffersApi, getProductApi, signInApi } from "../../api/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { setToken } from "../../utils/Api";
+import { Stores, } from '../../store'
+import authStore from "../auth/authStore";
+
 
 
 
@@ -104,6 +110,35 @@ class productStore {
     }
     return sum;
   }
+
+
+  orderReceipt = async () => {
+    try {
+      // this.setLoginLoading(true,)
+      // this.setServerError(null,)
+      console.log('user', Stores.userAddressStore.userAddress,this.selectedProducts)
+      let response = await basketReceiptApi(Stores.userAddressStore.userAddress,this.selectedProducts)
+      console.log('receipt response', response,)
+    } catch (err) {
+
+      console.log('login err', err,)
+    }
+  };
+
+
+
+
+  getProducts = async () => {
+    try {
+      let data = await getProductApi()
+      // this.products(data,)
+
+      console.log('products', this.products,)
+
+    } catch (err) {
+      console.log('products err', err,)
+    }
+  };
 
 }
 
