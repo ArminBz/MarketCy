@@ -117,7 +117,7 @@ class productStore {
       // this.setLoginLoading(true,)
       // this.setServerError(null,)
       console.log('user', Stores.userAddressStore.userAddress,this.selectedProducts)
-      let response = await basketReceiptApi(Stores.userAddressStore.userAddress,this.selectedProducts)
+      let response = await basketReceiptApi(Stores.userAddressStore.userAddress,this.selectedProducts,Stores.authStore.phoneNumber)
       console.log('receipt response', response,)
     } catch (err) {
 

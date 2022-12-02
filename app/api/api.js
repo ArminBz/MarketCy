@@ -34,9 +34,9 @@ export const userAddressApi = async (userAddress) => {
   return response
 }
 
-export const basketReceiptApi = async (userAddress,selectedProduct) => {
+export const basketReceiptApi = async (userAddress,selectedProduct,userNumber) => {
   console.log('API', API,)
-  let response = await API.post('', userAddress,selectedProduct)
+  let response = await API.post('', userAddress,selectedProduct,userNumber)
   console.log('receipt response', response,)
   return response
 }
