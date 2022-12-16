@@ -5,7 +5,7 @@ import { Platform } from 'react-native'
 
 import Config from 'react-native-config'
 
-console.log('Config:', Config)
+// console.log('Config:', Config)
 
 let disableLog = () => {
   // console.log('stuff in disableLog')
@@ -35,7 +35,7 @@ let disableLog = () => {
   // console.disableYellowBox = () => {}
 
 }
-console.log('Config.ENV',Config.ENV)
+// console.log('Config.ENV',Config.ENV)
 
 const getHostURL = () => {
   let hostURL

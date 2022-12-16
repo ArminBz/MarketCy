@@ -2,9 +2,9 @@ import { API, } from '../utils/Api'
 import { Platform, } from 'react-native'
 
 
-export const signInApi = async (userNumber) => {
+export const signInApi = async (phone) => {
   console.log('API', API,)
-  let response = await API.post('', userNumber)
+  let response = await API.post('/users/login', phone)
   console.log('codeCheck response', response,)
   return response
 }

@@ -7,6 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setToken } from "../../utils/Api";
 import { Stores, } from '../../store'
 import authStore from "../auth/authStore";
+import { StoreService } from "../../../src/services/openapi";
 
 
 
@@ -23,18 +24,23 @@ class productStore {
       selectedProducts:observable,
       addProducts:observable,
       products:observable,
+      errorMessage: observable,
+      showErrMessage: observable,
 
 
 
       setQuantityOfProduct:action,
       setSelectedProducts:action,
       setAddProducts:action,
+      setErrorMessage: action,
+      setShowErrMessage: action,
 
 
     },)
   }
 
-
+  errorMessage = '';
+  showErrMessage = false;
   quantityOfProduct=0;
   products=[{
     id: 0,
@@ -100,6 +106,14 @@ class productStore {
   setAddProducts= (value) =>{
     this.addProducts.push(value)
   }
+  setErrorMessage = (value) => {
+    this.errorMessage = value
+  }
+  setShowErrMessage = (value) => {
+    this.showErrMessage = value
+  }
+
+
   sumOfBasket = () =>{
     let quantity
     let sum=0
@@ -125,20 +139,32 @@ class productStore {
     }
   };
 
-
-
-
-  getProducts = async () => {
-    try {
-      let data = await getProductApi()
-      // this.products(data,)
-
-      console.log('products', this.products,)
-
-    } catch (err) {
-      console.log('products err', err,)
+  handleError = (err) => {
+    if (err?.body?.message) {
+      this.setErrorMessage(err.body.message)
+      this.setShowErrMessage(true)
+      console.log('handleError err', err.body.message)
+    } else if (err?.message) {
+      this.setErrorMessage(err.message)
+      this.setShowErrMessage(true)
+      console.log('handleError err', err.message)
     }
-  };
+  }
+
+
+
+  // getProducts = async () => {
+  //   try {
+  //     const response = await StoreService.getProducts(1)
+  //
+  //     console.log('salam',response)
+  //     return response
+  //
+  //   } catch (err) {
+  //     console.log('login err', err)
+  //     this.handleError(err)
+  //   }
+  // }
 
 }
 

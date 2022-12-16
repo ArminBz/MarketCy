@@ -1,4 +1,4 @@
-import {  Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 import { observer } from "mobx-react";
 import NavigationService from "../../router/NavigationService";
 import React, {
@@ -8,18 +8,41 @@ import Background from '../../components/Background'
 import Logo from '../../components/Logo'
 import { Paragraph } from "react-native-paper";
 import Button from '../../components/Button'
-import PhoneInput from "react-native-phone-number-input";
+import PhoneInput from 'react-native-phone-number-input';
 
 import { useStores } from "../../store";
 import VerifyNumber from "./VerifyNumber";
 
 const Intro: () => Node = () =>{
-  // const phoneInput = useRef<PhoneInput>(null);
   const {
     authStore,
   } = useStores()
-  const [name, setName, ] = useState('Intro')
 
+
+  // const [name, setName, ] = useState('Intro')
+
+  const phoneInput = React.useRef(null);
+
+
+  const OnPress = () => {
+    if (authStore.phoneNumber.length !==0) {
+      Alert.alert(
+        "Confirm Number",
+        authStore.phoneNumber,
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+          },
+
+          {
+            text: "OK",
+            onPress: () => authStore.phoneNumber? authStore.login():alert('please Enter your Number'),
+          },
+        ],
+      );
+    }
+  }
 
   return (
   //   <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -37,18 +60,23 @@ const Intro: () => Node = () =>{
         Welcome to all markets in Cyprus!
       </Text>
       <PhoneInput
-        // ref={phoneInput}
+        ref={phoneInput}
         defaultValue={authStore.phoneNumber}
-        defaultCode="DM"
+        defaultCode="TR"
         layout="first"
-        onChangeText={authStore.setPhoneNumber}
-        withDarkTheme
+        onChangeFormattedText={text => {
+          authStore.setPhoneNumber(text);
+        }}
+        onChangeText={(text) => {
+          authStore.setPhoneNumber(text);
+        }}
         withShadow
         autoFocus
       />
       <Button
         mode="contained"
-        onPress={() =>authStore.phoneNumber? NavigationService.navigate('VerifyNumber'):alert('please Enter your Number')}
+        // onPress={() =>authStore.phoneNumber? authStore.login():alert('please Enter your Number')}
+        onPress={() => OnPress()}
       >
         Send me the code!
       </Button>

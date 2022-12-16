@@ -203,6 +203,7 @@ const CARD_WIDTH = CARD_HEIGHT - 50;
 const Home: () => Node = () =>{
   const {
     userLocationStore,
+    categoryStore,
     authStore,
   } = useStores()
 
@@ -258,7 +259,9 @@ const Home: () => Node = () =>{
 
 
 
-
+  useEffect(()=>{
+    categoryStore.getCategory()
+  }, [],)
 
   useEffect(()=>{
 
@@ -524,7 +527,7 @@ const styles = StyleSheet.create({
   card: {
     padding: 10,
     elevation: 2,
-    backgroundColor: "#FFF",
+    backgroundColor: "#F3F3E4",
     marginHorizontal: 10,
     shadowColor: "#000",
     shadowRadius: 5,

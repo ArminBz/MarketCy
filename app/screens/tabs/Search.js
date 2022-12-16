@@ -43,7 +43,7 @@ const Search = (props) => {
   const renderItemHeader = ({item}) => (
     <TouchableOpacity style={{borderWidth: 10,borderColor: '#F2F2F2'}}>
       <View style={{borderColor:'#C6C6C6',borderWidth:0.5,borderRadius:3}}>
-        <Text style={{fontSize: 13, fontWeight: 'bold',color:'#6200EE',borderWidth: 8,borderColor: '#F2F2F2'}} >{item.title}</Text>
+        <Text style={{fontSize: 13, fontWeight: 'bold',color:'#6200EE',borderWidth: 8,borderColor: '#F2F2F2'}} >{item.name}</Text>
       </View>
     </TouchableOpacity>
   );

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Dimensions, Text, View } from "react-native";
 import { observer } from "mobx-react";
-import { IconButton, List,Colors,TextInput } from "react-native-paper";
+import { IconButton, List,TextInput } from "react-native-paper";
 import NavigationService from "../../router/NavigationService";
 import { useStores } from "../../store";
 import navigationService from "../../router/NavigationService";
@@ -15,6 +15,8 @@ const Dashboard: () => Node = () =>{
   const {
 
     authStore,
+    categoryStore,
+    productStore
   } = useStores()
 
   const [text, setText] = React.useState("");
@@ -27,21 +29,12 @@ const Dashboard: () => Node = () =>{
         left: 20,
         zIndex: 99,}}>
       <TextInput
-        mode={'flat'}
+        mode={'outlined'}
         label={authStore.phoneNumber}
         value={text}
         onChangeText={text => setText(text)}
         disabled
-        style={{borderWidth: 1,
-          padding: 12,
-          paddingLeft: 20,
-          paddingRight: 20,
-          borderRadius: 60,
-          borderColor: '#888888',
-          fontSize: 18,
-          height: 50,
-        }}
-
+        inlineImageLeft='search_icon'
       />
       </View>
       <List.Subheader style={{paddingTop:30}}>Profile</List.Subheader>
@@ -52,11 +45,12 @@ const Dashboard: () => Node = () =>{
       />
       <List.Subheader style={{paddingTop:30}}>Setting</List.Subheader>
       <List.Item
+        // onPress={async () => await categoryStore.getCategory()}
         title="Notification"
         left={() => <List.Icon color="#000" icon="alarm" />}
       />
       <List.Item
-        onPress={() => navigationService.goBack()}
+        onPress={() => authStore.onSignOut()}
         title="Log out"
         left={() => <List.Icon color="#000" icon="logout" />}
       />

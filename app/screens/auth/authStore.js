@@ -8,6 +8,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import {
     resetToken, setToken,
 } from '../../utils/Api'
+import { OpenAPI, UserService } from "../../../src/services/openapi";
+import NavigationService from "../../router/NavigationService";
 
 
 class AuthStore {
@@ -20,6 +22,13 @@ class AuthStore {
             codeCheck: observable,
             userSignedIn: observable,
             itemsPerPage: observable,
+            loading:observable,
+            errorMessage:observable,
+            showErrMessage:observable,
+            confirmPhone:observable,
+            responseMessage:observable,
+            checkIsSignedInLoading: observable,
+            loggedIn: observable,
 
 
 
@@ -29,6 +38,15 @@ class AuthStore {
             setCodeCheck: action,
             login: action,
             setItemsPerPage:action,
+            setLoading:action,
+            setErrorMessage:action,
+            setShowErrMessage:action,
+            setConfirmPhone:action,
+            setResponseMessage:action,
+            checkIsSignedIn: action,
+            setCheckIsSignedInLoading: action,
+            setLoggedIn: action,
+            onSignOut: action,
 
         },)
     }
@@ -38,6 +56,13 @@ class AuthStore {
     codeCheck = '';
     userSignedIn=false;
     itemsPerPage=0;
+    loading=false;
+    errorMessage='';
+    showErrMessage=false;
+    confirmPhone=0;
+    responseMessage='';
+    checkIsSignedInLoading = false;
+    loggedIn = false;
 
 
     setPhoneNumber = (value) =>{
@@ -46,14 +71,35 @@ class AuthStore {
     setCodeCheck = (value) =>{
         this.codeCheck = value
     }
-
-    login = () =>{
-       if( this.codeCheck)
-          this.userSignedIn=true
-        else
-            alert("Enter the code")
-
+    setLoading = (value) =>{
+        this.loading = value
     }
+    setErrorMessage = (value) =>{
+        this.errorMessage = value
+    }
+    setShowErrMessage = (value) =>{
+        this.showErrMessage = value
+    }
+    setConfirmPhone = (value) =>{
+        this.confirmPhone = value
+    }
+    setResponseMessage = (value) =>{
+        this.responseMessage = value
+    }
+    setCheckIsSignedInLoading = (value,) =>{
+        this.checkIsSignedInLoading = value
+    }
+    setLoggedIn(value,) {
+        this.loggedIn = value
+    }
+
+    // login = () =>{
+    //    if( this.codeCheck)
+    //       this.userSignedIn=true
+    //     else
+    //         alert("Enter the code")
+    //
+    // }
 
     setItemsPerPage= (value) =>{
         this.itemsPerPage = value
@@ -62,43 +108,121 @@ class AuthStore {
 
 
 
-    loginnn = async () => {
+
+    handleError = (err) => {
+        if (err?.body?.message) {
+            this.setErrorMessage(err.body.message)
+            this.setShowErrMessage(true)
+            console.log('handleError err', err.body.message)
+        } else if (err?.message) {
+            this.setErrorMessage(err.message)
+            this.setShowErrMessage(true)
+            console.log('handleError err', err.message)
+        }
+    }
+
+
+    login = async () => {
         try {
-            // this.setLoginLoading(true,)
-            // this.setServerError(null,)
-            let number
-            console.log('user', number,)
-            let response = await signInApi(this.phoneNumber)
-            console.log('login response', response,)
-            if (response && response.token) {
-                // setting new system token to local storage[]\AsyncStorage.setItem('token', response.token,)
+            this.setLoading(true)
+            const response = await UserService.login({
+               phone:this.phoneNumber
+            })
 
-                // setting legacy token to local storage
-                AsyncStorage.setItem('legacyToken', response.token,)
+            console.log('response', response)
+            if (response.success===true){
+                NavigationService.navigate('VerifyNumber')
+            }
+            // this.setResponseMessage(response)
+            return response.success
 
-                // setting new system token in axios with new system host url
-                setToken(response.token,)
-                // setting legacy token in axios with legacy host url
-                // const realm = await openRealm()
-                // const realmOpen =await Realm.open(schema)
-                // console.log('realmOpen==>',realmOpen)
+        } catch (err) {
+            alert('Invalid phone number')
+            console.log('login err', err)
+            this.handleError(err)
+        } finally {
+            this.setLoading(false)
+        }
 
-                // checking for the legacy woshers in realm
-                // Stores.realmStore.createUser(response.token, response.legacyToken,)
+    }
 
-                // this.setLoginLoading(false,)
-                //
-                // this.setLoggedIn(true,)
-                //
-                // Firebase.setLogEvent('user_loggedIn',)
+
+    setUserLogin = (api_key, user) => {
+            AsyncStorage.setItem('token', api_key.toString())
+            AsyncStorage.setItem('phone', this.phoneNumber.toString())
+            OpenAPI.TOKEN = api_key;
+
+    }
+
+
+    confirmOtp = async () => {
+        try {
+            this.setLoading(true)
+            let params = {
+                phone: this.phoneNumber,
+                code: this.codeCheck,
+            }
+            // console.log('confirmOtp params', params)
+
+            const response = await UserService.otp(params)
+            // console.log('confirmOtp response', response)
+            if (response.api_key) {
+                this.setUserLogin(response.api_key, response.user)
+                this.setLoggedIn(true,)
+                return response.user;
+
             }
         } catch (err) {
-            // this.setLoginLoading(false,)
+            console.log('login err', err.body.message)
+            this.handleError(err)
+        } finally {
+            this.setLoading(false)
+        }
+    }
 
-            console.log('login err', err,)
+    checkIsSignedIn = async () => {
+        try {
+            this.setCheckIsSignedInLoading(true,)
+            this.setLoggedIn(false,)
+            let token = await AsyncStorage.getItem('token',)
+            let number = await AsyncStorage.getItem('phone',)
+            // console.log('checkUserIsSignedIn token', token,)
+            // console.log('checkUserIsSignedIn this.loggedIn', this.loggedIn,)
+
+
+            if (token !== null) {
+                OpenAPI.TOKEN = token;
+                this.setPhoneNumber(number)
+                this.setLoggedIn(true,)
+            } else {
+                this.setLoggedIn(false,)
+            }
+            this.setCheckIsSignedInLoading(false,)
+
+        } catch (err) {
+            this.setCheckIsSignedInLoading(false,)
+            console.log('isSignedIn() err:', err,)
+            console.log('isSignedIn() err.response:', err.response,)
+
+            // // TODO - Evaluate alert and handle it properly
+            // if (Stores.mainStore.isConnected) {
+            //     alert('Something seems to be wrong, please try again',)
+            //     await this.onSignOut()
+            // }
         }
     };
 
+    onSignOut = async () => {
+        try {
+
+            // Stores.realmStore.deleteAllRealm()
+            await AsyncStorage.removeItem('token',)
+            await AsyncStorage.removeItem('phone',)
+            this.setLoggedIn(false,)
+        } catch (err) {
+            console.log('onSignOut err', err,)
+        }
+    };
 }
 
 

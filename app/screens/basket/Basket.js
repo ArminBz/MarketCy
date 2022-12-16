@@ -111,7 +111,15 @@ const Basket: () => Node = () =>{
 <View style={{justifyContent:'center',alignItems:'center',alignContent:'center',}}>
         <Text style={{marginBottom:2,marginTop:20,fontSize: 17, fontWeight: 'bold', color: '#6200EE'}}>Total: {productStore.sumOfBasket()}$</Text>
 </View>
-    <Pressable style={purpleButton} onPress={() => NavigationService.navigate('ModalReceiveOrder')}>
+    <Pressable style={{ alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: 20,
+      paddingHorizontal: 46,
+      borderRadius: 85,
+      elevation: 3,
+      backgroundColor: '#6200EE',
+
+      marginTop:20}} onPress={() => NavigationService.navigate('ModalReceiveOrder')}>
       <Text style={{ fontSize: 16,
         lineHeight: 21,
         fontWeight: 'bold',
@@ -123,7 +131,7 @@ const Basket: () => Node = () =>{
     : <Background>
       <IconButton
         icon="basket"
-        color={'#6200EE'}
+        iconColor={'#6200EE'}
         size={120}
         onPress={() => NavigationService.navigate('Basket')}
         // animated={true}

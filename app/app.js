@@ -5,16 +5,25 @@ import { SignedInStackScreen, SignedOutStackScreen, TabStackScreen } from "./rou
 import { observer } from "mobx-react";
 import { createNativeStackNavigator, } from '@react-navigation/native-stack'
 import {
-  AppState, Platform, View,
+  AppState, Platform, View,SafeAreaView
 } from 'react-native'
 import { navigationRef, } from './router/NavigationService'
 import { useEffect } from "react";
 import { useStores } from "./store";
+import { OpenAPI } from "../src/services/openapi";
+import Landing from "./screens/landing/Landing";
 
 const App: () => Node = () => {
   const {
     authStore,
+    categoryStore
   } = useStores()
+
+  useEffect(()=>{
+    authStore.checkIsSignedIn()
+  }, [],)
+
+
 
 
   // componentDidMount Before
@@ -25,12 +34,21 @@ const App: () => Node = () => {
   const RootStack = createNativeStackNavigator()
   const Stack = createNativeStackNavigator()
   const Tab = createBottomTabNavigator();
-
+  OpenAPI.BASE ='https://m.up.railway.app'
   return (
-    <View style={{ flex: 1, }}>
+    <View style={{ flex: 1,}}>
       <NavigationContainer ref={navigationRef}>
         <RootStack.Navigator>
-          {authStore.userSignedIn ?
+          {authStore.checkIsSignedInLoading ?
+            (
+              <Stack.Screen
+                name="Landing"
+                component={Landing}
+                options={{
+                  headerShown: false, headerBackTitleVisible: false,
+                }}
+              />
+            ): authStore.loggedIn===true ?
             <Stack.Screen
               name="SignedInStackScreen"
               component={SignedInStackScreen}

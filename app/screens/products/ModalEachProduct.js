@@ -5,7 +5,7 @@ import { TextInput } from 'react-native-paper';
 import { useStores } from "../../store";
 import { purpleButton,greenButton } from '../../style'
 import NumericInput from 'react-native-numeric-input'
-import subheading from "react-native-paper/src/components/Typography/Subheading";
+// import subheading from "react-native-paper/src/components/Typography/Subheading";
 import NavigationService from "../../router/NavigationService";
 const {
   height, width,

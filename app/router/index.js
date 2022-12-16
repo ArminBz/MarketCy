@@ -14,11 +14,10 @@ import ModalReceiveOrder from "../screens/modal/ModalReceiveOrder";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { BottomNavigation, Text, IconButton, Colors } from "react-native-paper";
+import { BottomNavigation, Text, IconButton } from "react-native-paper";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import Logo from '../components/Logo'
 import { Button, Image, SafeAreaView, TouchableOpacity, View } from "react-native";
-import { white } from "react-native-paper/lib/typescript/styles/colors";
 import NavigationService from "./NavigationService";
 
 const SignedInStack = createNativeStackNavigator()
@@ -43,7 +42,7 @@ const SignedInStack = createNativeStackNavigator()
             <SignedInStack.Screen name="Intro" component={Intro} />
             <SignedInStack.Screen name="ListOfProducts" component={ListOfProducts} options={{ title: 'Products', headerRight: () => (<IconButton
                 icon="basket"
-                color={Colors.white}
+                iconColor={'white'}
                 size={22}
                 onPress={() => NavigationService.navigate('Basket')}
               /> )}} />
@@ -92,10 +91,10 @@ export const TabStackScreen = ()=> {
 
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
-      { key: 'home', title: 'Home',icon: 'home',color: '#6200EE' },
-      { key: 'search', title: 'Search',icon:'magnify',color: '#3F51B5'},
-      { key: 'offer', title: 'Offer',icon: 'star',color: '#009688'},
-      { key: 'dashboard', title: 'Dashboard',icon: 'account-circle',color: '#795548' },
+      { key: 'home', title: 'Home',focusedIcon: 'home',unfocusedIcon: 'home-outline',color: '#6200EE' },
+      { key: 'search', title: 'Search',focusedIcon:'magnify',unfocusedIcon: 'magnify-outline',color: '#3F51B5'},
+      { key: 'offer', title: 'Offer',focusedIcon: 'star',unfocusedIcon: 'star-outline',color: '#009688'},
+      { key: 'dashboard', title: 'Dashboard',focusedIcon: 'account-circle',unfocusedIcon: 'account-circle-outline',color: '#795548' },
       // icon:()=> <Icon name='user' color='white'/>
     ]);
     const renderScene = BottomNavigation.SceneMap({
@@ -109,6 +108,7 @@ export const TabStackScreen = ()=> {
         navigationState={{ index, routes }}
         onIndexChange={setIndex}
         renderScene={renderScene}
+        barStyle={{ backgroundColor: '#694fad' }}
       />
     //   <TabStack.Navigator useLegacyImplementation={true} drawerContent={(props,) => <DrawerNav {...props} />}>
     //       <TabStack.Screen name="Home" component={Home} options={{

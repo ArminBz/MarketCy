@@ -17,7 +17,7 @@ import { observer } from "mobx-react";
 import { useStores } from "../../store";
 import { purpleButton,greenButton } from '../../style'
 import NumericInput from 'react-native-numeric-input'
-import subheading from "react-native-paper/src/components/Typography/Subheading";
+// import subheading from "react-native-paper/src/components/Typography/Subheading";
 import NavigationService from "../../router/NavigationService";
 import { List } from "react-native-paper";
 import qs from 'qs';
@@ -131,7 +131,6 @@ const ModalReceiveOrder=(props) =>{
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
       >
-
       </FlatList>
 
       <View style={{position: 'absolute',

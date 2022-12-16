@@ -15,5 +15,5 @@ export function setToken(token,) {
 }
 
 export const API = axios.create({
-  baseURL: config.host + '/api/v1',
+  baseURL: 'https://m.up.railway.app/v1/',
 },)

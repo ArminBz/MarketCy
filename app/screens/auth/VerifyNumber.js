@@ -8,7 +8,6 @@ import Background from '../../components/Background'
 import Logo from '../../components/Logo'
 import { Paragraph } from "react-native-paper";
 import Button from '../../components/Button'
-import PhoneInput from "react-native-phone-number-input";
 import { INPUT, } from '../../style'
 import { useStores } from "../../store";
 
@@ -44,7 +43,7 @@ const VerifyNumber: () => Node = () =>{
       />
       <Button
         mode="contained"
-        onPress={() => authStore.login()}
+        onPress={() => authStore.confirmOtp()}
       >
         Check
       </Button>
