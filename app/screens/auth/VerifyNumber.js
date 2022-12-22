@@ -10,13 +10,18 @@ import { Paragraph } from "react-native-paper";
 import Button from '../../components/Button'
 import { INPUT, } from '../../style'
 import { useStores } from "../../store";
+import { useTranslation } from "react-i18next";
 
 const VerifyNumber: () => Node = () =>{
+  const { t, i18n } = useTranslation();
+
   // const phoneInput = useRef<PhoneInput>(null);
   const {
+    languageStore,
     authStore,
   } = useStores()
   const [name, setName, ] = useState('Intro')
+
 
 
   return (
@@ -31,9 +36,6 @@ const VerifyNumber: () => Node = () =>{
     //
     <Background>
       <Logo />
-      <Text>
-        Welcome to all markets in Cyprus!
-      </Text>
       <TextInput
         style={INPUT}
         onChangeText={authStore.setCodeCheck}
@@ -45,14 +47,16 @@ const VerifyNumber: () => Node = () =>{
         mode="contained"
         onPress={() => authStore.confirmOtp()}
       >
-        Check
+        {t('Check')}
       </Button>
       <Button
+        style={{marginBottom:220}}
         mode="outlined"
         onPress={() => NavigationService.navigate('VerifyNumber')}
       >
-        Resend the code
+        {t('Resend the code')}
       </Button>
+
     </Background>
   );
 }

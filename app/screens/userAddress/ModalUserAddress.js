@@ -10,6 +10,7 @@ import NumericInput from 'react-native-numeric-input'
 // import subheading from "react-native-paper/src/components/Typography/Subheading";
 import NavigationService from "../../router/NavigationService";
 import { List } from "react-native-paper";
+import { useTranslation } from "react-i18next";
 const {
   height, width,
 } = Dimensions.get('window',)
@@ -22,6 +23,8 @@ const {
 // }
 
 const ModalUserAddress=(props) =>{
+  const { t, i18n } = useTranslation();
+
   const {
     userAddressStore,
   } = useStores()
@@ -45,7 +48,7 @@ const ModalUserAddress=(props) =>{
         <List.Subheader>Add Address</List.Subheader>
 <View style={{paddingTop:15}}>
       <TextInput
-        placeholder="Add Address"
+        placeholder={t("Add Address")}
         maxLength={40}
         style={{borderWidth: 1,
         padding: 20,
@@ -72,7 +75,7 @@ const ModalUserAddress=(props) =>{
   left:60,right:60}}>
       <Pressable style={purpleButton}
                  onPress={() => {
-                   alert('you have Entered successfully')
+                   alert(t("you have Entered successfully") )
                    NavigationService.goBack()
                    setShowAddress(true)
                  }}
@@ -82,14 +85,14 @@ const ModalUserAddress=(props) =>{
           lineHeight: 21,
           fontWeight: 'bold',
           letterSpacing: 0.25,
-          color: 'white', }}> Add</Text>
+          color: 'white', }}> {t('Add')}</Text>
       </Pressable>
       <Pressable style={greenButton} onPress={() => NavigationService.goBack()}>
         <Text style={{ fontSize: 16,
           lineHeight: 21,
           fontWeight: 'bold',
           letterSpacing: 0.25,
-          color: 'white', }}>Close</Text>
+          color: 'white', }}>{t('Close')}</Text>
       </Pressable>
 </View>
     </View>

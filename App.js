@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 
 import * as React from 'react';
 import {  View, StatusBar, Platform } from "react-native";
@@ -5,9 +6,7 @@ import App from "./app/app";
 import { Provider as PaperProvider } from 'react-native-paper';
 
 
-
 const MarketCy: () => Node = () => {
-
 
 
   return (
@@ -16,7 +15,9 @@ const MarketCy: () => Node = () => {
                  barStyle={Platform.OS === "ios" ? "dark-content" : "light-content"}
                  hidden={false} />
       <PaperProvider theme={{ version: 2 }}>
+        <Suspense fallback="...is loading">
       <App/>
+        </Suspense>
       </PaperProvider>
     </View>
   );

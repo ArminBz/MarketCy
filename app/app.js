@@ -5,15 +5,18 @@ import { SignedInStackScreen, SignedOutStackScreen, TabStackScreen } from "./rou
 import { observer } from "mobx-react";
 import { createNativeStackNavigator, } from '@react-navigation/native-stack'
 import {
-  AppState, Platform, View,SafeAreaView
-} from 'react-native'
+  AppState, Platform, View, SafeAreaView, Pressable, Text,
+} from "react-native";
 import { navigationRef, } from './router/NavigationService'
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useStores } from "./store";
 import { OpenAPI } from "../src/services/openapi";
 import Landing from "./screens/landing/Landing";
-
+import './screens/translation/i18n';
+import {useTranslation} from 'react-i18next';
 const App: () => Node = () => {
+
+
   const {
     authStore,
     categoryStore

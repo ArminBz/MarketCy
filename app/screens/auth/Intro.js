@@ -1,4 +1,4 @@
-import { Alert, Text, View } from "react-native";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { observer } from "mobx-react";
 import NavigationService from "../../router/NavigationService";
 import React, {
@@ -12,10 +12,26 @@ import PhoneInput from 'react-native-phone-number-input';
 
 import { useStores } from "../../store";
 import VerifyNumber from "./VerifyNumber";
+import { useTranslation } from "react-i18next";
 
 const Intro: () => Node = () =>{
+
+  const { t, i18n } = useTranslation();
+  // const [count, setCounter] = useState(0);
+
+  // const [lngs, setLngs] = useState({ en: { nativeName: 'English' }});
+
+  useEffect(() => {
+    // i18n.services.backendConnector.backend.getLanguages((err, ret) => {
+    //   if (err) return // TODO: handle err...
+    //   languageStore.setLngs(ret);
+    // });
+  }, []);
+
+
   const {
     authStore,
+    languageStore,
   } = useStores()
 
 
@@ -56,8 +72,8 @@ const Intro: () => Node = () =>{
   //
     <Background>
       <Logo />
-      <Text>
-        Welcome to all markets in Cyprus!
+      <Text style={{paddingBottom:30,color:'#6203EC',fontWeight: "bold",fontSize:15}}>
+        {t('I Need Your Phone Number!')}
       </Text>
       <PhoneInput
         ref={phoneInput}
@@ -74,18 +90,23 @@ const Intro: () => Node = () =>{
         autoFocus
       />
       <Button
+        style={{marginBottom:220}}
         mode="contained"
         // onPress={() =>authStore.phoneNumber? authStore.login():alert('please Enter your Number')}
         onPress={() => OnPress()}
       >
-        Send me the code!
+        {t('Send me the code!')}
       </Button>
-      <Button
-        mode="outlined"
-        onPress={() => NavigationService.navigate('VerifyNumber')}
-      >
-        See Markets on the map!
-      </Button>
+<Button  style={{height:70,width:500,position: 'absolute',bottom:0}}>
+      {Object.keys(languageStore.lngs).map((lng) => (
+        <Button  key={lng} style={{borderRadius:20,fontWeight: i18n.resolvedLanguage === lng ? 'bold' : 'normal' }} onPress={() => {
+          i18n.changeLanguage(lng);
+          languageStore.setCounter(languageStore.count + 1);
+        }}>
+          {languageStore.lngs[lng].nativeName}
+        </Button>
+      ))}
+</Button>
     </Background>
   );
 }

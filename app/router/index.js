@@ -7,11 +7,11 @@ import Dashboard from "../screens/tabs/Dashboard";
 import VerifyNumber from "../screens/auth/VerifyNumber";
 import Search from "../screens/tabs/Search";
 import Offer from "../screens/tabs/Offer";
+import Map from "../screens/tabs/Map";
 import ModalEachProduct from "../screens/products/ModalEachProduct";
 import Basket from "../screens/basket/Basket";
 import ModalUserAddress from "../screens/userAddress/ModalUserAddress";
 import ModalReceiveOrder from "../screens/modal/ModalReceiveOrder";
-
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { BottomNavigation, Text, IconButton } from "react-native-paper";
@@ -19,10 +19,12 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import Logo from '../components/Logo'
 import { Button, Image, SafeAreaView, TouchableOpacity, View } from "react-native";
 import NavigationService from "./NavigationService";
+import { useTranslation } from "react-i18next";
 
 const SignedInStack = createNativeStackNavigator()
 
   export const SignedInStackScreen = ()=> {
+
     return (
       <SignedInStack.Navigator initialRouteName="TabStackScreen" screenOptions={{
         headerTitleStyle: {
@@ -88,13 +90,28 @@ const TabStack = createMaterialBottomTabNavigator();
 
 
 export const TabStackScreen = ()=> {
+  const { t, i18n } = useTranslation();
 
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
-      { key: 'home', title: 'Home',focusedIcon: 'home',unfocusedIcon: 'home-outline',color: '#6200EE' },
-      { key: 'search', title: 'Search',focusedIcon:'magnify',unfocusedIcon: 'magnify-outline',color: '#3F51B5'},
-      { key: 'offer', title: 'Offer',focusedIcon: 'star',unfocusedIcon: 'star-outline',color: '#009688'},
-      { key: 'dashboard', title: 'Dashboard',focusedIcon: 'account-circle',unfocusedIcon: 'account-circle-outline',color: '#795548' },
+      { key: 'home', title: t('Home'),focusedIcon: 'home',unfocusedIcon: 'home-outline',color: '#6200EE' },
+      { key: 'search', title: t('Search'),focusedIcon:'magnify',unfocusedIcon: 'magnify-outline',color: '#3F51B5'},
+      { key: 'map',title: t('Map'), focusedIcon:({})=>(
+          <View style={{justifyContent: 'center', alignItems: 'center',shadowColor: "#6203EC",
+            shadowOpacity: 2,
+            shadowRadius: 30,
+            shadowOffset: {
+              height: 2,
+              width: 2
+            } }}>
+
+            <Image source={require('../assets/CYMARKET.jpg',)} style={{ width: 80,
+              height: 70,
+            borderRadius:35,borderWidth:2,borderColor:'#5E89A2'}} />
+          </View>
+        )},
+      { key: 'offer', title: t('Offer'),focusedIcon: 'star',unfocusedIcon: 'star-outline',color: '#009688'},
+      { key: 'dashboard', title: t('Dashboard'),focusedIcon: 'account-circle',unfocusedIcon: 'account-circle-outline',color: '#795548' },
       // icon:()=> <Icon name='user' color='white'/>
     ]);
     const renderScene = BottomNavigation.SceneMap({
@@ -102,13 +119,14 @@ export const TabStackScreen = ()=> {
       dashboard: Dashboard,
       search: Search,
       offer: Offer,
+      map:Map,
     });
     return (
       <BottomNavigation
         navigationState={{ index, routes }}
         onIndexChange={setIndex}
         renderScene={renderScene}
-        barStyle={{ backgroundColor: '#694fad' }}
+        barStyle={{ backgroundColor: '#6200EE'}}
       />
     //   <TabStack.Navigator useLegacyImplementation={true} drawerContent={(props,) => <DrawerNav {...props} />}>
     //       <TabStack.Screen name="Home" component={Home} options={{

@@ -18,6 +18,11 @@ import MapView, {Marker, Circle} from 'react-native-maps';
 import NavigationService from "../../router/NavigationService";
 import Geolocation, { getCurrentPosition } from "react-native-geolocation-service";
 import { googleMapIsInstalled } from "react-native-maps/lib/decorateMapComponent";
+import { Notifications } from "react-native-notifications";
+import { Registered } from "react-native-notifications";
+import { RegistrationError } from "react-native-notifications";
+import messaging, { firebase } from "@react-native-firebase/messaging";
+import { useTranslation } from "react-i18next";
 
 // import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
@@ -201,6 +206,10 @@ const CARD_WIDTH = CARD_HEIGHT - 50;
 
 
 const Home: () => Node = () =>{
+
+
+  const { t, i18n } = useTranslation();
+
   const {
     userLocationStore,
     categoryStore,
@@ -214,8 +223,8 @@ const Home: () => Node = () =>{
         latitude: 35.27917321575899,
         longitude: 33.896278512958624,
       },
-      title: "Unimar Market",
-      description: "Located at Iskele",
+      title:  t("Unimar Market") ,
+      description: t("Located at Iskele"),
       image: Images[0],
     },
     {
@@ -223,8 +232,8 @@ const Home: () => Node = () =>{
         latitude: 35.26096078233671,
         longitude: 33.90240328181233,
       },
-      title: "Caesar Market",
-      description: "Located at caesar resort and has variety of products",
+      title: t("Caesar Market"),
+      description: t("Located at caesar resort and has variety of products"),
       image: Images[1],
     },
     {
@@ -232,8 +241,8 @@ const Home: () => Node = () =>{
         latitude: 35.256088142310205,
         longitude: 33.904544485000386,
       },
-      title: "Noyanlar Market",
-      description: "open till midnight",
+      title: t("Noyanlar Market"),
+      description: t("open till midnight"),
       image: Images[2],
     },
     {
@@ -241,8 +250,8 @@ const Home: () => Node = () =>{
         latitude: 35.25367501019976,
         longitude: 33.899871788483615,
       },
-      title: "RoyalSun Market",
-      description: "Located at royalsun",
+      title: t("RoyalSun Market"),
+      description: t("Located at royalsun"),
       image: Images[3],
     },
   ]);
@@ -257,9 +266,16 @@ const Home: () => Node = () =>{
   const [item,setItem]=useState(0);
  let mapRef = useRef();
 
-
+  const requestFirebasePushNotificationPermission = async () => {
+    try {
+      await messaging().requestPermission()
+    } catch (err) {
+      console.log('requestFirebasePushNotificationPermission', err)
+    }
+  }
 
   useEffect(()=>{
+    requestFirebasePushNotificationPermission()
     categoryStore.getCategory()
   }, [],)
 

@@ -11,13 +11,13 @@ let {
 
 const Landing: () => Node = () => {
 
-  return (<View style={{ flex: 1,backgroundColor:'#4E00BE' }}>
+  return (<View style={{ flex: 1,backgroundColor:'#6200EE',justifyContent: 'center', alignItems: 'center', }}>
     <Image
       testID="logoImage"
       style={{
-        width: width, height: height
+        width:600, height:300
       }}
-      source={require('../../assets/logo-for-grocery-store-vector-21609818.jpeg',)}
+      source={require('../../assets/CYMARKET.jpg',)}
     />
   </View>)
 }

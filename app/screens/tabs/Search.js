@@ -19,6 +19,7 @@ import React, {
 import NavigationService from "../../router/NavigationService";
 import { useStores } from "../../store";
 import { Searchbar } from "react-native-paper";
+import { useTranslation } from "react-i18next";
 
 
 const {
@@ -52,7 +53,7 @@ const Search = (props) => {
   return (
     <View style={{flex:1}}>
       <Searchbar
-        placeholder="Search Products"
+        placeholdert="Search Products"
         onChangeText={onChangeSearch}
         value={searchQuery}
       />

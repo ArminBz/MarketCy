@@ -10,6 +10,7 @@ import { Colors, IconButton } from "react-native-paper";
 import NumericInput from "react-native-numeric-input";
 import { greenButton, purpleButton } from "../../style";
 import Icon from 'react-native-vector-icons/FontAwesome'
+import { useTranslation } from "react-i18next";
 
 
 const {
@@ -18,6 +19,7 @@ const {
 
 
 const Basket: () => Node = () =>{
+  const { t, i18n } = useTranslation();
 
   const {
     authStore,
@@ -124,7 +126,7 @@ const Basket: () => Node = () =>{
         lineHeight: 21,
         fontWeight: 'bold',
         letterSpacing: 0.25,
-        color: 'white', }}>Proceed to CheckOut</Text>
+        color: 'white', }}>{t('Proceed to CheckOut')}</Text>
     </Pressable>
 
     </View>
@@ -139,13 +141,13 @@ const Basket: () => Node = () =>{
       />
 
       <Text style={{fontSize: 14,fontWeight: 'bold',}}>
-        Your Basket is Empty!
+        {t('Your Basket is Empty!')}
       </Text>
       <Button
         onPress={() => NavigationService.navigate('ListOfProducts')}
         mode="outlined"
       >
-        Products
+        {t('Products')}
       </Button>
     </Background>
   }
