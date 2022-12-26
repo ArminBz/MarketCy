@@ -7,6 +7,7 @@ import { purpleButton,greenButton } from '../../style'
 import NumericInput from 'react-native-numeric-input'
 // import subheading from "react-native-paper/src/components/Typography/Subheading";
 import NavigationService from "../../router/NavigationService";
+import { useTranslation } from "react-i18next";
 const {
   height, width,
 } = Dimensions.get('window',)
@@ -17,6 +18,7 @@ const ModalEachProduct=(props) =>{
     authStore,
     productStore,
   } = useStores()
+  const { t, i18n } = useTranslation();
 
 
   let name = props?.route?.params?.name || null
@@ -62,14 +64,14 @@ const ModalEachProduct=(props) =>{
           lineHeight: 21,
           fontWeight: 'bold',
           letterSpacing: 0.25,
-          color: 'white', }}> Add</Text>
+          color: 'white', }}> {t('Add')}</Text>
       </Pressable>
       <Pressable style={greenButton} onPress={() => NavigationService.goBack()}>
         <Text style={{ fontSize: 16,
           lineHeight: 21,
           fontWeight: 'bold',
           letterSpacing: 0.25,
-          color: 'white', }}>Close</Text>
+          color: 'white', }}>{t('Close')}</Text>
       </Pressable>
     </View>
   )

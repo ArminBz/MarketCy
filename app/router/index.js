@@ -2,7 +2,7 @@ import React from 'react'
 import { createNativeStackNavigator, } from '@react-navigation/native-stack'
 import Intro from "../screens/auth/Intro";
 import ListOfProducts from "../screens/products/ListOfProducts";
-import Home from "../screens/tabs/Home";
+import Markets from "../screens/tabs/Markets";
 import Dashboard from "../screens/tabs/Dashboard";
 import VerifyNumber from "../screens/auth/VerifyNumber";
 import Search from "../screens/tabs/Search";
@@ -24,7 +24,7 @@ import { useTranslation } from "react-i18next";
 const SignedInStack = createNativeStackNavigator()
 
   export const SignedInStackScreen = ()=> {
-
+    const { t, i18n } = useTranslation();
     return (
       <SignedInStack.Navigator initialRouteName="TabStackScreen" screenOptions={{
         headerTitleStyle: {
@@ -40,8 +40,8 @@ const SignedInStack = createNativeStackNavigator()
       >
           <SignedInStack.Group>
 
-            <SignedInStack.Screen name="Markets" component={TabStackScreen} />
-            <SignedInStack.Screen name="Intro" component={Intro} />
+            <SignedInStack.Screen name="CY.market" component={TabStackScreen} />
+            <SignedInStack.Screen name="Login" component={Intro} />
             <SignedInStack.Screen name="ListOfProducts" component={ListOfProducts} options={{ title: 'Products', headerRight: () => (<IconButton
                 icon="basket"
                 iconColor={'white'}
@@ -49,13 +49,13 @@ const SignedInStack = createNativeStackNavigator()
                 onPress={() => NavigationService.navigate('Basket')}
               /> )}} />
             <SignedInStack.Screen name="Offer" component={Offer} />
-            <SignedInStack.Screen name="Home" component={Home} />
+            <SignedInStack.Screen name="Markets" component={Markets} />
             <SignedInStack.Screen name="Basket" component={Basket} />
           </SignedInStack.Group>
         <SignedInStack.Group screenOptions={{ presentation: 'modal', }}>
-          <SignedInStack.Screen name="ModalEachProduct" component={ModalEachProduct} />
-          <SignedInStack.Screen name="ModalUserAddress" component={ModalUserAddress} />
-          <SignedInStack.Screen name="ModalReceiveOrder" component={ModalReceiveOrder} />
+          <SignedInStack.Screen name="ModalEachProduct" component={ModalEachProduct} options={{ title: ''}}/>
+          <SignedInStack.Screen name="ModalUserAddress" component={ModalUserAddress} options={{ title: ''}} />
+          <SignedInStack.Screen name="ModalReceiveOrder" component={ModalReceiveOrder} options={{ title: ''}}/>
 
         </SignedInStack.Group>
       </SignedInStack.Navigator>
@@ -66,7 +66,7 @@ const SignedOutStack = createNativeStackNavigator()
 
 export const SignedOutStackScreen = ()=> {
     return (
-      <SignedOutStack.Navigator initialRouteName="Intro" screenOptions={{
+      <SignedOutStack.Navigator initialRouteName="Login" screenOptions={{
         headerTitleStyle: {
           color: '#fff',
         },
@@ -78,8 +78,8 @@ export const SignedOutStackScreen = ()=> {
         },
       }}>
           <SignedOutStack.Group>
-              <SignedOutStack.Screen name="Intro" component={Intro} />
-            <SignedOutStack.Screen name="VerifyNumber" component={VerifyNumber} />
+              <SignedOutStack.Screen name="Login" component={Intro} />
+            <SignedOutStack.Screen name="Verify Your Number" component={VerifyNumber} />
           </SignedOutStack.Group>
       </SignedOutStack.Navigator>
     );
@@ -92,11 +92,11 @@ const TabStack = createMaterialBottomTabNavigator();
 export const TabStackScreen = ()=> {
   const { t, i18n } = useTranslation();
 
-    const [index, setIndex] = React.useState(0);
+    const [index, setIndex] = React.useState(2);
     const [routes] = React.useState([
-      { key: 'home', title: t('Home'),focusedIcon: 'home',unfocusedIcon: 'home-outline',color: '#6200EE' },
+      { key: 'markets', title: t('Markets'),focusedIcon: 'warehouse',unfocusedIcon: 'home-outline',color: '#6203EC' },
       { key: 'search', title: t('Search'),focusedIcon:'magnify',unfocusedIcon: 'magnify-outline',color: '#3F51B5'},
-      { key: 'map',title: t('Map'), focusedIcon:({})=>(
+      { key: 'map', focusedIcon:({})=>(
           <View style={{justifyContent: 'center', alignItems: 'center',shadowColor: "#6203EC",
             shadowOpacity: 2,
             shadowRadius: 30,
@@ -109,13 +109,13 @@ export const TabStackScreen = ()=> {
               height: 70,
             borderRadius:35,borderWidth:2,borderColor:'#5E89A2'}} />
           </View>
-        )},
+        ),color: '#2A2A2A'},
       { key: 'offer', title: t('Offer'),focusedIcon: 'star',unfocusedIcon: 'star-outline',color: '#009688'},
       { key: 'dashboard', title: t('Dashboard'),focusedIcon: 'account-circle',unfocusedIcon: 'account-circle-outline',color: '#795548' },
       // icon:()=> <Icon name='user' color='white'/>
     ]);
     const renderScene = BottomNavigation.SceneMap({
-      home: Home,
+      markets: Markets,
       dashboard: Dashboard,
       search: Search,
       offer: Offer,

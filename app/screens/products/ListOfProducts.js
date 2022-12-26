@@ -23,7 +23,7 @@ const ListOfProducts: () => Node = () =>{
 
   const renderItemHeader = ({item}) => (
     <TouchableOpacity style={{borderWidth: 10,borderColor: '#F2F2F2'}}>
-      <View style={{borderColor:'#C6C6C6',borderWidth:0.5,borderRadius:3}}>
+      <View style={{borderColor:'#C6C6C6',borderWidth:1,borderRadius:5}}>
         <Text style={{fontSize: 13, fontWeight: 'bold',color:'#6200EE',borderWidth: 8,borderColor: '#F2F2F2'}} >{item.name}</Text>
       </View>
     </TouchableOpacity>
@@ -73,14 +73,14 @@ const ListOfProducts: () => Node = () =>{
   // );
 
   return (
-    <View>
-
+    <View style={{flex:1}}>
+<View style={{paddingBottom:1}}>
       <FlatList
         data={categoryStore.categories}
         renderItem={renderItemHeader}
         horizontal={true}
       />
-
+</View>
       <FlatList
         data={productStore.products}
         renderItem={renderItem}

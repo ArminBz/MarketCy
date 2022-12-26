@@ -1,4 +1,4 @@
-import { Text, View, SafeAreaView, Pressable, Dimensions, Image, TextInput, FlatList } from "react-native";
+import { Text, View, SafeAreaView, Pressable, Dimensions, Image,  FlatList } from "react-native";
 import React, {
    useEffect, useState,useRef,
 } from 'react'
@@ -9,7 +9,7 @@ import { purpleButton,greenButton } from '../../style'
 import NumericInput from 'react-native-numeric-input'
 // import subheading from "react-native-paper/src/components/Typography/Subheading";
 import NavigationService from "../../router/NavigationService";
-import { List } from "react-native-paper";
+import { List,TextInput } from "react-native-paper";
 import { useTranslation } from "react-i18next";
 const {
   height, width,
@@ -46,17 +46,14 @@ const ModalUserAddress=(props) =>{
       <List.Section>
 
         <List.Subheader>Add Address</List.Subheader>
-<View style={{paddingTop:15}}>
+<View style={{top: 10,
+  width: width - 40,
+  left: 20,
+  zIndex: 99,}}>
       <TextInput
+
         placeholder={t("Add Address")}
         maxLength={40}
-        style={{borderWidth: 1,
-        padding: 20,
-        borderRadius: 50,
-        borderColor: '#888888',
-        fontSize: 18,
-
-        }}
         value={userAddressStore.userAddress}
         onChangeText={userAddressStore.setUserAddress}
       />

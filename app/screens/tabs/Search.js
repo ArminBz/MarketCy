@@ -35,6 +35,7 @@ const Search = (props) => {
   } = useStores()
 
 
+  const { t, i18n } = useTranslation();
 
   const [searchQuery, setSearchQuery] = React.useState('');
 
@@ -43,7 +44,7 @@ const Search = (props) => {
 
   const renderItemHeader = ({item}) => (
     <TouchableOpacity style={{borderWidth: 10,borderColor: '#F2F2F2'}}>
-      <View style={{borderColor:'#C6C6C6',borderWidth:0.5,borderRadius:3}}>
+      <View style={{borderWidth:1,borderColor:'#C6C6C6',borderRadius:5}}>
         <Text style={{fontSize: 13, fontWeight: 'bold',color:'#6200EE',borderWidth: 8,borderColor: '#F2F2F2'}} >{item.name}</Text>
       </View>
     </TouchableOpacity>
@@ -52,13 +53,14 @@ const Search = (props) => {
 
   return (
     <View style={{flex:1}}>
+      <View style={{paddingBottom:10}}>
       <Searchbar
         placeholdert="Search Products"
         onChangeText={onChangeSearch}
         value={searchQuery}
       />
-
-<View style={{paddingTop:20}}>
+      </View>
+<View style={{}}>
   <FlatList
     data={categoryStore.categories}
     renderItem={renderItemHeader}

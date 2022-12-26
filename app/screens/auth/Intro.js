@@ -1,4 +1,4 @@
-import { Alert, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Keyboard, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { observer } from "mobx-react";
 import NavigationService from "../../router/NavigationService";
 import React, {
@@ -69,7 +69,7 @@ const Intro: () => Node = () =>{
   //     />
   //
   //   </View>
-  //
+    <ScrollView contentContainerStyle={{flexGrow: 1}}>
     <Background>
       <Logo />
       <Text style={{paddingBottom:30,color:'#6203EC',fontWeight: "bold",fontSize:15}}>
@@ -108,6 +108,7 @@ const Intro: () => Node = () =>{
       ))}
 </Button>
     </Background>
+    </ScrollView>
   );
 }
 

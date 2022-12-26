@@ -17,7 +17,7 @@ const Landing: () => Node = () => {
       style={{
         width:600, height:300
       }}
-      source={require('../../assets/CYMARKET.jpg',)}
+      source={require('../../assets/Icon-marketing-1024x1024.png',)}
     />
   </View>)
 }

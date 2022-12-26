@@ -131,7 +131,7 @@ class AuthStore {
 
             console.log('response', response)
             if (response.success===true){
-                NavigationService.navigate('VerifyNumber')
+                NavigationService.navigate('Verify Your Number')
             }
             // this.setResponseMessage(response)
             return response.success

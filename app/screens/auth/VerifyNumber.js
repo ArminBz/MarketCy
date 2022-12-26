@@ -1,4 +1,4 @@
-import {  Text, View,TextInput } from "react-native";
+import { Text, View, TextInput, ScrollView } from "react-native";
 import { observer } from "mobx-react";
 import NavigationService from "../../router/NavigationService";
 import React, {
@@ -34,6 +34,7 @@ const VerifyNumber: () => Node = () =>{
     //
     //   </View>
     //
+    <ScrollView contentContainerStyle={{flexGrow: 1}}>
     <Background>
       <Logo />
       <TextInput
@@ -58,6 +59,7 @@ const VerifyNumber: () => Node = () =>{
       </Button>
 
     </Background>
+    </ScrollView>
   );
 }
 

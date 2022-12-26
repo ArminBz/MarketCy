@@ -59,6 +59,8 @@
 		<string>MaterialIcons.ttf</string>
 		<string>Entypo.ttf 19-14-45-889.ttf</string>
 	</array>
+	<key>UIUserInterfaceStyle</key>
+	<string>light</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
