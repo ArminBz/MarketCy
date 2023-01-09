@@ -20,7 +20,6 @@ export const purpleButton= {
       borderRadius: 8,
       elevation: 3,
       backgroundColor: '#6200EE',
-
       marginTop:20
 }
 export const greenButton= {
@@ -31,6 +30,5 @@ export const greenButton= {
   borderRadius: 8,
   elevation: 3,
   backgroundColor: '#009588',
-
   marginTop:20
 }

@@ -13,6 +13,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		BE4911C0EEF18B9374C12ECE /* libPods-MarketCy-MarketCyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91F3B1BAC10C49AE938C0DC2 /* libPods-MarketCy-MarketCyTests.a */; };
 		C6195A4829521D7300FEEB43 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6195A4729521D7200FEEB43 /* GoogleService-Info.plist */; };
+		C66E8E762966F90600A376CE /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C66E8E752966F90600A376CE /* Launch Screen.storyboard */; };
 		C68014AD2912D5940033A34D /* MarketCyTests.xctest in Sources */ = {isa = PBXBuildFile; fileRef = 00E356EE1AD99517003FC87E /* MarketCyTests.xctest */; };
 		E2550BA61ADBEACDB8BB21CD /* libPods-MarketCy.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CD204410C4CEF0F8311BA0A5 /* libPods-MarketCy.a */; };
 /* End PBXBuildFile section */
@@ -43,6 +44,7 @@
 		B58F3B4B5E2DB64EAAD0D711 /* Pods-MarketCy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MarketCy.release.xcconfig"; path = "Target Support Files/Pods-MarketCy/Pods-MarketCy.release.xcconfig"; sourceTree = "<group>"; };
 		C6195A46295214FF00FEEB43 /* MarketCy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = MarketCy.entitlements; path = MarketCy/MarketCy.entitlements; sourceTree = "<group>"; };
 		C6195A4729521D7200FEEB43 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C66E8E752966F90600A376CE /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		CD204410C4CEF0F8311BA0A5 /* libPods-MarketCy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MarketCy.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2655E4FD4D90DC981825659 /* Pods-MarketCy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MarketCy.debug.xcconfig"; path = "Target Support Files/Pods-MarketCy/Pods-MarketCy.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -120,6 +122,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				C66E8E752966F90600A376CE /* Launch Screen.storyboard */,
 				C6195A4729521D7200FEEB43 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* MarketCy */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -250,6 +253,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				C66E8E762966F90600A376CE /* Launch Screen.storyboard in Resources */,
 				C6195A4829521D7300FEEB43 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

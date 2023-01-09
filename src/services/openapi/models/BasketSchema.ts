@@ -2,10 +2,11 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { ProductSchema } from './ProductSchema';
+import type { BasketItemSchema } from './BasketItemSchema';
 
 export type BasketSchema = {
     id?: number;
-    products?: Array<ProductSchema>;
+    items?: Array<BasketItemSchema>;
+    total_price?: number;
 };
 

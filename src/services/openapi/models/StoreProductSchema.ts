@@ -4,8 +4,10 @@
 
 import type { ProductSchema } from './ProductSchema';
 
-export type PagedProductSchema = {
-    items?: Array<ProductSchema>;
-    count: number;
+export type StoreProductSchema = {
+    id?: number;
+    price: number;
+    discount_price?: number;
+    product: ProductSchema;
 };
 

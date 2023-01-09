@@ -2,9 +2,12 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { BasketSchema } from '../models/BasketSchema';
+import type { Message } from '../models/Message';
 import type { PagedCategorySchema } from '../models/PagedCategorySchema';
-import type { PagedProductSchema } from '../models/PagedProductSchema';
+import type { PagedStoreProductSchema } from '../models/PagedStoreProductSchema';
+import type { PagedStoreSchema } from '../models/PagedStoreSchema';
 import type { ProductSchema } from '../models/ProductSchema';
+import type { StoreSchema } from '../models/StoreSchema';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -36,19 +39,73 @@ export class StoreService {
     }
 
     /**
-     * Get products
-     * Get products
+     * Get stores
+     * Get stores
      * @param page
-     * @returns PagedProductSchema OK
+     * @returns PagedStoreSchema OK
+     * @throws ApiError
+     */
+    public static getStores(
+        page: number = 1,
+    ): CancelablePromise<PagedStoreSchema> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/store/stores',
+            query: {
+                'page': page,
+            },
+            errors: {
+                400: `Bad Request`,
+                401: `Unauthorized`,
+            },
+        });
+    }
+
+    /**
+     * Get store
+     * Get store
+     * @param storeId
+     * @returns StoreSchema OK
+     * @throws ApiError
+     */
+    public static getStore(
+        storeId: number,
+    ): CancelablePromise<StoreSchema> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/store/stores/{store_id}',
+            path: {
+                'store_id': storeId,
+            },
+            errors: {
+                400: `Bad Request`,
+                401: `Unauthorized`,
+            },
+        });
+    }
+
+    /**
+     * Get products of store
+     * Get products of store
+     * @param storeId
+     * @param categoryId
+     * @param page
+     * @returns PagedStoreProductSchema OK
      * @throws ApiError
      */
     public static getProducts(
+        storeId: number,
+        categoryId?: number,
         page: number = 1,
-    ): CancelablePromise<PagedProductSchema> {
+    ): CancelablePromise<PagedStoreProductSchema> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/v1/store/products',
+            url: '/v1/store/products/{store_id}',
+            path: {
+                'store_id': storeId,
+            },
             query: {
+                'category_id': categoryId,
                 'page': page,
             },
             errors: {
@@ -84,18 +141,100 @@ export class StoreService {
     /**
      * Get basket
      * Get basket
-     * @param productId
+     * @param storeId
      * @returns BasketSchema OK
      * @throws ApiError
      */
     public static getBasket(
-        productId: number,
+        storeId: number,
     ): CancelablePromise<BasketSchema> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/v1/store/basket',
+            url: '/v1/store/baskets/{store_id}',
+            path: {
+                'store_id': storeId,
+            },
+            errors: {
+                400: `Bad Request`,
+                401: `Unauthorized`,
+            },
+        });
+    }
+
+    /**
+     * Update basket
+     * Update basket
+     * @param storeId
+     * @param productId
+     * @param quantity
+     * @returns BasketSchema OK
+     * @throws ApiError
+     */
+    public static updateBasket(
+        storeId: number,
+        productId: number,
+        quantity: number,
+    ): CancelablePromise<BasketSchema> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/store/baskets/{store_id}/update_basket',
+            path: {
+                'store_id': storeId,
+            },
             query: {
                 'product_id': productId,
+                'quantity': quantity,
+            },
+            errors: {
+                400: `Bad Request`,
+                401: `Unauthorized`,
+            },
+        });
+    }
+
+    /**
+     * Delete basket item
+     * Delete basket item
+     * @param storeId
+     * @param productId
+     * @returns BasketSchema OK
+     * @throws ApiError
+     */
+    public static deleteBasketItem(
+        storeId: number,
+        productId: number,
+    ): CancelablePromise<BasketSchema> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/v1/store/baskets/{store_id}/delete_basket_item',
+            path: {
+                'store_id': storeId,
+            },
+            query: {
+                'product_id': productId,
+            },
+            errors: {
+                400: `Bad Request`,
+                401: `Unauthorized`,
+            },
+        });
+    }
+
+    /**
+     * Delete basket
+     * Delete basket
+     * @param storeId
+     * @returns Message OK
+     * @throws ApiError
+     */
+    public static deleteBasket(
+        storeId: number,
+    ): CancelablePromise<Message> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/v1/store/baskets/{store_id}/delete_basket',
+            path: {
+                'store_id': storeId,
             },
             errors: {
                 400: `Bad Request`,

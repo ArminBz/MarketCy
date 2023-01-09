@@ -12,6 +12,8 @@ import ModalEachProduct from "../screens/products/ModalEachProduct";
 import Basket from "../screens/basket/Basket";
 import ModalUserAddress from "../screens/userAddress/ModalUserAddress";
 import ModalReceiveOrder from "../screens/modal/ModalReceiveOrder";
+import WorkerHomePage from "../screens/workerScreens/WorkerHomePage";
+
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { BottomNavigation, Text, IconButton } from "react-native-paper";
@@ -63,7 +65,6 @@ const SignedInStack = createNativeStackNavigator()
 }
 const SignedOutStack = createNativeStackNavigator()
 
-
 export const SignedOutStackScreen = ()=> {
     return (
       <SignedOutStack.Navigator initialRouteName="Login" screenOptions={{
@@ -84,6 +85,29 @@ export const SignedOutStackScreen = ()=> {
       </SignedOutStack.Navigator>
     );
 }
+const WorkerStack = createNativeStackNavigator()
+export const WorkerStackScreen = ()=> {
+  return (
+    <WorkerStack.Navigator  screenOptions={{
+      headerTitleStyle: {
+        color: '#fff',
+      },
+
+      headerTintColor: '#fff',
+      headerStyle: {
+        backgroundColor: '#6200EE',
+        fontWeight: 'bold',
+      },
+    }}>
+      <WorkerStack.Group>
+        <WorkerStack.Screen name="WorkerHomePage" component={WorkerHomePage} />
+      </WorkerStack.Group>
+    </WorkerStack.Navigator>
+  );
+}
+
+
+
 const TabStack = createMaterialBottomTabNavigator();
 
 

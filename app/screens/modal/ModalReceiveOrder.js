@@ -7,7 +7,7 @@ import {
   Image,
   TextInput,
   FlatList,
-  TouchableOpacity,
+  TouchableOpacity, ScrollView,
 } from "react-native";
 import React, {
   useEffect, useState,useRef,
@@ -17,13 +17,56 @@ import { observer } from "mobx-react";
 import { useStores } from "../../store";
 import { purpleButton,greenButton } from '../../style'
 import NumericInput from 'react-native-numeric-input'
+import Icon from 'react-native-vector-icons/FontAwesome'
+
 // import subheading from "react-native-paper/src/components/Typography/Subheading";
 import NavigationService from "../../router/NavigationService";
 import { List } from "react-native-paper";
 import qs from 'qs';
 import { Linking,Platform  } from "react-native";
+import BouncyCheckboxGroup, {
+  ICheckboxButton,
+} from "react-native-bouncy-checkbox-group";
 
 
+const _iconStyle = (borderColor: string) => ({
+  height: 50,
+  width: 50,
+  borderRadius: 25,
+  borderColor: borderColor,
+});
+
+const styles = {
+  container: { marginTop: 24 },
+  verticalStyle: { marginTop: 16 },
+  textStyle: { textDecorationLine: "none" },
+  iconImageStyle: { height: 20, width: 20 },
+};
+
+const verticalStaticData: ICheckboxButton[] = [
+
+  {
+    id: 0,
+    text: "Credit Card",
+    fillColor: "#6200EE",
+    unfillColor: "#afb5f5",
+    iconStyle: _iconStyle("#afb5f5"),
+    textStyle: styles.textStyle,
+    style: styles.verticalStyle,
+    iconImageStyle: styles.iconImageStyle,
+  },
+
+  {
+    id: 1,
+    text: "Cash",
+    fillColor: "#009588",
+    unfillColor: "#cbf2d5",
+    iconStyle: _iconStyle("#cbf2d5"),
+    textStyle: styles.textStyle,
+    style: styles.verticalStyle,
+    iconImageStyle: styles.iconImageStyle,
+  },
+];
 
 
 export async function sendMessage(to, subject, body, options = {}) {
@@ -53,6 +96,8 @@ const {
 
 const ModalReceiveOrder=(props) =>{
 
+
+  const [checkboxState, setCheckboxState] = React.useState(false);
 
   const {
     authStore,
@@ -124,7 +169,7 @@ const ModalReceiveOrder=(props) =>{
         </View>
 
       </List.Section>
-
+<View style={{flex:0.8}}>
       <FlatList
         extraData={productStore.addProducts}
         data={productStore.addProducts}
@@ -133,19 +178,67 @@ const ModalReceiveOrder=(props) =>{
       >
       </FlatList>
 
-      <View style={{position: 'absolute',
-        bottom:40,
-        left:60,right:60}}>
-        <View style={{justifyContent:'center',alignItems:'center',alignContent:'center',}}>
-          <Text style={{marginBottom:2,marginTop:20,fontSize: 17, fontWeight: 'bold', color: '#6200EE'}}>Total: {productStore.sumOfBasket()}$</Text>
+      <View >
+        <View style={{justifyContent:'center',alignItems:'center',alignContent:'center',paddingBottom:10}}>
+          <Text style={{marginBottom:2,marginTop:20,fontSize: 20, fontWeight: 'bold', color: '#6200EE'}}>Total: {productStore.sumOfBasket()}$</Text>
         </View>
-        <Pressable style={purpleButton}
+      </View>
+        <SafeAreaView
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <View
+            style={{
+              height: 30,
+              width: 200,
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 12,
+              backgroundColor: checkboxState ? "#34eb83" : "#eb4034",
+              marginBottom:0.5,
+            }}
+          >
+            <Text
+              style={{ color: "#fff" }}
+            >{`Check Payment method: ${checkboxState.toString()}`}</Text>
+          </View>
+          <View
+            style={{
+              marginBottom:10,
+              marginLeft: 32,
+              justifyContent: "center",
+            }}
+          >
+          <BouncyCheckboxGroup
+            data={verticalStaticData}
+            style={{ flexDirection: "column" }}
+            onChange={(selectedItem: ICheckboxButton) => {
+              productStore.setPayment(selectedItem.text)
+              // console.log("SelectedItem: ", productStore.payment);
+              JSON.stringify(selectedItem.id)?setCheckboxState(true):setCheckboxState(setCheckboxState(false))
+            }}
+          />
+          </View>
+        </SafeAreaView>
+</View>
+      <View style={{ flex:0.15,alignItems: 'center',justifyContent: 'center'}}>
+        <Pressable style={{
+          paddingVertical: 12,
+          paddingHorizontal: 130,
+          borderRadius: 8,
+          elevation: 3,
+          backgroundColor: '#6200EE',
+          marginTop:10}}
                    onPress={() => {
                      // NavigationService.navigate('UserAddress')
                      // setShowAddress(true)
+                     checkboxState===true && userAddressStore.userAddress!== undefined && userAddressStore.userAddress.length > 0?
                      sendMessage().then(() => {
                        console.log('Your message was successfully sent!');
-                     });
+                     })
+                     :  alert("Check the Payment method or add your address")
                    }}
 
         >
@@ -155,7 +248,13 @@ const ModalReceiveOrder=(props) =>{
             letterSpacing: 0.25,
             color: 'white', }}> Order</Text>
         </Pressable>
-        <Pressable style={greenButton} onPress={() => NavigationService.goBack()}>
+        <Pressable style={{
+          paddingVertical: 12,
+          paddingHorizontal: 130,
+          borderRadius: 8,
+          elevation: 3,
+          backgroundColor: '#009588',
+          marginTop:10}} onPress={() => NavigationService.goBack()}>
           <Text style={{ fontSize: 16,
             lineHeight: 21,
             fontWeight: 'bold',
@@ -163,6 +262,8 @@ const ModalReceiveOrder=(props) =>{
             color: 'white', }}>Close</Text>
         </Pressable>
       </View>
+
+
     </View>
 
   )

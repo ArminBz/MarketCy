@@ -29,6 +29,8 @@ class AuthStore {
             responseMessage:observable,
             checkIsSignedInLoading: observable,
             loggedIn: observable,
+            checkUserStatus:observable,
+
 
 
 
@@ -47,6 +49,7 @@ class AuthStore {
             setCheckIsSignedInLoading: action,
             setLoggedIn: action,
             onSignOut: action,
+            setCheckUserStatus:action,
 
         },)
     }
@@ -63,6 +66,7 @@ class AuthStore {
     responseMessage='';
     checkIsSignedInLoading = false;
     loggedIn = false;
+    checkUserStatus=null;
 
 
     setPhoneNumber = (value) =>{
@@ -91,6 +95,9 @@ class AuthStore {
     }
     setLoggedIn(value,) {
         this.loggedIn = value
+    }
+    setCheckUserStatus(value,) {
+        this.checkUserStatus = value
     }
 
     // login = () =>{
@@ -150,6 +157,7 @@ class AuthStore {
     setUserLogin = (api_key, user) => {
             AsyncStorage.setItem('token', api_key.toString())
             AsyncStorage.setItem('phone', this.phoneNumber.toString())
+        AsyncStorage.setItem('userStatus', user.toString())
             OpenAPI.TOKEN = api_key;
 
     }
@@ -167,8 +175,11 @@ class AuthStore {
             const response = await UserService.otp(params)
             // console.log('confirmOtp response', response)
             if (response.api_key) {
-                this.setUserLogin(response.api_key, response.user)
+                // console.log("is it",response.user.store.name)
+                if (response.user?.store?.name)
+                this.setUserLogin(response.api_key, response.user.store.name)
                 this.setLoggedIn(true,)
+
                 return response.user;
 
             }
@@ -186,13 +197,15 @@ class AuthStore {
             this.setLoggedIn(false,)
             let token = await AsyncStorage.getItem('token',)
             let number = await AsyncStorage.getItem('phone',)
-            // console.log('checkUserIsSignedIn token', token,)
+            let userStatus = await AsyncStorage.getItem('userStatus',)
+            console.log('userStatus', userStatus,)
             // console.log('checkUserIsSignedIn this.loggedIn', this.loggedIn,)
 
 
             if (token !== null) {
                 OpenAPI.TOKEN = token;
                 this.setPhoneNumber(number)
+                this.setCheckUserStatus(userStatus)
                 this.setLoggedIn(true,)
             } else {
                 this.setLoggedIn(false,)
@@ -216,9 +229,10 @@ class AuthStore {
         try {
 
             // Stores.realmStore.deleteAllRealm()
-            await AsyncStorage.removeItem('token',)
-            await AsyncStorage.removeItem('phone',)
-            this.setLoggedIn(false,)
+            await AsyncStorage.removeItem('token')
+            await AsyncStorage.removeItem('phone')
+            await AsyncStorage.removeItem('userStatus')
+            this.setLoggedIn(false)
         } catch (err) {
             console.log('onSignOut err', err,)
         }

@@ -53,6 +53,7 @@ const Map: () => Node = () =>{
     userLocationStore,
     categoryStore,
     authStore,
+    productStore,
   } = useStores()
 
 
@@ -116,6 +117,7 @@ const Map: () => Node = () =>{
   useEffect(()=>{
     requestFirebasePushNotificationPermission()
     categoryStore.getCategory()
+    productStore.getProducts()
   }, [],)
 
   useEffect(()=>{

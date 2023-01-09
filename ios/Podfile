@@ -15,6 +15,9 @@ pod 'FirebaseCore', :modular_headers => true
   $RNFirebaseAsStaticFramework = true
   config = use_native_modules!
 
+permissions_path = '../node_modules/react-native-permissions/ios'
+pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
+
   # Flags change depending on the env values.
   flags = get_default_flags()
 

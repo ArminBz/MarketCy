@@ -26,6 +26,8 @@ class productStore {
       products:observable,
       errorMessage: observable,
       showErrMessage: observable,
+      product:observable,
+      payment:observable,
 
 
 
@@ -34,12 +36,16 @@ class productStore {
       setAddProducts:action,
       setErrorMessage: action,
       setShowErrMessage: action,
+      setProduct:action,
+      setPayment:action,
 
 
     },)
   }
 
   errorMessage = '';
+  payment='';
+  product=[{}];
   showErrMessage = false;
   quantityOfProduct=0;
   products=[{
@@ -112,8 +118,13 @@ class productStore {
   setShowErrMessage = (value) => {
     this.showErrMessage = value
   }
+  setPayment = (value) => {
+    this.payment = value
+  }
 
-
+  setProduct = (value)=>{
+    this.product = value
+  }
   sumOfBasket = () =>{
     let quantity
     let sum=0
@@ -153,18 +164,19 @@ class productStore {
 
 
 
-  // getProducts = async () => {
-  //   try {
-  //     const response = await StoreService.getProducts(1)
-  //
-  //     console.log('salam',response)
-  //     return response
-  //
-  //   } catch (err) {
-  //     console.log('login err', err)
-  //     this.handleError(err)
-  //   }
-  // }
+  getProducts = async () => {
+    try {
+      const response = await StoreService.getProducts(1)
+
+      // console.log('product',response.items.map(i=> i.product))
+      // return response
+      this.setProduct(response.items.map(i=> i.product))
+
+    } catch (err) {
+      console.log('login err', err)
+      this.handleError(err)
+    }
+  }
 
 }
 

@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 export type CategorySchema = {
-    name: string;
     id?: number;
+    name: string;
 };
 

@@ -30,13 +30,13 @@ const ListOfProducts: () => Node = () =>{
   );
 
   const renderItem = ({item}) => (
-    <TouchableOpacity style={{flex:1,marginBottom: 15,marginTop: 5,padding: 10,width:width,borderWidth: 0.8,borderColor:'#C6C6C6',backgroundColor:'white'}} onPress={() => {
+    <TouchableOpacity style={{flex:1,marginBottom: 15,marginTop: 1,padding: 10,width:width,borderWidth: 0.8,borderColor:'#C6C6C6',backgroundColor:'white'}} onPress={() => {
       productStore.setSelectedProducts(item)
       NavigationService.navigate('ModalEachProduct')
     }}>
       <Image style={{height:150,width:150,marginBottom:7, marginLeft:'auto',marginRight:'auto',display: 'flex'}}
              source={{
-               uri: item.image,
+               uri: item.thumb,
              }}
              resizeMode="cover"
       />
@@ -82,7 +82,7 @@ const ListOfProducts: () => Node = () =>{
       />
 </View>
       <FlatList
-        data={productStore.products}
+        data={productStore.product}
         renderItem={renderItem}
         horizontal={false}
         numColumns={2}

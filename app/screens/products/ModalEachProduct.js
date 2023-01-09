@@ -26,7 +26,7 @@ const ModalEachProduct=(props) =>{
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Image style={{flex:0.4,height:200,borderWidth: 0.8,borderColor:'#C6C6C6',width:200,marginBottom:30}}
              source={{
-               uri: productStore.selectedProducts.image,
+               uri: productStore.selectedProducts.thumb,
              }}
              resizeMode="cover"
       />
