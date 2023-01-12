@@ -1,4 +1,4 @@
-import { Text, View, TextInput, ScrollView } from "react-native";
+import { Text, View, TextInput, ScrollView, ActivityIndicator } from "react-native";
 import { observer } from "mobx-react";
 import NavigationService from "../../router/NavigationService";
 import React, {
@@ -40,7 +40,7 @@ const VerifyNumber: () => Node = () =>{
       <TextInput
         style={INPUT}
         onChangeText={authStore.setCodeCheck}
-        value={authStore.codeCheck}
+        // value={authStore.codeCheck}
         placeholder="Enter the code here"
         keyboardType="numeric"
       />
@@ -59,6 +59,16 @@ const VerifyNumber: () => Node = () =>{
       </Button>
 
     </Background>
+      {authStore.loading ? (
+        <View style={{
+          position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center',
+        }} >
+          <ActivityIndicator
+            size="large"
+            color="#6200EE"
+
+          />
+        </View> ) :null}
     </ScrollView>
   );
 }

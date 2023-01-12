@@ -36,6 +36,7 @@ class AuthStore {
 
 
 
+
             setPhoneNumber: action,
             setCodeCheck: action,
             login: action,
@@ -157,7 +158,11 @@ class AuthStore {
     setUserLogin = (api_key, user) => {
             AsyncStorage.setItem('token', api_key.toString())
             AsyncStorage.setItem('phone', this.phoneNumber.toString())
-        AsyncStorage.setItem('userStatus', user.toString())
+        if (user?.store?.name) {
+            AsyncStorage.setItem('userStatus', user.store.name.toString())
+            this.setCheckUserStatus(user.store.name)
+        }
+        // this.setCheckUserStatus(user)
             OpenAPI.TOKEN = api_key;
 
     }
@@ -176,11 +181,10 @@ class AuthStore {
             // console.log('confirmOtp response', response)
             if (response.api_key) {
                 // console.log("is it",response.user.store.name)
-                if (response.user?.store?.name)
-                this.setUserLogin(response.api_key, response.user.store.name)
-                this.setLoggedIn(true,)
-
-                return response.user;
+                // if (response.user?.store?.name)
+                    this.setUserLogin(response.api_key, response.user)
+                    this.setLoggedIn(true,)
+                    return response.user;
 
             }
         } catch (err) {
@@ -227,16 +231,14 @@ class AuthStore {
 
     onSignOut = async () => {
         try {
-
-            // Stores.realmStore.deleteAllRealm()
-            await AsyncStorage.removeItem('token')
-            await AsyncStorage.removeItem('phone')
-            await AsyncStorage.removeItem('userStatus')
+            await AsyncStorage.removeItem('token', )
+            await AsyncStorage.removeItem('phone', )
+            await AsyncStorage.removeItem('userStatus', )
             this.setLoggedIn(false)
         } catch (err) {
             console.log('onSignOut err', err,)
         }
-    };
+    }
 }
 
 

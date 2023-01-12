@@ -5,6 +5,9 @@ import userAddressStore from '../screens/userAddress/userAddressStore'
 import userLocationStore from '../screens/userLocationMap/userLocationStore'
 import offerStore from '../screens/tabs/offerStore'
 import languageStore from '../screens/translation/languageStore'
+import basketStore from '../screens/basket/basketStore'
+import workerStore from '../screens/workerScreens/workerStore'
+
 
 
 
@@ -20,6 +23,8 @@ class RootStore {
         this.userLocationStore = new userLocationStore(this,)
         this.offerStore = new offerStore(this,)
         this.languageStore = new languageStore(this,)
+        this.basketStore = new basketStore(this,)
+        this.workerStore = new workerStore(this,)
 
 
     }

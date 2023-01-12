@@ -1,8 +1,18 @@
-import React from 'react'
+import React, {useRef, useEffect,useState} from 'react';
 import Background from '../../components/Background'
 import Logo from '../../components/Logo'
 import Button from '../../components/Button'
-import { Dimensions, FlatList, Image, Pressable, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  Dimensions,
+  FlatList,
+  Image,
+  Pressable,
+  ScrollView,
+  Text, TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { observer } from "mobx-react";
 import { useStores } from "../../store";
 import NavigationService from "../../router/NavigationService";
@@ -24,10 +34,13 @@ const Basket: () => Node = () =>{
   const {
     authStore,
     productStore,
+    basketStore,
   } = useStores()
 
 
-
+  useEffect(()=>{
+    basketStore.getBasket()
+  }, [],)
 
 
  const deleteItemById = (id) => {
@@ -39,7 +52,13 @@ const Basket: () => Node = () =>{
    productStore.addProducts.splice(index, 1)
   }
 
-  const renderItem = ({item}) =>(
+  const renderItem = ({item}) =>{
+    let name = item?.store_product.product?.name || null
+    let price = item?.store_product?.price || null
+    let thumb = item?.store_product.product?.thumb || null
+    let quantity = item.quantity || null
+    let id = item?.store_product?.id || null
+    return (
     <ScrollView>
 
       <TouchableOpacity style={{
@@ -51,10 +70,12 @@ const Basket: () => Node = () =>{
         flexDirection: 'row',
         borderWidth: 1,
         borderColor: '#E2E2E2'
-      }} onPress={() => {
+      }}
+                        onPress={() => {
         productStore.setSelectedProducts(item)
-        NavigationService.navigate('ModalEachProduct')
-      }}>
+        NavigationService.navigate('ModalEachProductsFromBasket')
+      }}
+      >
 
         <Image style={{
           flex: 0.4,
@@ -66,52 +87,59 @@ const Basket: () => Node = () =>{
           marginRight: 10
         }}
                source={{
-                 uri: item.image,
+                 uri: thumb,
                }}
                resizeMode="cover"
         />
         <View style={{ flex: 0.6 }}>
-          <Text style={{ flex: 0.2, fontSize: 14, fontWeight: 'bold', }}>{item.name}</Text>
+          <Text style={{ flex: 0.2, fontSize: 14, fontWeight: 'bold', }}>{name}</Text>
 
-          <Text style={{ flex: 0.2, fontSize: 15, fontWeight: 'bold', color: '#6200EE' }}>{item.price}</Text>
-          <Text style={{ flex: 0.2, fontSize: 12, }}>{item.amount}</Text>
+          <Text style={{ flex: 0.2, fontSize: 15, fontWeight: 'bold', color: '#6200EE' }}>{price}</Text>
+          {/*<Text style={{ flex: 0.2, fontSize: 12, }}>{item.amount}</Text>*/}
         </View>
-        <View style={{  }}>
+        <View>
+          {/*<TextInput*/}
+
+          {/*  keyboardType = 'numeric'*/}
+          {/*  onChange={(value:quantity) => quantity=value}*/}
+          {/*  value = {quantity}*/}
+          {/*/>*/}
           <NumericInput
-            value={item.quantityOfProduct}
-            onChange={item.setQuantityOfProduct}
-            // onLimitReached={(isMax,msg) => console.log(isMax,msg)}
+            value={quantity}
+            onLimitReached={(isMax,msg) => console.log(isMax,msg)}
             totalWidth={70}
             totalHeight={30}
             iconSize={25}
-            valueType='real'
+            step={1}
             rounded
             textColor='#6200EE'
             iconStyle={{ color: 'white' }}
             rightButtonBackgroundColor='#6200EE'
             leftButtonBackgroundColor='#009588' />
-          <Button onPress={() => {deleteItemById(item.id)}}> <Icon name={'trash'} size={20}/></Button>
+          <Button onPress={() => {
+            basketStore.deleteBasketItem(1,id)
+            basketStore.getBasket()
+          }}> <Icon name={'trash'} size={20}/></Button>
         </View>
       </TouchableOpacity>
     </ScrollView>
-  );
-
-
+    )
+  };
   return (
 
 <View style={{flex:1}}>
-  {productStore.addProducts.length > 0 ?
+  {basketStore.basketItems.length > 0 ?
     <View style={{flex:1}}>
       <FlatList
-      extraData={productStore.addProducts}
-      data={productStore.addProducts}
+      extraData={basketStore.loading}
+      data={basketStore.basketItems}
       renderItem={renderItem}
       keyExtractor={(item) => item.id}
       >
 
     </FlatList>
 <View style={{justifyContent:'center',alignItems:'center',alignContent:'center',}}>
-        <Text style={{marginBottom:2,marginTop:20,fontSize: 17, fontWeight: 'bold', color: '#6200EE'}}>Total: {productStore.sumOfBasket()}$</Text>
+        <Text style={{marginBottom:2,marginTop:20,fontSize: 17, fontWeight: 'bold', color: '#6200EE'}}>Total: {basketStore.totalPrice} TL</Text>
 </View>
     <Pressable style={{ alignItems: 'center',
       justifyContent: 'center',
@@ -151,6 +179,16 @@ const Basket: () => Node = () =>{
       </Button>
     </Background>
   }
+  {basketStore.loading ? (
+    <View style={{
+      position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center',
+    }} >
+      <ActivityIndicator
+        size="large"
+        color="#6200EE"
+
+      />
+    </View> ) :null}
     </View>
 
   )

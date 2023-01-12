@@ -54,6 +54,7 @@ const Map: () => Node = () =>{
     categoryStore,
     authStore,
     productStore,
+    basketStore,
   } = useStores()
 
 
@@ -63,6 +64,7 @@ const Map: () => Node = () =>{
         latitude: 35.27917321575899,
         longitude: 33.896278512958624,
       },
+      id :2,
       title:  t("Unimar Market") ,
       description: t("Located at Iskele"),
       image: Images[0],
@@ -72,6 +74,7 @@ const Map: () => Node = () =>{
         latitude: 35.26096078233671,
         longitude: 33.90240328181233,
       },
+      id :1,
       title: t("Caesar Market"),
       description: t("Located at caesar resort and has variety of products"),
       image: Images[1],
@@ -81,6 +84,7 @@ const Map: () => Node = () =>{
         latitude: 35.256088142310205,
         longitude: 33.904544485000386,
       },
+      id :3,
       title: t("Noyanlar Market"),
       description: t("open till midnight"),
       image: Images[2],
@@ -90,6 +94,7 @@ const Map: () => Node = () =>{
         latitude: 35.25367501019976,
         longitude: 33.899871788483615,
       },
+      id :4,
       title: t("RoyalSun Market"),
       description: t("Located at royalsun"),
       image: Images[3],
@@ -118,6 +123,7 @@ const Map: () => Node = () =>{
     requestFirebasePushNotificationPermission()
     categoryStore.getCategory()
     productStore.getProducts()
+    // basketStore.getBasket()
   }, [],)
 
   useEffect(()=>{
@@ -280,7 +286,7 @@ const Map: () => Node = () =>{
 
 
       <MapView
-        provider={PROVIDER_GOOGLE}
+        // provider={PROVIDER_GOOGLE}
         ref={mapRef}
         showsUserLocation={true}
         initialRegion={region}

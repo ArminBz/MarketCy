@@ -221,20 +221,74 @@ export class StoreService {
     }
 
     /**
-     * Delete basket
-     * Delete basket
+     * Empty basket
+     * Empty basket
      * @param storeId
      * @returns Message OK
      * @throws ApiError
      */
-    public static deleteBasket(
+    public static emptyBasket(
         storeId: number,
     ): CancelablePromise<Message> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/v1/store/baskets/{store_id}/delete_basket',
+            url: '/v1/store/baskets/{store_id}/empty_basket',
             path: {
                 'store_id': storeId,
+            },
+            errors: {
+                400: `Bad Request`,
+                401: `Unauthorized`,
+            },
+        });
+    }
+
+    /**
+     * Checkout
+     * Checkout
+     * @param storeId
+     * @param address
+     * @param paymentMethod
+     * @returns Message OK
+     * @throws ApiError
+     */
+    public static checkout(
+        storeId: number,
+        address: string,
+        paymentMethod: string,
+    ): CancelablePromise<Message> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/store/baskets/{store_id}/checkout',
+            path: {
+                'store_id': storeId,
+            },
+            query: {
+                'address': address,
+                'payment_method': paymentMethod,
+            },
+            errors: {
+                400: `Bad Request`,
+                401: `Unauthorized`,
+            },
+        });
+    }
+
+    /**
+     * Get product
+     * Get product
+     * @param barcode
+     * @returns ProductSchema OK
+     * @throws ApiError
+     */
+    public static adminGetProduct(
+        barcode: string,
+    ): CancelablePromise<ProductSchema> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/store/admin/product',
+            query: {
+                'barcode': barcode,
             },
             errors: {
                 400: `Bad Request`,

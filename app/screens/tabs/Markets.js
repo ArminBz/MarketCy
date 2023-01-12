@@ -35,6 +35,7 @@ const Markets: () => Node = () =>{
 
   const [markets, setMarkets] = useState([
     {
+      id:0,
     image: Images[0],
       name:'Unimar Market',
       description:'ÜNİMARSÜPERMARKET 2009 yılından bu yana market sektöründe faaliyet gösteren bir firmadır. ',
@@ -42,6 +43,7 @@ const Markets: () => Node = () =>{
       number:'+90 546 990 00 99'
     },
     {
+      id:1,
       image: Images[1],
       name:'Caesar Resort Market',
       description:'',
@@ -49,6 +51,7 @@ const Markets: () => Node = () =>{
       number:'05338517739'
     },
     {
+      id:2,
       image: Images[2],
       name:'Noyanlar Market',
       description:'',
@@ -56,6 +59,7 @@ const Markets: () => Node = () =>{
       number:''
     },
     {
+      id:3,
       image: Images[3],
       name:'Royalsun Market',
       description:'',

@@ -1,17 +1,23 @@
 import React, {
-  useEffect, useState,useRef,
+  useEffect, useState,useRef,Fragment,
 } from 'react'
-import { Dimensions, ImageBackground, Linking, Text, TouchableOpacity, View, Image, StyleSheet } from "react-native";
+import {
+  Dimensions,
+  ImageBackground,
+  Linking,
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+  StyleSheet,
+  Pressable, ActivityIndicator,
+} from "react-native";
 import { observer } from "mobx-react";
-import { IconButton, List,TextInput } from "react-native-paper";
-import NavigationService from "../../router/NavigationService";
-import { useStores } from "../../store";
-import navigationService from "../../router/NavigationService";
 import { useTranslation } from "react-i18next";
-// import Button from "../../components/Button";
-// import Background from "../../components/Background";
-// import QRCodeScanner from 'react-native-qrcode-scanner';
-import { RNCamera } from 'react-native-camera';
+import QRCodeScanner from 'react-native-qrcode-scanner';
+import Button from "../../components/Button";
+import Background from "../../components/Background";
+import { useStores } from "../../store";
 
 const {
   height, width,
@@ -19,37 +25,45 @@ const {
 
 const WorkerHomePage: () => Node = () =>{
 
+  const {
+    workerStore,
+    basketStore
+  } = useStores()
 
-//   this.state = {
-//     scan: false,
-//     ScanResult: false,
-//     result: null
-//   };
-//
-// const onSuccess = (e) => {
-//   const check = e.data.substring(0, 4);
-//   console.log('scanned data' + check);
-//   this.setState({
-//     result: e,
-//     scan: false,
-//     ScanResult: true
-//   })
-//   if (check === 'http') {
-//     Linking.openURL(e.data).catch(err => console.error('An error occured', err));
-//   } else {
-//     this.setState({
-//       result: e,
-//       scan: false,
-//       ScanResult: true
-//     })
-//   }
-// }
-// const activeQR = () => {
-//   this.setState({ scan: true })
-// }
-// const scanAgain = () => {
-//   this.setState({ scan: true, ScanResult: false })
-// }
+  const chechScanResult = () => {
+    workerStore.getProductByBarcode(result.data)
+  }
+
+  // useEffect(()=>{
+  //
+  // }, [],)
+
+  const [scan, setScan] = React.useState(false);
+  const [ScanResult, setScanResult] = React.useState(false);
+  const [result, setResult] = React.useState(null);
+
+const onSuccess = (e) => {
+  const check = e.data.substring(0, 4);
+  setScanResult(true)
+  setScan(false)
+  setResult(0)
+  if (check === 'http') {
+    Linking.openURL(e.data).catch(err =>
+      console.error('An error occured', err)
+    );
+  } else {
+    setResult(e)
+    setScan(false)
+    setScanResult(true)
+  }
+}
+const activeQR = () => {
+  setScan(true)
+}
+const scanAgain = () => {
+  setScan(true)
+  setScanResult(false)
+}
 
   const { t, i18n } = useTranslation();
 
@@ -59,7 +73,6 @@ const WorkerHomePage: () => Node = () =>{
 
   const [text, setText] = React.useState("");
   return (
-    <View></View>
     // <View style={{flex:1}}>
     //   <List.Section>
     //     <List.Subheader>{t("Number")}</List.Subheader>
@@ -91,70 +104,91 @@ const WorkerHomePage: () => Node = () =>{
     // </View>
 
 
-  //   <View style={styles.scrollViewStyle}>
-  //     <View>
-  //       <View style={styles.header}>
-  //         <TouchableOpacity>
-  //           {/*<Image source={require('./assets/back.png')} style={{height: 36, width: 36}}></Image>*/}
-  //         </TouchableOpacity>
-  //         <Text style={styles.textTitle}>Scan QR Code</Text>
-  //       </View>
-  //       {!this.scan && !this.ScanResult &&
-  //         <View style={styles.cardView} >
-  //           {/*<Image source={require('./assets/camera.png')} style={{height: 36, width: 36}}></Image>*/}
-  //           <Text numberOfLines={8} style={styles.descText}>Please move your camera {"\n"} over the QR Code</Text>
-  //           {/*<Image source={require('./assets/qr-code.png')} style={{margin: 20}}></Image>*/}
-  //           <TouchableOpacity onPress={activeQR} style={styles.buttonScan}>
-  //             <View style={styles.buttonWrapper}>
-  //               {/*<Image source={require('./assets/camera.png')} style={{height: 36, width: 36}}></Image>*/}
-  //               <Text style={{...styles.buttonTextStyle, color: '#2196f3'}}>Scan QR Code</Text>
-  //             </View>
-  //           </TouchableOpacity>
-  //         </View>
-  //       }
-  //       {this.ScanResult &&
-  //         <View>
-  //           <Text style={styles.textTitle1}>Result</Text>
-  //           <View style={this.ScanResult ? styles.scanCardView : styles.cardView}>
-  //             <Text>Type : {this.result.type}</Text>
-  //             <Text>Result : {this.result.data}</Text>
-  //             <Text numberOfLines={1}>RawData: {this.result.rawData}</Text>
-  //             <TouchableOpacity onPress={scanAgain} style={styles.buttonScan}>
-  //               <View style={styles.buttonWrapper}>
-  //                 {/*<Image source={require('./assets/camera.png')} style={{height: 36, width: 36}}></Image>*/}
-  //                 <Text style={{...styles.buttonTextStyle, color: '#2196f3'}}>Click to scan again</Text>
-  //               </View>
-  //             </TouchableOpacity>
-  //           </View>
-  //         </View>
-  //       }
-  //       {this.scan &&
-  //         <QRCodeScanner
-  //           reactivate={true}
-  //           showMarker={true}
-  //           ref={(node) => { this.scanner = node }}
-  //           onRead={onSuccess}
-  //           topContent={
-  //             <Text style={styles.centerText}>
-  //               Please move your camera {"\n"} over the QR Code
-  //             </Text>
-  //           }
-  //           bottomContent={
-  //             <View>
-  //               {/*<ImageBackground source={require('./assets/bottom-panel.png')} style={styles.bottomContent}>*/}
-  //                 <TouchableOpacity style={styles.buttonScan2}
-  //                                   onPress={() => this.scanner.reactivate()}
-  //                                   onLongPress={() => this.setState({ scan: false })}>
-  //                   {/*<Image source={require('./assets/camera2.png')}></Image>*/}
-  //                 </TouchableOpacity>
-  //               {/*</ImageBackground>*/}
-  //             </View>
-  //           }
-  //         />
-  //       }
-  //     </View>
-  //   </View>
-  //
+    <View style={styles.scrollViewStyle}>
+      <Fragment>
+        <View style={styles.header}>
+          <TouchableOpacity>
+            {/*<Image source={require('./assets/back.png')} style={{height: 36, width: 36}}></Image>*/}
+          </TouchableOpacity>
+          <Text style={styles.textTitle}>Scan QR Code</Text>
+        </View>
+        {!scan && !ScanResult &&
+          <View style={styles.cardView} >
+            <Image source={require('./../../assets/camera.png')} style={{height: 36, width: 36}}></Image>
+            <Text numberOfLines={8} style={styles.descText}>Please move your camera {"\n"} over the QR Code</Text>
+            <Image source={require('./../../assets/qr-code.png')} style={{margin: 20}}></Image>
+            <TouchableOpacity onPress={activeQR} style={styles.buttonScan}>
+              <View style={styles.buttonWrapper}>
+                <Image source={require('./../../assets/camera.png')} style={{height: 36, width: 36}}></Image>
+                <Text style={{...styles.buttonTextStyle, color: 'white'}}>Scan QR Code</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        }
+        {ScanResult &&
+          <Fragment>
+          <View>
+            <Text style={styles.textTitle1}>Result</Text>
+            <View style={ScanResult ? styles.scanCardView : styles.cardView}>
+              <Text>Type : {result.type}</Text>
+              <Text>Result : {result.data}</Text>
+              <Text numberOfLines={1}>RawData: {result.rawData}</Text>
+              <TouchableOpacity onPress={scanAgain} style={styles.buttonScan}>
+                <View style={styles.buttonWrapper}>
+                  <Image source={require('./../../assets/camera.png')} style={{height: 36, width: 36}}></Image>
+                  <Text style={{...styles.buttonTextStyle, color: '#6200EE'}}>Click to scan again</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+          </Fragment>
+        }
+        {scan &&
+          <QRCodeScanner
+            reactivate={true}
+            showMarker={true}
+            ref={(node) => { this.scanner = node }}
+            onRead={onSuccess}
+            topContent={
+              <Text style={styles.centerText}>
+                Please move your camera {"\n"} over the QR Code
+              </Text>
+            }
+            bottomContent={
+              <View>
+                <ImageBackground source={require('./../../assets/bottom-panel.png')} style={styles.bottomContent}>
+                  <TouchableOpacity style={styles.buttonScan2}
+                                    onPress={() => this.scanner.reactivate()}
+                                    onLongPress={() => setScan(false)}>
+                    <Image source={require('./../../assets/camera2.png')}></Image>
+                  </TouchableOpacity>
+                </ImageBackground>
+              </View>
+
+            }
+          />
+        }
+      </Fragment>
+        <Background>
+          <Button
+            style={{ marginTop: 30 }}
+            mode="contained"
+            onPress={() => authStore.onSignOut()}
+          >
+            {t('LogOut')}
+          </Button>
+        </Background>
+      {basketStore.loading ? (
+        <View style={{
+          position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center',
+        }} >
+          <ActivityIndicator
+            size="large"
+            color="#6200EE"
+          />
+        </View> ) :null}
+      { ScanResult ? chechScanResult():null }
+    </View>
    )
 }
 export default observer(WorkerHomePage)
@@ -163,7 +197,7 @@ const styles = StyleSheet.create({
   scrollViewStyle: {
     flex: 1,
     justifyContent: 'flex-start',
-    backgroundColor: '#2196f3'
+    backgroundColor: 'white'
   },
   header: {
     display: 'flex',
@@ -179,7 +213,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
     padding: 16,
-    color: 'white'
+    color:'white',
   },
   textTitle1: {
     fontWeight: 'bold',
@@ -199,7 +233,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginRight: 5,
     marginTop: '10%',
-    backgroundColor: 'white'
+    backgroundColor: '#6200EE'
   },
   scanCardView: {
     width: width - 32,
@@ -217,12 +251,12 @@ const styles = StyleSheet.create({
   buttonWrapper: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   buttonScan: {
     borderWidth: 2,
     borderRadius: 10,
-    borderColor: '#258ce3',
+    borderColor: 'white',
     paddingTop: 5,
     paddingRight: 25,
     paddingBottom: 5,
@@ -237,7 +271,8 @@ const styles = StyleSheet.create({
   descText: {
     padding: 16,
     textAlign: 'center',
-    fontSize: 16
+    fontSize: 16,
+    color:'white'
   },
   highlight: {
     fontWeight: '700',

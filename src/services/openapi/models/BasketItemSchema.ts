@@ -2,12 +2,12 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { ProductSchema } from './ProductSchema';
+import type { StoreProductSchema } from './StoreProductSchema';
 
 export type BasketItemSchema = {
     id?: number;
     quantity?: number;
-    total_price?: number;
-    store_product: ProductSchema;
+    store_product: StoreProductSchema;
+    total_price: number;
 };
 

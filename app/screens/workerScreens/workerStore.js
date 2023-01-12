@@ -2,47 +2,49 @@
 import {
   action, makeObservable, observable,
 } from 'mobx'
-// import { Stores, } from '../../store'
-// import { getCategoriesApi, getProductApi } from "../../api/api";
-import { StoreService, UserService } from "../../../src/services/openapi";
-import NavigationService from "../../router/NavigationService";
+import { Stores, } from '../../store'
+import { signInApi, userAddressApi } from "../../api/api";
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import {
+  resetToken, setToken,
+} from '../../utils/Api'
+import { StoreService } from "../../../src/services/openapi";
 
-
-class categoryStore {
+class workerStore {
 
 
   constructor() {
 
     makeObservable(this, {
-
-      categories: observable,
       errorMessage: observable,
       showErrMessage: observable,
+      loading:observable,
 
 
-      setCategory: action,
+
       setErrorMessage: action,
       setShowErrMessage: action,
-      getCategory: action,
+      setLoading:action,
     },)
   }
 
-  categories = [{
-
-  }
-  ]
   errorMessage = '';
   showErrMessage = false;
+  loading=false;
 
-  setCategory = (value) => {
-    this.categories = value
-  }
+
+
   setErrorMessage = (value) => {
     this.errorMessage = value
   }
   setShowErrMessage = (value) => {
     this.showErrMessage = value
   }
+  setLoading = (value) =>{
+    this.loading = value
+  }
+
+
 
   handleError = (err) => {
     if (err?.body?.message) {
@@ -57,19 +59,20 @@ class categoryStore {
   }
 
 
-  getCategory = async () => {
+  getProductByBarcode = async (barCode) => {
     try {
-      const response = await StoreService.getCategories(1)
-
-      // console.log('salam',response.items)
-      this.setCategory(response.items)
-       // return response
+      this.setLoading(true)
+      const response = await StoreService.adminGetProduct(barCode)
+      console.log("barCode search",response)
+      // return response
 
     } catch (err) {
       console.log('login err', err)
       this.handleError(err)
+    } finally {
+      this.setLoading(false)
     }
   }
 }
 
-export default categoryStore
+export default workerStore

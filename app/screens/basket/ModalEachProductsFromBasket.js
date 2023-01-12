@@ -13,7 +13,7 @@ const {
 } = Dimensions.get('window',)
 
 
-const ModalEachProduct=(props) =>{
+const ModalEachProductsFromBasket=(props) =>{
   const {
     authStore,
     productStore,
@@ -21,21 +21,27 @@ const ModalEachProduct=(props) =>{
   } = useStores()
   const { t, i18n } = useTranslation();
 
-  let name = props?.route?.params?.name || null
+
+  let name = productStore.selectedProducts?.store_product.product?.name || null
+  let price = productStore.selectedProducts?.store_product?.price || null
+  let thumb = productStore.selectedProducts?.store_product.product?.thumb || null
+  let description = productStore.selectedProducts?.store_product.product?.description || null
+  let id = productStore.selectedProducts?.store_product?.id || null
+  console.log('manam',id)
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Image style={{flex:0.4,height:200,borderWidth: 0.8,borderColor:'#C6C6C6',width:200,marginBottom:30}}
              source={{
-               uri: productStore.selectedProducts.product.thumb,
+               uri: thumb,
              }}
              resizeMode="cover"
       />
 
-      <Text style={{flex:0.06,fontSize: 17,fontWeight: 'bold',}}>{productStore.selectedProducts.product.name}</Text>
-      <Text style={{flex:0.06,fontSize: 16}}>{productStore.selectedProducts.product.description}</Text>
+      <Text style={{flex:0.06,fontSize: 17,fontWeight: 'bold',}}>{name}</Text>
+      <Text style={{flex:0.06,fontSize: 16}}>{description}</Text>
       {/*<Text style={{flex:0.06,fontSize: 17,}}>{productStore.selectedProducts.amount}</Text>*/}
       <View style={{flex:0.07,height:60,justifyContent:'center',alignItems:'center',marginBottom:10}}>
-      <Text style={{fontSize: 17,fontWeight: 'bold',color:'#6200EE'}}>{productStore.selectedProducts.price} TL</Text>
+        <Text style={{fontSize: 17,fontWeight: 'bold',color:'#6200EE'}}>{price} TL</Text>
       </View>
       <NumericInput
         value={productStore.quantityOfProduct}
@@ -54,11 +60,11 @@ const ModalEachProduct=(props) =>{
       {/*<Button  onPress={() => navigation.goBack()} title="Close" />*/}
       <Pressable style={purpleButton}
                  onPress={() => {
-                   productStore.setAddProducts({...productStore.selectedProducts,quantityOfProduct:productStore.quantityOfProduct})
+                   // productStore.setAddProducts({...productStore.selectedProducts,quantityOfProduct:productStore.quantityOfProduct})
                    // console.log('selectedp',productStore.selectedProducts)
-                   basketStore.updateBasket(1,productStore.selectedProducts.id,productStore.quantityOfProduct)
+                   basketStore.updateBasket(1,id,productStore.quantityOfProduct)
                    console.log('selectedp',productStore.selectedProducts.id,productStore.quantityOfProduct)
-                   // basketStore.getBasket()
+                   basketStore.getBasket()
 
                    NavigationService.goBack()
                  }}
@@ -80,4 +86,4 @@ const ModalEachProduct=(props) =>{
     </View>
   )
 }
-export default observer(ModalEachProduct)
+export default observer(ModalEachProductsFromBasket)

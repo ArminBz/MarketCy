@@ -13,7 +13,7 @@ import Basket from "../screens/basket/Basket";
 import ModalUserAddress from "../screens/userAddress/ModalUserAddress";
 import ModalReceiveOrder from "../screens/modal/ModalReceiveOrder";
 import WorkerHomePage from "../screens/workerScreens/WorkerHomePage";
-
+import ModalEachProductsFromBasket from "../screens/basket/ModalEachProductsFromBasket";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { BottomNavigation, Text, IconButton } from "react-native-paper";
@@ -58,6 +58,7 @@ const SignedInStack = createNativeStackNavigator()
           <SignedInStack.Screen name="ModalEachProduct" component={ModalEachProduct} options={{ title: ''}}/>
           <SignedInStack.Screen name="ModalUserAddress" component={ModalUserAddress} options={{ title: ''}} />
           <SignedInStack.Screen name="ModalReceiveOrder" component={ModalReceiveOrder} options={{ title: ''}}/>
+          <SignedInStack.Screen name="ModalEachProductsFromBasket" component={ModalEachProductsFromBasket} options={{ title: ''}}/>
 
         </SignedInStack.Group>
       </SignedInStack.Navigator>

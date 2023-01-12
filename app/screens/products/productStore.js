@@ -131,18 +131,22 @@ class productStore {
     for (const value of this.addProducts)
     {
       quantity=value.quantityOfProduct
-      sum += value.price.replace(/[^0-9.]/g, '')*quantity;
+      // sum += value.price.replace(/[^0-9.]/g, '')*quantity;
     }
     return sum;
   }
+
+
+
+
 
 
   orderReceipt = async () => {
     try {
       // this.setLoginLoading(true,)
       // this.setServerError(null,)
-      console.log('user', Stores.userAddressStore.userAddress,this.selectedProducts)
-      let response = await basketReceiptApi(Stores.userAddressStore.userAddress,this.selectedProducts,Stores.authStore.phoneNumber)
+      // console.log('user', Stores.userAddressStore.userAddress,this.selectedProducts)
+      const response = await basketReceiptApi(Stores.userAddressStore.userAddress,this.selectedProducts,Stores.authStore.phoneNumber)
       console.log('receipt response', response,)
     } catch (err) {
 
@@ -170,8 +174,9 @@ class productStore {
 
       // console.log('product',response.items.map(i=> i.product))
       // return response
-      this.setProduct(response.items.map(i=> i.product))
-
+      this.setProduct(response.items)
+      // console.log("man product",response.items.map(i=> i.product))
+      // console.log("man product",response.items)
     } catch (err) {
       console.log('login err', err)
       this.handleError(err)

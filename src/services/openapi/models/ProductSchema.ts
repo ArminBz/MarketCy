@@ -8,8 +8,10 @@ export type ProductSchema = {
     name: string;
     category: CategorySchema;
     description?: string;
-    id?: number;
     attributes?: any;
     thumb?: string;
+    price?: number;
+    discount_price?: number;
+    available?: boolean;
 };
 

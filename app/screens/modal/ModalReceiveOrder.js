@@ -47,7 +47,7 @@ const verticalStaticData: ICheckboxButton[] = [
 
   {
     id: 0,
-    text: "Credit Card",
+    text: "Card",
     fillColor: "#6200EE",
     unfillColor: "#afb5f5",
     iconStyle: _iconStyle("#afb5f5"),
@@ -103,11 +103,16 @@ const ModalReceiveOrder=(props) =>{
     authStore,
     productStore,
     userAddressStore,
+    basketStore,
   } = useStores()
 
 
-  const renderItem = ({item}) =>(
-
+  const renderItem = ({item}) =>{
+    let name = item?.store_product.product?.name || null
+    let price = item?.store_product?.price || null
+    let thumb = item?.store_product.product?.thumb || null
+    let quantity = item.quantity || null
+    return (
                   <View style={{
                     flex: 1,
                     marginBottom: 10,
@@ -120,14 +125,14 @@ const ModalReceiveOrder=(props) =>{
 
                   }} >
                     <View style={{ flex: 1 }}>
-                      <Text style={{ flex: 0.2, fontSize: 14, fontWeight: 'bold', }}>{item.name}</Text>
+                      <Text style={{ flex: 0.2, fontSize: 14, fontWeight: 'bold', }}>{name}</Text>
 
-                      <Text style={{ flex: 0.2, fontSize: 15, fontWeight: 'bold', color: '#6200EE' }}>{item.price}</Text>
-                      <Text style={{ flex: 0.2, fontSize: 12, }}>{item.amount}</Text>
+                      <Text style={{ flex: 0.2, fontSize: 15, fontWeight: 'bold', color: '#6200EE' }}>{price}</Text>
+                      {/*<Text style={{ flex: 0.2, fontSize: 12, }}>{item.amount}</Text>*/}
                     </View>
                     <View style={{ marginTop: 17 }}>
                       <NumericInput
-                        value={item.quantityOfProduct}
+                        value={quantity}
                         onChange={item.setQuantityOfProduct}
                         // onLimitReached={(isMax,msg) => console.log(isMax,msg)}
                         totalWidth={70}
@@ -141,7 +146,8 @@ const ModalReceiveOrder=(props) =>{
                         leftButtonBackgroundColor='#009588' />
                     </View>
                   </View>
-  );
+  )
+  };
 
   const [showAddress, setShowAddress, ] = useState(false)
 
@@ -171,8 +177,8 @@ const ModalReceiveOrder=(props) =>{
       </List.Section>
 <View style={{flex:0.8}}>
       <FlatList
-        extraData={productStore.addProducts}
-        data={productStore.addProducts}
+        extraData={basketStore.basketItems}
+        data={basketStore.basketItems}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
       >
@@ -180,7 +186,7 @@ const ModalReceiveOrder=(props) =>{
 
       <View >
         <View style={{justifyContent:'center',alignItems:'center',alignContent:'center',paddingBottom:10}}>
-          <Text style={{marginBottom:2,marginTop:20,fontSize: 20, fontWeight: 'bold', color: '#6200EE'}}>Total: {productStore.sumOfBasket()}$</Text>
+          <Text style={{marginBottom:2,marginTop:20,fontSize: 20, fontWeight: 'bold', color: '#6200EE'}}>Total: {basketStore.totalPrice} TL</Text>
         </View>
       </View>
         <SafeAreaView
@@ -232,12 +238,11 @@ const ModalReceiveOrder=(props) =>{
           backgroundColor: '#6200EE',
           marginTop:10}}
                    onPress={() => {
+
                      // NavigationService.navigate('UserAddress')
                      // setShowAddress(true)
-                     checkboxState===true && userAddressStore.userAddress!== undefined && userAddressStore.userAddress.length > 0?
-                     sendMessage().then(() => {
-                       console.log('Your message was successfully sent!');
-                     })
+                       checkboxState===true && userAddressStore.userAddress!== undefined && userAddressStore.userAddress.length > 0?
+                       basketStore.checkOut(1,userAddressStore.userAddress,productStore.payment)
                      :  alert("Check the Payment method or add your address")
                    }}
 
