@@ -19,18 +19,21 @@ class workerStore {
       errorMessage: observable,
       showErrMessage: observable,
       loading:observable,
+      searchResult: observable,
 
 
 
       setErrorMessage: action,
       setShowErrMessage: action,
       setLoading:action,
+      setSearchResult: action,
     },)
   }
 
   errorMessage = '';
   showErrMessage = false;
   loading=false;
+  searchResult={};
 
 
 
@@ -42,6 +45,9 @@ class workerStore {
   }
   setLoading = (value) =>{
     this.loading = value
+  }
+  setSearchResult = (value) =>{
+    this.searchResult = value
   }
 
 
@@ -63,8 +69,24 @@ class workerStore {
     try {
       this.setLoading(true)
       const response = await StoreService.adminGetProduct(barCode)
-      console.log("barCode search",response)
-      // return response
+      // console.log("barCode search",response)
+      this.setSearchResult({})
+      this.setSearchResult(response)
+    } catch (err) {
+      console.log('login err', err)
+      this.handleError(err)
+    } finally {
+      this.setLoading(false)
+    }
+  }
+
+
+  adminCreateProduct = async (barCode,price,discount_price,available) => {
+    try {
+      this.setLoading(true)
+      const response = await StoreService.adminCreateProduct(barCode,price,discount_price,available)
+      // console.log("barCode search",response)
+      console.log('add response', response)
 
     } catch (err) {
       console.log('login err', err)

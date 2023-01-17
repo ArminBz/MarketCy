@@ -297,4 +297,31 @@ export class StoreService {
         });
     }
 
+    /**
+     * Create product
+     * Create product
+     * @param formData
+     * @returns Message OK
+     * @throws ApiError
+     */
+    public static adminCreateProduct(
+        formData: {
+            barcode: number;
+            price: number;
+            discount_price?: number;
+            available?: boolean;
+        },
+    ): CancelablePromise<Message> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/store/admin/product',
+            formData: formData,
+            mediaType: 'application/x-www-form-urlencoded',
+            errors: {
+                400: `Bad Request`,
+                401: `Unauthorized`,
+            },
+        });
+    }
+
 }

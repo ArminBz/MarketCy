@@ -39,6 +39,7 @@ const ListOfProducts: () => Node = () =>{
     let name = item?.product?.name || null
     let price = item?.product?.price || null
     let thumb = item?.product?.thumb || null
+    console.log('hhhh',item)
     // console.log('bye',name)
     return (
     <TouchableOpacity style={{
@@ -67,9 +68,22 @@ const ListOfProducts: () => Node = () =>{
         flex: 0.2,
         fontSize: 15,
         fontWeight: 'bold',
-        color: '#6200EE',
-        marginBottom: 5
+        marginBottom: 5,
+        color: item.discount_price!==null ? 'red' : '#6200EE',
+        textDecorationLine: item.discount_price!==null ? 'line-through' :'',
+        textDecorationStyle: item.discount_price!==null ? 'solid':''
       }}>{price} TL</Text>
+      { item.discount_price!==null ?
+        <Text style={{
+          flex: 0.2,
+          fontSize: 15,
+          fontWeight: 'bold',
+          color: '#6200EE',
+          marginBottom: 5
+        }}>{item.discount_price} TL</Text>
+        : null
+      }
+
       {/*<Text style={{flex:0.2,fontSize: 12}}>{item.amount}</Text>*/}
 
       <View style={{

@@ -127,7 +127,18 @@ const ModalReceiveOrder=(props) =>{
                     <View style={{ flex: 1 }}>
                       <Text style={{ flex: 0.2, fontSize: 14, fontWeight: 'bold', }}>{name}</Text>
 
-                      <Text style={{ flex: 0.2, fontSize: 15, fontWeight: 'bold', color: '#6200EE' }}>{price}</Text>
+                      <Text style={{ flex: 0.2, fontSize: 15, fontWeight: 'bold',color: item.store_product.discount_price!==null ? 'red' : '#6200EE',
+                        textDecorationLine: item.store_product.discount_price!==null ? 'line-through' :'',
+                        textDecorationStyle: item.store_product.discount_price!==null ? 'solid':''}}>{price}</Text>
+                      {item.store_product.discount_price !== null ?
+                        <Text style={{
+                          flex: 0.2,
+                          fontSize: 15,
+                          fontWeight: 'bold',
+                          color: '#6200EE'
+                        }}>{item.store_product.discount_price}</Text>
+                        : null
+                      }
                       {/*<Text style={{ flex: 0.2, fontSize: 12, }}>{item.amount}</Text>*/}
                     </View>
                     <View style={{ marginTop: 17 }}>

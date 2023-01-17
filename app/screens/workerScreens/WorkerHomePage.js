@@ -10,7 +10,7 @@ import {
   View,
   Image,
   StyleSheet,
-  Pressable, ActivityIndicator,
+  Pressable, ActivityIndicator, TextInput, Switch,
 } from "react-native";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
@@ -18,20 +18,34 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import Button from "../../components/Button";
 import Background from "../../components/Background";
 import { useStores } from "../../store";
+import { greenButton, INPUT, purpleButton } from "../../style";
+import NavigationService from "../../router/NavigationService";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 const {
   height, width,
 } = Dimensions.get('window',)
 
+
 const WorkerHomePage: () => Node = () =>{
 
   const {
     workerStore,
-    basketStore
+    basketStore,
+    authStore
   } = useStores()
 
-  const chechScanResult = () => {
-    workerStore.getProductByBarcode(result.data)
+
+  const toggleSwitch = () => {
+    setCheckboxState(previousState => !previousState)
+  }
+  let bouncyCheckboxRef: BouncyCheckbox | null = null;
+  const [checkboxState, setCheckboxState] = React.useState(true);
+
+
+  const chechScanResult = (data) => {
+    setBarcode(data)
+    workerStore.getProductByBarcode(data)
   }
 
   // useEffect(()=>{
@@ -40,19 +54,18 @@ const WorkerHomePage: () => Node = () =>{
 
   const [scan, setScan] = React.useState(false);
   const [ScanResult, setScanResult] = React.useState(false);
-  const [result, setResult] = React.useState(null);
+  const [barcode, setBarcode] = React.useState(0);
 
-const onSuccess = (e) => {
+const onSuccess = async (e) => {
   const check = e.data.substring(0, 4);
-  setScanResult(true)
-  setScan(false)
-  setResult(0)
   if (check === 'http') {
     Linking.openURL(e.data).catch(err =>
       console.error('An error occured', err)
     );
   } else {
-    setResult(e)
+
+    console.log('e',e.data)
+    await chechScanResult(e.data)
     setScan(false)
     setScanResult(true)
   }
@@ -67,43 +80,8 @@ const scanAgain = () => {
 
   const { t, i18n } = useTranslation();
 
-  const {
-    authStore,
-  } = useStores()
 
-  const [text, setText] = React.useState("");
   return (
-    // <View style={{flex:1}}>
-    //   <List.Section>
-    //     <List.Subheader>{t("Number")}</List.Subheader>
-    //     <View style={{top: 10,
-    //       width: width - 40,
-    //       left: 20,
-    //       zIndex: 99,}}>
-    //       <TextInput
-    //         mode={'outlined'}
-    //         label={authStore.phoneNumber}
-    //         value={text}
-    //         onChangeText={text => setText(text)}
-    //         disabled
-    //         inlineImageLeft='search_icon'
-    //       />
-    //     </View>
-    //     <List.Subheader style={{paddingTop:30}}>{t('Products')}</List.Subheader>
-    //     <List.Item
-    //       onPress={() => NavigationService.navigate('ModalUserAddress')}
-    //       title={t("Set Address")}
-    //       left={() => <List.Icon color="#000" icon="home" />}
-    //     />
-    //     <List.Item
-    //       onPress={() => authStore.onSignOut()}
-    //       title={t("Log out")}
-    //       left={() => <List.Icon color="#000" icon="logout" />}
-    //     />
-    //   </List.Section>
-    // </View>
-
-
     <View style={styles.scrollViewStyle}>
       <Fragment>
         <View style={styles.header}>
@@ -126,22 +104,107 @@ const scanAgain = () => {
           </View>
         }
         {ScanResult &&
-          <Fragment>
-          <View>
-            <Text style={styles.textTitle1}>Result</Text>
-            <View style={ScanResult ? styles.scanCardView : styles.cardView}>
-              <Text>Type : {result.type}</Text>
-              <Text>Result : {result.data}</Text>
-              <Text numberOfLines={1}>RawData: {result.rawData}</Text>
+
+            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+              <Image style={{height:200,borderWidth: 0.8,borderColor:'#C6C6C6',width:200,marginBottom:10}}
+                     source={{
+                       uri: workerStore.searchResult.thumb,
+                     }}
+                     resizeMode="cover" />
+              <Text style={{fontSize: 17,fontWeight: 'bold',marginBottom:1}}>{workerStore.searchResult.name}</Text>
+              <Text style={{fontSize: 16}}>{workerStore.searchResult.description}</Text>
+              {/*<Text style={{flex:0.06,fontSize: 17,}}>{productStore.selectedProducts.amount}</Text>*/}
+              <View style={{height:90}}>
+
+                <View style={{flex: 1,
+                  flexDirection: 'row',
+                  width: '50%',
+                  textAlign: "left",
+                  display: 'flex',
+                  justifyContent: "space-between",
+                  alignItems: "center"}}>
+                  <Text style={{fontSize: 14,fontWeight: 'bold',color:'#6200EE'}}> Price: </Text>
+                <TextInput
+                  style={{height: 40,
+                    margin: 12,
+                    borderWidth: 1,
+                    padding: 10,
+                    color:'#4700AE',
+                    fontSize:20}} onChangeText={workerStore.setSearchResult.price}
+                  value={workerStore.searchResult.price}>
+                  {workerStore.searchResult.price}
+                </TextInput>
+                  <Text style={{fontSize: 14,fontWeight: 'bold',color:'#6200EE',left:-10}}> TL </Text>
+                  <Text style={{fontSize: 14,fontWeight: 'bold',color:'#6200EE',paddingLeft:30}}>Discount Price: </Text>
+                <TextInput
+                  style={INPUT} onChangeText={workerStore.setSearchResult.discount_price}
+                  value={workerStore.searchResult.discount_price}>
+                  {workerStore.searchResult.discount_price}
+                </TextInput>
+                </View>
+                {/*<TextInput*/}
+                {/*  style={INPUT}*/}
+                {/*  onChangeText={(j)=>console.log("jj",j)}*/}
+                {/*  value={workerStore.searchResult.price}*/}
+                {/*  // placeholder={workerStore.searchResult.price}*/}
+                {/*  keyboardType="numeric"*/}
+                {/*/>*/}
+                <Text style={{fontSize: 14,fontWeight: 'bold',color:'#6200EE',position:'absolute',right:-15,bottom:35}}> TL </Text>
+
+              </View>
+              <View
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  paddingBottom:20
+                }}
+              >
+
+                <Switch
+                  trackColor={{false: '#767577', true: '#81b0ff'}}
+                  thumbColor={checkboxState ? '#f5dd4b' : '#f4f3f4'}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={toggleSwitch}
+                  value={checkboxState}
+                />
+              </View>
+              <View>
+              <Pressable style={{alignItems: 'center',
+                justifyContent: 'center',
+                paddingVertical: 12,
+                paddingHorizontal: 46,
+                borderRadius: 8,
+                elevation: 3,
+                backgroundColor: '#6200EE',
+                marginTop:2}}
+                         onPress={() => {
+                           workerStore.adminCreateProduct(barcode,workerStore.searchResult.price,workerStore.searchResult.discount_price,checkboxState)
+                           setScanResult(false)
+                         }}
+              >
+                <Text style={{ fontSize: 16,
+                  lineHeight: 21,
+                  fontWeight: 'bold',
+                  letterSpacing: 0.25,
+                  color: 'white', }}> {t('Add')}</Text>
+              </Pressable>
+              <Pressable style={greenButton} onPress={() => setScanResult(false)}>
+                <Text style={{ fontSize: 16,
+                  lineHeight: 21,
+                  fontWeight: 'bold',
+                  letterSpacing: 0.25,
+                  color: 'white', }}>{t('Close')}</Text>
+              </Pressable>
+              </View>
+
+
               <TouchableOpacity onPress={scanAgain} style={styles.buttonScan}>
                 <View style={styles.buttonWrapper}>
                   <Image source={require('./../../assets/camera.png')} style={{height: 36, width: 36}}></Image>
                   <Text style={{...styles.buttonTextStyle, color: '#6200EE'}}>Click to scan again</Text>
                 </View>
               </TouchableOpacity>
-            </View>
           </View>
-          </Fragment>
         }
         {scan &&
           <QRCodeScanner
@@ -154,31 +217,19 @@ const scanAgain = () => {
                 Please move your camera {"\n"} over the QR Code
               </Text>
             }
-            bottomContent={
-              <View>
-                <ImageBackground source={require('./../../assets/bottom-panel.png')} style={styles.bottomContent}>
-                  <TouchableOpacity style={styles.buttonScan2}
-                                    onPress={() => this.scanner.reactivate()}
-                                    onLongPress={() => setScan(false)}>
-                    <Image source={require('./../../assets/camera2.png')}></Image>
-                  </TouchableOpacity>
-                </ImageBackground>
-              </View>
-
-            }
           />
         }
       </Fragment>
         <Background>
           <Button
-            style={{ marginTop: 30 }}
+            style={{ marginTop: 1 }}
             mode="contained"
             onPress={() => authStore.onSignOut()}
           >
             {t('LogOut')}
           </Button>
         </Background>
-      {basketStore.loading ? (
+      {workerStore.loading ? (
         <View style={{
           position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center',
         }} >
@@ -187,7 +238,7 @@ const scanAgain = () => {
             color="#6200EE"
           />
         </View> ) :null}
-      { ScanResult ? chechScanResult():null }
+      {/*{ apiCall ? chechScanResult(): setApiCall(false) }*/}
     </View>
    )
 }
@@ -257,11 +308,12 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 10,
     borderColor: 'white',
-    paddingTop: 5,
+    paddingTop: 1,
     paddingRight: 25,
-    paddingBottom: 5,
+    paddingBottom: 1,
     paddingLeft: 25,
-    marginTop: 20
+    marginTop: 20,
+    alignItems: 'center',
   },
   buttonScan2: {
     marginLeft: width / 2 - 50,
@@ -278,11 +330,11 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   centerText: {
-    flex: 1,
+    flex:1,
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: 13,
     padding: 32,
-    color: 'white',
+    color: 'black',
   },
   textBold: {
     fontWeight: '500',
