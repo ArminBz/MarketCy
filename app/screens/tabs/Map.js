@@ -319,12 +319,12 @@ const Map: () => Node = () =>{
 
           );
         })}
-        <Marker
-          coordinate={{
-            latitude: userLocationStore.latitude,
-            longitude: userLocationStore.longitude,
-          }}>
-        </Marker>
+        {/*<Marker*/}
+        {/*  coordinate={{*/}
+        {/*    latitude: userLocationStore.latitude,*/}
+        {/*    longitude: userLocationStore.longitude,*/}
+        {/*  }}>*/}
+        {/*</Marker>*/}
 
       </MapView>
 

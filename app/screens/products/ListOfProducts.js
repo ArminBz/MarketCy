@@ -28,9 +28,9 @@ const ListOfProducts: () => Node = () =>{
 
 
   const renderItemHeader = ({item}) => (
-    <TouchableOpacity style={{borderWidth: 10,borderColor: '#F2F2F2'}}>
-      <View style={{borderColor:'#C6C6C6',borderWidth:1,borderRadius:5}}>
-        <Text style={{fontSize: 13, fontWeight: 'bold',color:'#6200EE',borderWidth: 8,borderColor: '#F2F2F2'}} >{item.name}</Text>
+    <TouchableOpacity style={{borderWidth:6,borderColor: '#F2F2F2'}}>
+      <View style={{borderWidth:1,borderColor:'#C6C6C6',borderRadius:1,height:40,backgroundColor:'#F2F2F2'}}>
+        <Text style={{fontSize: 13, fontWeight: 'bold',color:'#6200EE',borderWidth: 2,borderColor: '#F2F2F2',textAlign: 'center',height: 35,lineHeight: 35, justifyContent: 'center', alignItems: 'center',}} >{item.name}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -39,8 +39,6 @@ const ListOfProducts: () => Node = () =>{
     let name = item?.product?.name || null
     let price = item?.product?.price || null
     let thumb = item?.product?.thumb || null
-    console.log('hhhh',item)
-    // console.log('bye',name)
     return (
     <TouchableOpacity style={{
       flex: 1,

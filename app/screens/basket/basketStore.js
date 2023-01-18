@@ -86,7 +86,6 @@ class basketStore {
       this.setBasketItems(response.items)
       this.setTotalPrice(response.total_price)
       this.setQuantityFromBack(response.items.quantity)
-      console.log("annn",response.items)
     } catch (err) {
       console.log('login err', err)
       this.handleError(err)

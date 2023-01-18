@@ -63,7 +63,7 @@ const ModalEachProduct=(props) =>{
                    productStore.setAddProducts({...productStore.selectedProducts,quantityOfProduct:productStore.quantityOfProduct})
                    // console.log('selectedp',productStore.selectedProducts)
                    basketStore.updateBasket(1,productStore.selectedProducts.id,productStore.quantityOfProduct)
-                   console.log('selectedp',productStore.selectedProducts.id,productStore.quantityOfProduct)
+                   // console.log('selectedp',productStore.selectedProducts.id,productStore.quantityOfProduct)
                    // basketStore.getBasket()
 
                    NavigationService.goBack()

@@ -19,10 +19,12 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import { BottomNavigation, Text, IconButton } from "react-native-paper";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import Logo from '../components/Logo'
-import { Button, Image, SafeAreaView, TouchableOpacity, View } from "react-native";
+import { Button, Dimensions, Image, SafeAreaView, TouchableOpacity, View } from "react-native";
 import NavigationService from "./NavigationService";
 import { useTranslation } from "react-i18next";
-
+const {
+  height, width,
+} = Dimensions.get('window',)
 const SignedInStack = createNativeStackNavigator()
 
   export const SignedInStackScreen = ()=> {
@@ -120,19 +122,21 @@ export const TabStackScreen = ()=> {
     const [index, setIndex] = React.useState(2);
     const [routes] = React.useState([
       { key: 'markets', title: t('Markets'),focusedIcon: 'warehouse',unfocusedIcon: 'home-outline',color: '#6203EC' },
-      { key: 'search', title: t('Search'),focusedIcon:'magnify',unfocusedIcon: 'magnify-outline',color: '#3F51B5'},
+      { key: 'search', title: t('Search'),focusedIcon:'magnify',color: '#3F51B5'},
       { key: 'map', focusedIcon:({})=>(
           <View style={{justifyContent: 'center', alignItems: 'center',shadowColor: "#6203EC",
             shadowOpacity: 2,
             shadowRadius: 30,
+            height:35,
+            width:30,
             shadowOffset: {
               height: 2,
-              width: 2
+              width: 2,
             } }}>
 
-            <Image source={require('../assets/CYMARKET.jpg',)} style={{ width: 80,
-              height: 70,
-            borderRadius:35,borderWidth:2,borderColor:'#5E89A2'}} />
+            <Image source={require('../assets/buttomIcon.png',)} style={{ width: 80,
+              height: 51,
+            borderRadius:5,borderWidth:2,borderColor:'#5E89A2',resizeMode: 'center'}} />
           </View>
         ),color: '#2A2A2A'},
       { key: 'offer', title: t('Offer'),focusedIcon: 'star',unfocusedIcon: 'star-outline',color: '#009688'},
@@ -151,7 +155,7 @@ export const TabStackScreen = ()=> {
         navigationState={{ index, routes }}
         onIndexChange={setIndex}
         renderScene={renderScene}
-        barStyle={{ backgroundColor: '#6200EE'}}
+        barStyle={{ backgroundColor: '#6200EE' }}
       />
     //   <TabStack.Navigator useLegacyImplementation={true} drawerContent={(props,) => <DrawerNav {...props} />}>
     //       <TabStack.Screen name="Home" component={Home} options={{

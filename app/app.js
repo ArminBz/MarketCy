@@ -5,7 +5,7 @@ import { SignedInStackScreen, SignedOutStackScreen, TabStackScreen, WorkerStackS
 import { observer } from "mobx-react";
 import { createNativeStackNavigator, } from '@react-navigation/native-stack'
 import {
-  AppState, Platform, View, SafeAreaView, Pressable, Text,
+  AppState, Platform, View, SafeAreaView, Pressable, Text,SafeAreaViewComponent
 } from "react-native";
 import { navigationRef, } from './router/NavigationService'
 import { useEffect, useState } from "react";
@@ -92,6 +92,7 @@ const App: () => Node = () => {
       </NavigationContainer>
 
     </View>
+
   )
 
 }

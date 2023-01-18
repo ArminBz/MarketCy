@@ -58,7 +58,6 @@ const Basket: () => Node = () =>{
     let thumb = item?.store_product.product?.thumb || null
     let quantity = item.quantity || null
     let id = item?.store_product?.id || null
-    console.log('ff',item)
     return (
     <ScrollView>
 

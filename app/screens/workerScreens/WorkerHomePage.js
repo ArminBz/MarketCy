@@ -125,22 +125,28 @@ const scanAgain = () => {
                   alignItems: "center"}}>
                   <Text style={{fontSize: 14,fontWeight: 'bold',color:'#6200EE'}}> Price: </Text>
                 <TextInput
+                  keyboardType="numeric"
                   style={{height: 40,
                     margin: 12,
                     borderWidth: 1,
                     padding: 10,
                     color:'#4700AE',
-                    fontSize:20}} onChangeText={workerStore.setSearchResult.price}
-                  value={workerStore.searchResult.price}>
-                  {workerStore.searchResult.price}
-                </TextInput>
+                    fontSize:20}}
+                  onChangeText={workerStore.setSearchResult.price}
+                  placeholder={workerStore.searchResult.price}
+                  value={workerStore.searchResult.price}
+                  /*{workerStore.searchResult.price}*/
+                />
                   <Text style={{fontSize: 14,fontWeight: 'bold',color:'#6200EE',left:-10}}> TL </Text>
                   <Text style={{fontSize: 14,fontWeight: 'bold',color:'#6200EE',paddingLeft:30}}>Discount Price: </Text>
                 <TextInput
+                  keyboardType="numeric"
                   style={INPUT} onChangeText={workerStore.setSearchResult.discount_price}
-                  value={workerStore.searchResult.discount_price}>
-                  {workerStore.searchResult.discount_price}
-                </TextInput>
+                  placeholder={workerStore.searchResult.discount_price}
+                  value={workerStore.searchResult.discount_price}
+
+                  /*{workerStore.searchResult.discount_price}*/
+                />
                 </View>
                 {/*<TextInput*/}
                 {/*  style={INPUT}*/}
@@ -275,7 +281,7 @@ const styles = StyleSheet.create({
   },
   cardView: {
     width: width - 32,
-    height: height - 350,
+    height: height - 300,
     alignSelf: 'center',
     justifyContent: 'flex-start',
     alignItems: 'center',

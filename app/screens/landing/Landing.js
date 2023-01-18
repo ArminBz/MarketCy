@@ -15,7 +15,7 @@ const Landing: () => Node = () => {
     <Image
       testID="logoImage"
       style={{
-        width:width/2, height:height/2
+        width:width, height:height,resizeMode: 'center'
       }}
       source={require('../../assets/Icon-marketing-1024x1024.png',)}
     />
