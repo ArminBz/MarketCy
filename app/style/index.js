@@ -11,7 +11,7 @@ export const INPUT = {
     borderWidth: 1,
     padding: 10,
     color:'#4700AE',
-    fontSize:20
+    fontSize:17
 }
 export const purpleButton= {
     alignItems: 'center',

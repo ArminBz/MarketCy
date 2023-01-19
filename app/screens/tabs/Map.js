@@ -119,6 +119,7 @@ const Map: () => Node = () =>{
     }
   }
 
+
   useEffect(()=>{
     requestFirebasePushNotificationPermission()
     categoryStore.getCategory()
@@ -162,15 +163,16 @@ const Map: () => Node = () =>{
         // do something if granted...
       }
     }
-
     if (Platform.OS === 'android') {
       PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       );
-      // if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      //   // do something if granted...
-      // }
+      if ('granted' === PermissionsAndroid.RESULTS.GRANTED) {
+        // do something if granted...
+      }
     }
+
+
   },[])
   const interpolations =markers.map((marker, index) => {
     const inputRange = [
@@ -195,96 +197,6 @@ const Map: () => Node = () =>{
   return (
     <View style={{flex:1}}>
 
-      {/*<MapView*/}
-      {/*  style={{flex:0.8}}*/}
-      {/*  provider={PROVIDER_GOOGLE}*/}
-      {/*  showsUserLocation={true}*/}
-      {/*  //specify our coordinates.*/}
-      {/*  region={{*/}
-      {/*    latitude: authStore.latitude,*/}
-      {/*    longitude: authStore.longitude,*/}
-      {/*    latitudeDelta: 0.009,*/}
-      {/*    longitudeDelta: 0.05,*/}
-      {/*  }}*/}
-      {/*  initialRegion={{*/}
-      {/*    latitude: authStore.latitude,*/}
-      {/*    longitude: authStore.longitude,*/}
-      {/*    latitudeDelta: 0.0922,*/}
-      {/*    longitudeDelta:0.0922+(width / height) ,*/}
-      {/*  }}*/}
-      {/*  onRegionChange={() => {*/}
-      {/*    Keyboard.dismiss()*/}
-      {/*  }}*/}
-      {/*  zoomEnabled = {true}*/}
-      {/*  showsMyLocationButton = {true}*/}
-      {/*  followUserLocation = {true}*/}
-      {/*  customMapStyle={customStyle}*/}
-      {/*  loadingEnabled*/}
-      {/*  loadingIndicatorColor="#6200EE"*/}
-      {/*  loadingBackgroundColor="#6200EE"*/}
-      {/*>*/}
-      {/*  <Marker*/}
-
-      {/*    coordinate={{*/}
-      {/*      latitude: authStore.latitude,*/}
-      {/*      longitude: authStore.longitude,*/}
-      {/*    }}>*/}
-      {/*  </Marker>*/}
-      {/*  <Marker*/}
-      {/*    title={'Unimar Market'}*/}
-      {/*    coordinate={{*/}
-      {/*      latitude: 35.27917321575899,*/}
-      {/*      longitude: 33.896278512958624,*/}
-      {/*    }}*/}
-      {/*    onPress={() => NavigationService.navigate('ListOfProducts')}*/}
-      {/*  />*/}
-      {/*  <Marker*/}
-      {/*    title={'Caesar Market'}*/}
-      {/*    coordinate={{*/}
-      {/*      latitude: 35.26096078233671,*/}
-      {/*      longitude: 33.90240328181233,*/}
-      {/*    }}*/}
-      {/*    onPress={() => NavigationService.navigate('ListOfProducts')}*/}
-      {/*  />*/}
-
-      {/*  <GooglePlacesAutocomplete*/}
-      {/*    placeholder='Search'*/}
-      {/*    onPress={(data, details = null) => {*/}
-      {/*      // 'details' is provided when fetchDetails = true*/}
-      {/*      console.log("hello",data, details);*/}
-      {/*    }}*/}
-      {/*    query={{*/}
-      {/*      key: 'AIzaSyCgh828ccjvUAg1i1OZDmbPaMlSdkZrBqM',*/}
-      {/*      language: 'en',*/}
-      {/*    }}*/}
-
-
-      {/*  />*/}
-      {/*</MapView>*/}
-
-
-
-
-
-      {/*<View style={{flex:0.5}}>*/}
-      {/*      /!*<MapView*!/*/}
-
-      {/*      /!*         showsUserLocation={true}*!/*/}
-      {/*      /!*>*!/*/}
-      {/*      /!*</MapView>*!/*/}
-      {/*  <ScrollView>*/}
-      {/*      <List.Section>*/}
-      {/*        <List.Subheader>Markets</List.Subheader>*/}
-      {/*        <List.Item onPress={() => NavigationService.navigate('ListOfProducts')} title="caesar market" left={() => <List.Icon icon="store"  />} />*/}
-      {/*        <List.Item onPress={() => NavigationService.navigate('ListOfProducts')} title="Noyanlar market" left={() => <List.Icon icon="store" />}/>*/}
-      {/*        <List.Item onPress={() => NavigationService.navigate('ListOfProducts')} title="abdo" left={() => <List.Icon icon="store" />}/>*/}
-      {/*        <List.Item onPress={() => NavigationService.navigate('ListOfProducts')} title="golseren market" left={() => <List.Icon icon="store" />}/>*/}
-      {/*        <List.Item onPress={() => NavigationService.navigate('ListOfProducts')} title="bogaz market" left={() => <List.Icon icon="store" />} />*/}
-      {/*      </List.Section>*/}
-      {/*  </ScrollView>*/}
-      {/*</View>*/}
-
-
       <MapView
         // provider={PROVIDER_GOOGLE}
         ref={mapRef}
@@ -294,6 +206,7 @@ const Map: () => Node = () =>{
         // annotations={markers}
         customMapStyle={CustomMapStyle}
         loadingEnabled
+        showUserLocationButton={true}
       >
         {markers.map((marker, index) => {
 
@@ -316,18 +229,9 @@ const Map: () => Node = () =>{
                 </Animated.View>
               </TouchableOpacity>
             </Marker>
-
           );
         })}
-        {/*<Marker*/}
-        {/*  coordinate={{*/}
-        {/*    latitude: userLocationStore.latitude,*/}
-        {/*    longitude: userLocationStore.longitude,*/}
-        {/*  }}>*/}
-        {/*</Marker>*/}
-
       </MapView>
-
 
 
       <Animated.ScrollView

@@ -63,7 +63,6 @@ const onSuccess = async (e) => {
       console.error('An error occured', err)
     );
   } else {
-
     console.log('e',e.data)
     await chechScanResult(e.data)
     setScan(false)
@@ -90,7 +89,7 @@ const scanAgain = () => {
           </TouchableOpacity>
           <Text style={styles.textTitle}>Scan QR Code</Text>
         </View>
-        {!scan && !ScanResult &&
+        {!scan && !ScanResult ?
           <View style={styles.cardView} >
             <Image source={require('./../../assets/camera.png')} style={{height: 36, width: 36}}></Image>
             <Text numberOfLines={8} style={styles.descText}>Please move your camera {"\n"} over the QR Code</Text>
@@ -101,9 +100,9 @@ const scanAgain = () => {
                 <Text style={{...styles.buttonTextStyle, color: 'white'}}>Scan QR Code</Text>
               </View>
             </TouchableOpacity>
-          </View>
+          </View> : null
         }
-        {ScanResult &&
+        {ScanResult ?
 
             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
               <Image style={{height:200,borderWidth: 0.8,borderColor:'#C6C6C6',width:200,marginBottom:10}}
@@ -125,15 +124,15 @@ const scanAgain = () => {
                   alignItems: "center"}}>
                   <Text style={{fontSize: 14,fontWeight: 'bold',color:'#6200EE'}}> Price: </Text>
                 <TextInput
-                  keyboardType="numeric"
-                  style={{height: 40,
+                  style={{
                     margin: 12,
                     borderWidth: 1,
                     padding: 10,
                     color:'#4700AE',
                     fontSize:20}}
                   onChangeText={workerStore.setSearchResult.price}
-                  placeholder={workerStore.searchResult.price}
+                  keyboardType='decimal-pad'
+                  placeholder={workerStore.priceToString}
                   value={workerStore.searchResult.price}
                   /*{workerStore.searchResult.price}*/
                 />
@@ -142,10 +141,8 @@ const scanAgain = () => {
                 <TextInput
                   keyboardType="numeric"
                   style={INPUT} onChangeText={workerStore.setSearchResult.discount_price}
-                  placeholder={workerStore.searchResult.discount_price}
+                  placeholder={workerStore.discountPriceToString}
                   value={workerStore.searchResult.discount_price}
-
-                  /*{workerStore.searchResult.discount_price}*/
                 />
                 </View>
                 {/*<TextInput*/}
@@ -210,9 +207,9 @@ const scanAgain = () => {
                   <Text style={{...styles.buttonTextStyle, color: '#6200EE'}}>Click to scan again</Text>
                 </View>
               </TouchableOpacity>
-          </View>
+          </View> : null
         }
-        {scan &&
+        {scan ?
           <QRCodeScanner
             reactivate={true}
             showMarker={true}
@@ -223,7 +220,7 @@ const scanAgain = () => {
                 Please move your camera {"\n"} over the QR Code
               </Text>
             }
-          />
+          /> : null
         }
       </Fragment>
         <Background>

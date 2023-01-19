@@ -13,23 +13,23 @@ class userLocationStore {
     makeObservable(this, {
 
 
-      setLatitude:action,
-      setLongitude:action,
+      // position:observable,
+
+
+
+
+
 
 
     },)
   }
 
-  latitude:0
-  longitude:0
+  l
 
 
-  setLatitude = (value) =>{
-    this.latitude = value
-  }
-  setLongitude = (value) =>{
-    this.longitude = value
-  }
+  // setPosition = (value) =>{
+  //   this.position = value
+  // }
 
 }
 

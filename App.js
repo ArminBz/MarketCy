@@ -8,7 +8,7 @@ import { MD3LightTheme, MD3DarkTheme, Provider as PaperProvider, MD2LightTheme }
 const MaterialLightTheme = {
   ...MD2LightTheme,
   "colors": {
-    "primary": "rgb(17, 96, 164)",
+    "primary": "#6200EE",
     "onPrimary": "rgb(255, 255, 255)",
     "primaryContainer": "rgb(211, 228, 255)",
     "onPrimaryContainer": "rgb(0, 28, 56)",

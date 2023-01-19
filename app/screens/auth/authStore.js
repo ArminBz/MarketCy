@@ -183,6 +183,7 @@ class AuthStore {
                 // console.log("is it",response.user.store.name)
                 // if (response.user?.store?.name)
                     this.setUserLogin(response.api_key, response.user)
+                this.checkIsSignedIn()
                     this.setLoggedIn(true,)
                     return response.user;
 
