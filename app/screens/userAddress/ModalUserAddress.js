@@ -27,7 +27,12 @@ const ModalUserAddress=(props) =>{
 
   const {
     userAddressStore,
+    authStore,
   } = useStores()
+
+  // useEffect(()=>{
+  //
+  // }, [],)
 
   const [showAddress, setShowAddress, ] = useState(false)
 
@@ -71,9 +76,11 @@ const ModalUserAddress=(props) =>{
   bottom:40,
   left:60,right:60}}>
       <Pressable style={purpleButton}
-                 onPress={() => {
-                   alert(t("you have Entered successfully") )
-                   NavigationService.goBack()
+                 onPress={async () => {
+                   // alert(t("you have Entered successfully") )
+                  await userAddressStore.addAddresses()
+                   // NavigationService.goBack()
+                  await authStore.getUser()
                    setShowAddress(true)
                  }}
 

@@ -53,7 +53,7 @@ const Search = (props) => {
 
   return (
     <View style={{flex:1}}>
-      <View style={{paddingBottom:10}}>
+      <View style={{paddingBottom:10,paddingTop:10}}>
       <Searchbar
         placeholdert="Search Products"
         onChangeText={onChangeSearch}

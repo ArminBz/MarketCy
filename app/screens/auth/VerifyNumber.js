@@ -50,6 +50,7 @@ const VerifyNumber: () => Node = () =>{
       >
         {t('Check')}
       </Button>
+
       <Button
         style={{marginBottom:220}}
         mode="outlined"

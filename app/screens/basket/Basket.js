@@ -40,6 +40,7 @@ const Basket: () => Node = () =>{
 
   useEffect(()=>{
     basketStore.getBasket()
+    authStore.getUser()
   }, [],)
 
 
@@ -94,10 +95,10 @@ const Basket: () => Node = () =>{
         <View style={{ flex: 0.6 }}>
           <Text style={{ flex: 0.2, fontSize: 14, fontWeight: 'bold', }}>{name}</Text>
 
-          <Text style={{ flex: 0.2, fontSize: 15, fontWeight: 'bold', color: item.store_product.discount_price!==null ? 'red' : '#6200EE',
-            textDecorationLine: item.store_product.discount_price!==null ? 'line-through' :'',
-            textDecorationStyle: item.store_product.discount_price!==null ? 'solid':'' }}>{price}</Text>
-          {item.store_product.discount_price !== null ?
+          <Text style={{ flex: 0.2, fontSize: 15, fontWeight: 'bold', color: item.store_product.discount_price!==null && item.store_product.discount_price!==0 ? 'red' : '#6200EE',
+            textDecorationLine: item.store_product.discount_price!==null && item.store_product.discount_price!==0 ? 'line-through' :'',
+            textDecorationStyle: item.store_product.discount_price!==null && item.store_product.discount_price!==0 ? 'solid':'' }}>{price}</Text>
+          {item.store_product.discount_price !== null && item.store_product.discount_price!==0 ?
             <Text style={{
               flex: 0.2,
               fontSize: 15,
@@ -110,29 +111,62 @@ const Basket: () => Node = () =>{
           {/*<Text style={{ flex: 0.2, fontSize: 12, }}>{item.amount}</Text>*/}
         </View>
         <View>
-          {/*<TextInput*/}
+          <TextInput
+            style={{
+              margin: 12,
+              borderColor:'#E9E9E9',
+              borderWidth: 2,
+              padding: 10,
+              color:'#4700AE',
+              fontSize:15,
+            height:35,width:55,textAlign:'center'}}
+            keyboardType = 'numeric'
+            placeholder={quantity.toString()}
+            placeholderTextColor="#6200EE"
+            editable={false}
+            selectTextOnFocus={false}
+            value = {quantity}
+          />
+          {/*<NumericInput*/}
+          {/*  value={quantity}*/}
+          {/*  // onLimitReached={(isMax,msg) => console.log(isMax,msg)}*/}
+          {/*  totalWidth={70}*/}
+          {/*  totalHeight={30}*/}
+          {/*  iconSize={25}*/}
 
-          {/*  keyboardType = 'numeric'*/}
-          {/*  onChange={(value:quantity) => quantity=value}*/}
-          {/*  value = {quantity}*/}
-          {/*/>*/}
-          <NumericInput
-            value={quantity}
-            onLimitReached={(isMax,msg) => console.log(isMax,msg)}
-            totalWidth={70}
-            totalHeight={30}
-            iconSize={25}
-            step={1}
-            rounded
-            textColor='#6200EE'
-            iconStyle={{ color: 'white' }}
-            rightButtonBackgroundColor='#6200EE'
-            leftButtonBackgroundColor='#009588' />
+          {/*  type={"up-down"}*/}
+          {/*  textColor='#6200EE'*/}
+          {/*  iconStyle={{ color: 'white' }}*/}
+          {/*  editable={false}*/}
+          {/*  rightButtonBackgroundColor='#6200EE'*/}
+          {/*  leftButtonBackgroundColor='#009588' />*/}
           <Button onPress={() => {
             basketStore.deleteBasketItem(1,id)
             basketStore.getBasket()
-          }}> <Icon name={'trash'} size={20}/></Button>
+          }}> <Icon name={'trash'} size={20} color={"#6200EE"}/></Button>
+
+          <View style={{ alignItems: 'center',
+            justifyContent: 'center',
+            height:25,
+            width:30,
+            borderRadius: 8,
+            elevation: 3,
+            backgroundColor: '#6200EE',
+            textAlign:'center',
+            position:'absolute',
+            right:70,
+            top:80
+          }}
+          >
+            <Text style={{ fontSize: 12,
+
+              fontWeight: 'bold',
+
+              color: 'white', }}> {t('Edit')}</Text>
+          </View>
         </View>
+
+
       </TouchableOpacity>
     </ScrollView>
     )

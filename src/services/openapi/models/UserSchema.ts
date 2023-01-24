@@ -11,5 +11,6 @@ export type UserSchema = {
     phone?: string;
     email?: string;
     store?: StoreSchema;
+    addresses?: Array<any>;
 };
 

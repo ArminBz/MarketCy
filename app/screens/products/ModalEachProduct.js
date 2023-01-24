@@ -36,10 +36,10 @@ const ModalEachProduct=(props) =>{
       {/*<Text style={{flex:0.06,fontSize: 17,}}>{productStore.selectedProducts.amount}</Text>*/}
       <View style={{flex:0.07,height:60,justifyContent:'center',alignItems:'center',marginBottom:10}}>
 
-      <Text style={{fontSize: 17,fontWeight: 'bold',color: productStore.selectedProducts.discount_price!==null ? 'red' : '#6200EE',
-        textDecorationLine: productStore.selectedProducts.discount_price!==null ? 'line-through' :'',
-        textDecorationStyle: productStore.selectedProducts.discount_price!==null ? 'solid':''}}>{productStore.selectedProducts.price} TL</Text>
-        { productStore.selectedProducts.discount_price!==null ?
+      <Text style={{fontSize: 17,fontWeight: 'bold',color: productStore.selectedProducts.discount_price!==null && productStore.selectedProducts.discount_price!==0  ? 'red' : '#6200EE',
+        textDecorationLine: productStore.selectedProducts.discount_price!==null && productStore.selectedProducts.discount_price!==0 ? 'line-through' :'',
+        textDecorationStyle: productStore.selectedProducts.discount_price!==null && productStore.selectedProducts.discount_price!==0 ? 'solid':''}}>{productStore.selectedProducts.price} TL</Text>
+        { productStore.selectedProducts.discount_price!==null && productStore.selectedProducts.discount_price!==0 ?
         <Text style={{fontSize: 17,fontWeight: 'bold',color:'#6200EE'}}>{productStore.selectedProducts.discount_price} TL</Text>
           : null }
       </View>

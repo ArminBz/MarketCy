@@ -11,6 +11,8 @@ export type { BasketSchema } from './models/BasketSchema';
 export type { CategorySchema } from './models/CategorySchema';
 export type { LoginOutSchema } from './models/LoginOutSchema';
 export type { Message } from './models/Message';
+export type { OrderItemSchema } from './models/OrderItemSchema';
+export type { OrderSchema } from './models/OrderSchema';
 export type { PagedCategorySchema } from './models/PagedCategorySchema';
 export type { PagedStoreProductSchema } from './models/PagedStoreProductSchema';
 export type { PagedStoreSchema } from './models/PagedStoreSchema';

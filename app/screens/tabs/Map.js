@@ -123,7 +123,7 @@ const Map: () => Node = () =>{
   useEffect(()=>{
     requestFirebasePushNotificationPermission()
     categoryStore.getCategory()
-    productStore.getProducts()
+    // productStore.getProducts(1)
     // basketStore.getBasket()
   }, [],)
 

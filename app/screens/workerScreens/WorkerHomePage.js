@@ -133,6 +133,7 @@ const scanAgain = () => {
                   onChangeText={workerStore.setSearchResult.price}
                   keyboardType='decimal-pad'
                   placeholder={workerStore.priceToString}
+                  placeholderTextColor="#6200EE"
                   value={workerStore.searchResult.price}
                   /*{workerStore.searchResult.price}*/
                 />
@@ -142,6 +143,7 @@ const scanAgain = () => {
                   keyboardType="numeric"
                   style={INPUT} onChangeText={workerStore.setSearchResult.discount_price}
                   placeholder={workerStore.discountPriceToString}
+                  placeholderTextColor="#6200EE"
                   value={workerStore.searchResult.discount_price}
                 />
                 </View>
@@ -181,6 +183,7 @@ const scanAgain = () => {
                 backgroundColor: '#6200EE',
                 marginTop:2}}
                          onPress={() => {
+                           console.log('ball',checkboxState)
                            workerStore.adminCreateProduct(barcode,workerStore.searchResult.price,workerStore.searchResult.discount_price,checkboxState)
                            setScanResult(false)
                          }}
@@ -251,7 +254,7 @@ const styles = StyleSheet.create({
   scrollViewStyle: {
     flex: 1,
     justifyContent: 'flex-start',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   header: {
     display: 'flex',

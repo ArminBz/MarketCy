@@ -30,6 +30,7 @@ class AuthStore {
             checkIsSignedInLoading: observable,
             loggedIn: observable,
             checkUserStatus:observable,
+            addressesOfUser:observable,
 
 
 
@@ -51,6 +52,7 @@ class AuthStore {
             setLoggedIn: action,
             onSignOut: action,
             setCheckUserStatus:action,
+            setAddressesOfUser:action,
 
         },)
     }
@@ -68,6 +70,7 @@ class AuthStore {
     checkIsSignedInLoading = false;
     loggedIn = false;
     checkUserStatus=null;
+    addressesOfUser=[]
 
 
     setPhoneNumber = (value) =>{
@@ -99,6 +102,9 @@ class AuthStore {
     }
     setCheckUserStatus(value,) {
         this.checkUserStatus = value
+    }
+    setAddressesOfUser(value,) {
+        this.addressesOfUser = value
     }
 
     // login = () =>{
@@ -168,6 +174,23 @@ class AuthStore {
     }
 
 
+   getUser = async () => {
+        try {
+            const response = await UserService.getMe()
+            if (response.addresses!==null) {
+                this.setAddressesOfUser(response.addresses)
+            }
+            console.log('get user response', this.addressesOfUser)
+
+        } catch (err) {
+            console.log('get user err', err.body.message)
+            this.handleError(err)
+        } finally {
+            this.setLoading(false)
+        }
+    }
+
+
     confirmOtp = async () => {
         try {
             this.setLoading(true)
@@ -178,7 +201,8 @@ class AuthStore {
             // console.log('confirmOtp params', params)
 
             const response = await UserService.otp(params)
-            // console.log('confirmOtp response', response)
+            // console.log('confirmOtp response', response.user)
+
             if (response.api_key) {
                 // console.log("is it",response.user.store.name)
                 // if (response.user?.store?.name)

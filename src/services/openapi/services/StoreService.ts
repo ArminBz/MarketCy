@@ -3,6 +3,7 @@
 /* eslint-disable */
 import type { BasketSchema } from '../models/BasketSchema';
 import type { Message } from '../models/Message';
+import type { OrderSchema } from '../models/OrderSchema';
 import type { PagedCategorySchema } from '../models/PagedCategorySchema';
 import type { PagedStoreProductSchema } from '../models/PagedStoreProductSchema';
 import type { PagedStoreSchema } from '../models/PagedStoreSchema';
@@ -317,6 +318,57 @@ export class StoreService {
             url: '/v1/store/admin/product',
             formData: formData,
             mediaType: 'application/x-www-form-urlencoded',
+            errors: {
+                400: `Bad Request`,
+                401: `Unauthorized`,
+            },
+        });
+    }
+
+    /**
+     * Get orders
+     * Get orders
+     * @param status
+     * @returns OrderSchema OK
+     * @throws ApiError
+     */
+    public static adminGetOrders(
+        status?: string,
+    ): CancelablePromise<Array<OrderSchema>> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/v1/store/admin/orders',
+            query: {
+                'status': status,
+            },
+            errors: {
+                400: `Bad Request`,
+                401: `Unauthorized`,
+            },
+        });
+    }
+
+    /**
+     * Update order status
+     * Update order status
+     * @param orderId
+     * @param status
+     * @returns Message OK
+     * @throws ApiError
+     */
+    public static adminUpdateOrderStatus(
+        orderId: number,
+        status: string,
+    ): CancelablePromise<Message> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/store/admin/orders/{order_id}/update_status',
+            path: {
+                'order_id': orderId,
+            },
+            query: {
+                'status': status,
+            },
             errors: {
                 400: `Bad Request`,
                 401: `Unauthorized`,

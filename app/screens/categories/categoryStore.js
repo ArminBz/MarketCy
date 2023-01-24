@@ -18,24 +18,39 @@ class categoryStore {
       categories: observable,
       errorMessage: observable,
       showErrMessage: observable,
+      page:observable,
+      onEndReachedLoading:observable,
+      flatListOnReachEnd: observable,
 
 
       setCategory: action,
       setErrorMessage: action,
       setShowErrMessage: action,
       getCategory: action,
+      setPage:action,
+      setOnEndReachedLoading:action,
+      setFlatListOnReachEnd: action,
     },)
   }
 
-  categories = [{
-
-  }
-  ]
+  categories = []
   errorMessage = '';
   showErrMessage = false;
+  flatListOnReachEnd=false;
+  onEndReachedLoading=false;
+  page=1;
 
   setCategory = (value) => {
     this.categories = value
+  }
+  setFlatListOnReachEnd=(value)=>{
+    this.flatListOnReachEnd = value
+  }
+  setOnEndReachedLoading=(value)=>{
+    this.onEndReachedLoading = value
+  }
+  setPage=(value)=>{
+    this.page = value
   }
   setErrorMessage = (value) => {
     this.errorMessage = value
@@ -59,13 +74,28 @@ class categoryStore {
 
   getCategory = async () => {
     try {
-      const response = await StoreService.getCategories(1)
+      const response = await StoreService.getCategories(this.page)
 
       // console.log('salam',response.items)
-      this.setCategory(response.items)
+
+      if (response.items && response.items.length === 0) {
+        this.setFlatListOnReachEnd(false,)
+        this.setOnEndReachedLoading(false,)
+      } else {
+        this.setFlatListOnReachEnd(true,)
+      }
+      if (this.categories.length>0) {
+        this.setCategory([...this.categories, ...response.items,],)
+        // console.log('hey', this.categories,)
+      }
+      else {
+        this.setCategory(response.items)
+      }
+      // this.setOnEndReachedLoading(false,)
        // return response
 
     } catch (err) {
+      this.setOnEndReachedLoading(false,)
       console.log('login err', err)
       this.handleError(err)
     }

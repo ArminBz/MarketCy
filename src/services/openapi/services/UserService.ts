@@ -103,4 +103,54 @@ export class UserService {
         });
     }
 
+    /**
+     * Add address
+     * Add address
+     * @param formData
+     * @returns UserSchema OK
+     * @throws ApiError
+     */
+    public static addAddress(
+        formData: {
+            address: string;
+        },
+    ): CancelablePromise<UserSchema> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/v1/users/address',
+            formData: formData,
+            mediaType: 'application/x-www-form-urlencoded',
+            errors: {
+                400: `Bad Request`,
+                401: `Unauthorized`,
+            },
+        });
+    }
+
+    /**
+     * Delete address
+     * Delete address
+     * @param index
+     * @param all
+     * @returns UserSchema OK
+     * @throws ApiError
+     */
+    public static deleteAddress(
+        index?: number,
+        all: boolean = false,
+    ): CancelablePromise<UserSchema> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/v1/users/address',
+            query: {
+                'index': index,
+                'all': all,
+            },
+            errors: {
+                400: `Bad Request`,
+                401: `Unauthorized`,
+            },
+        });
+    }
+
 }

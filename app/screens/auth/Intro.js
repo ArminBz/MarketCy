@@ -100,7 +100,7 @@ const Intro: () => Node = () =>{
             autoFocus
           />
           <Button
-            style={{ marginBottom: 220 }}
+            style={{ marginBottom: 180,marginTop:40 }}
             mode="contained"
             // onPress={() =>authStore.phoneNumber? authStore.login():alert('please Enter your Number')}
             onPress={() => OnPress()}

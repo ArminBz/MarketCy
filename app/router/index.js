@@ -142,7 +142,19 @@ export const TabStackScreen = ()=> {
             borderRadius:30,borderWidth:10,borderColor:'#6203EC',resizeMode: 'contain'}} />
             </Shadow>
           </View>
-        ),color: '#2A2A2A'},
+        ), unfocusedIcon:({})=>(
+    <View style={{justifyContent: 'center', alignItems: 'center',shadowColor: "#6203EC",
+      shadowOpacity: 5,
+      shadowRadius: 16.00,
+      shadowOffset: {
+        height: 0,
+        width: 0,
+      },}}>
+        <Image source={require('../assets/buttomIcon.png',)} style={{ width: 75,
+          height: 68,
+          borderRadius:30,borderWidth:10,borderColor:'#6203EC',resizeMode: 'contain'}} />
+    </View>
+  ),color: '#2A2A2A'},
       { key: 'offer', title: t('Offer'),focusedIcon: 'star',unfocusedIcon: 'star-outline',color: '#009688'},
       { key: 'dashboard', title: t('Dashboard'),focusedIcon: 'account-circle',unfocusedIcon: 'account-circle-outline',color: '#526E52' },
       // icon:()=> <Icon name='user' color='white'/>
@@ -159,7 +171,8 @@ export const TabStackScreen = ()=> {
         navigationState={{ index, routes }}
         onIndexChange={setIndex}
         renderScene={renderScene}
-        barStyle={{ backgroundColor: '#6200EE' }}
+        barStyle={{}}
+
       />
     //   <TabStack.Navigator useLegacyImplementation={true} drawerContent={(props,) => <DrawerNav {...props} />}>
     //       <TabStack.Screen name="Home" component={Home} options={{

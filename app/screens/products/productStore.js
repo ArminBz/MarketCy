@@ -8,6 +8,7 @@ import { setToken } from "../../utils/Api";
 import { Stores, } from '../../store'
 import authStore from "../auth/authStore";
 import { StoreService } from "../../../src/services/openapi";
+import feather from "react-native-vector-icons/Feather";
 
 
 
@@ -23,11 +24,16 @@ class productStore {
       quantityOfProduct: observable,
       selectedProducts:observable,
       addProducts:observable,
-      products:observable,
+      loading:observable,
       errorMessage: observable,
       showErrMessage: observable,
       product:observable,
+      selectedProductByCat:observable,
       payment:observable,
+      selectedCategories:observable,
+      page:observable,
+      onEndReachedLoading:observable,
+      flatListOnReachEnd: observable,
 
 
 
@@ -35,75 +41,55 @@ class productStore {
       setSelectedProducts:action,
       setAddProducts:action,
       setErrorMessage: action,
+      setLoading:observable,
       setShowErrMessage: action,
       setProduct:action,
       setPayment:action,
+      setSelectedCategories:action,
+      setSelectedProductByCat:action,
+      setPage:action,
+      setOnEndReachedLoading:action,
+      setFlatListOnReachEnd: action,
 
 
     },)
   }
 
   errorMessage = '';
+  loading=false;
+  flatListOnReachEnd=false;
+  onEndReachedLoading=false;
+  page=1;
+  selectedProductByCat = [];
   payment='';
-  product=[{}];
+  product=[];
   showErrMessage = false;
   quantityOfProduct=0;
-  products=[{
-    id: 0,
-    name: 'Cream Koop',
-    image: 'https://www.milkmaid.in/sites/default/files/2022-03/Strawberry-IceCream-590x436.jpg',
-    price: 10+'$',
-    amount: '100 gr',
-    description:'cream ast'
-  },
-    {
-      id: 1,
-      name: 'Honey Kantara',
-      image: 'https://www.jessicagavin.com/wp-content/uploads/2019/02/honey-pin.jpg',
-      price: 9+'$',
-      amount: '200 gr',
-      description:'honey ast'
-    },
-    {
-      id: 2,
-      name: 'Bread Narin',
-      image: 'https://www.kingarthurbaking.com/sites/default/files/2020-02/the-easiest-loaf-of-bread-youll-ever-bake.jpg',
-      price: 3+'$',
-      amount: '12 pices',
-      description:'bread ast'
-    },
-    {
-      id: 3,
-      name: 'Onion',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Onion_on_White.JPG/1200px-Onion_on_White.JPG',
-      price: 7+'$',
-      amount: '1',
-      description:'onion ast'
-    },
-    {
-      id: 4,
-      name: 'Jack Daniels Whiskey',
-      image: 'https://www.onlinecava.com/wp-content/uploads/2020/05/jack-daniels-100cl.jpg',
-      price: 2+'$',
-      amount: '350 ml',
-      description:'jack ast'
-    },
-    {
-      id: 5,
-      name: 'Kinder White Chocolate',
-      image: 'https://www.alphamega.com.cy/Admin/Public/GetImage.ashx?Width=800&Height=800&Crop=5&DoNotUpscale=True&FillCanvas=True&Image=/Files/Images/Ecom/Products/334743.jpg&AlternativeImage=/Images/missing_image.jpg',
-      price: 2+'$',
-      amount: '1, 20 gr',
-      description:'kinder ast'
-    },
-  ]
   selectedProducts={}
   addProducts=[]
+  selectedCategories={}
 
+  setSelectedProductByCat=(value)=>{
+    this.selectedProductByCat = value
+  }
+  setLoading=(value)=>{
+    this.loading = value
+  }
+  setFlatListOnReachEnd=(value)=>{
+    this.flatListOnReachEnd = value
+  }
+  setOnEndReachedLoading=(value)=>{
+    this.onEndReachedLoading = value
+  }
   setSelectedProducts=(value)=>{
     this.selectedProducts = value
   }
-
+  setSelectedCategories=(value)=>{
+    this.selectedCategories = value
+  }
+  setPage=(value)=>{
+    this.page = value
+  }
 
   setQuantityOfProduct= (value) =>{
 
@@ -168,18 +154,38 @@ class productStore {
 
 
 
-  getProducts = async () => {
+  getProducts = async (storeId,categoryId) => {
     try {
-      const response = await StoreService.getProducts(1)
-
+      this.setLoading(true)
+      const response = await StoreService.getProducts(storeId,categoryId,this.page)
+console.log('sasa',response)
+      // this.setSelectedProductByCat(response.items)
       // console.log('product',response.items.map(i=> i.product))
       // return response
-      this.setProduct(response.items)
+      // this.setProduct(response.items)
+      // this.setSelectedProducts(response.items)
+      if (response.items && response.items.length === 0) {
+        this.setFlatListOnReachEnd(false,)
+        this.setOnEndReachedLoading(false,)
+      } else {
+        this.setFlatListOnReachEnd(true,)
+      }
+      if (this.product.length>0) {
+        this.setProduct([...this.product, ...response.items,],)
+      } else {
+        this.setProduct(response.items)
+
+      }
+      this.setOnEndReachedLoading(false,)
+
       // console.log("man product",response.items.map(i=> i.product))
-      // console.log("man product",response.items)
+      // console.log("man product",response)
     } catch (err) {
       console.log('login err', err)
+      this.setOnEndReachedLoading(false,)
       this.handleError(err)
+    } finally {
+      this.setLoading(false)
     }
   }
 

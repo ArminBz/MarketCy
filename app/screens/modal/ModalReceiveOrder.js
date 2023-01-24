@@ -23,10 +23,11 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import NavigationService from "../../router/NavigationService";
 import { List } from "react-native-paper";
 import qs from 'qs';
-import { Linking,Platform  } from "react-native";
+import { Linking,Platform,StyleSheet  } from "react-native";
 import BouncyCheckboxGroup, {
   ICheckboxButton,
 } from "react-native-bouncy-checkbox-group";
+import { useTranslation } from "react-i18next";
 
 
 const _iconStyle = (borderColor: string) => ({
@@ -95,9 +96,10 @@ const {
 // }
 
 const ModalReceiveOrder=(props) =>{
-
+  const { t, i18n } = useTranslation();
 
   const [checkboxState, setCheckboxState] = React.useState(false);
+  const [changeColorAddress, setChangeColorAddress] = React.useState(false);
 
   const {
     authStore,
@@ -127,10 +129,10 @@ const ModalReceiveOrder=(props) =>{
                     <View style={{ flex: 1 }}>
                       <Text style={{ flex: 0.2, fontSize: 14, fontWeight: 'bold', }}>{name}</Text>
 
-                      <Text style={{ flex: 0.2, fontSize: 15, fontWeight: 'bold',color: item.store_product.discount_price!==null ? 'red' : '#6200EE',
-                        textDecorationLine: item.store_product.discount_price!==null ? 'line-through' :'',
-                        textDecorationStyle: item.store_product.discount_price!==null ? 'solid':''}}>{price}</Text>
-                      {item.store_product.discount_price !== null ?
+                      <Text style={{ flex: 0.2, fontSize: 15, fontWeight: 'bold',color: item.store_product.discount_price!==null && item.store_product.discount_price!==0 ? 'red' : '#6200EE',
+                        textDecorationLine: item.store_product.discount_price!==null && item.store_product.discount_price!==0 ? 'line-through' :'',
+                        textDecorationStyle: item.store_product.discount_price!==null && item.store_product.discount_price!==0 ? 'solid':''}}>{price}</Text>
+                      {item.store_product.discount_price !== null && item.store_product.discount_price!==0 ?
                         <Text style={{
                           flex: 0.2,
                           fontSize: 15,
@@ -142,23 +144,73 @@ const ModalReceiveOrder=(props) =>{
                       {/*<Text style={{ flex: 0.2, fontSize: 12, }}>{item.amount}</Text>*/}
                     </View>
                     <View style={{ marginTop: 17 }}>
-                      <NumericInput
-                        value={quantity}
-                        onChange={item.setQuantityOfProduct}
-                        // onLimitReached={(isMax,msg) => console.log(isMax,msg)}
-                        totalWidth={70}
-                        totalHeight={30}
-                        iconSize={25}
-                        valueType='real'
-                        rounded
-                        textColor='#6200EE'
-                        iconStyle={{ color: 'white' }}
-                        rightButtonBackgroundColor='#6200EE'
-                        leftButtonBackgroundColor='#009588' />
+                      {/*<NumericInput*/}
+                      {/*  value={quantity}*/}
+                      {/*  onChange={item.setQuantityOfProduct}*/}
+                      {/*  // onLimitReached={(isMax,msg) => console.log(isMax,msg)}*/}
+                      {/*  totalWidth={70}*/}
+                      {/*  totalHeight={30}*/}
+                      {/*  iconSize={25}*/}
+                      {/*  valueType='real'*/}
+                      {/*  rounded*/}
+                      {/*  textColor='#6200EE'*/}
+                      {/*  iconStyle={{ color: 'white' }}*/}
+                      {/*  rightButtonBackgroundColor='#6200EE'*/}
+                      {/*  leftButtonBackgroundColor='#009588' />*/}
+                      <TextInput
+                        style={{
+                          margin: 12,
+                          borderWidth: 2,
+                          borderColor:'#E9E9E9',
+                          padding: 10,
+                          color:'#4700AE',
+                          fontSize:15,
+                          height:35,width:55,textAlign:'center'}}
+                        keyboardType = 'numeric'
+                        placeholder={quantity.toString()}
+                        placeholderTextColor="#6200EE"
+                        editable={false}
+                        selectTextOnFocus={false}
+                        value = {quantity}
+                      />
                     </View>
                   </View>
   )
   };
+
+
+  const renderAdressesItem = ({item}) =>{
+    // console.log('ann',item)
+    return (
+      <TouchableOpacity  style={{
+        flex: 1,
+        marginBottom: 10,
+        marginTop: 5,
+        padding: 10,
+        width: width,
+        flexDirection: 'row',
+        borderWidth: 1,
+        borderColor: '#E2E2E2',
+
+      }} >
+        <View style={{ flex: 1 }}>
+
+          <TouchableOpacity onPress={() => {
+            userAddressStore.setUserAddress(item)
+            setChangeColorAddress(true)
+            console.log('dasdasdas',item === userAddressStore.userAddress)
+          }} >
+
+            <View style={changeColorAddress ? item === userAddressStore.userAddress ? stylesAddress.alphabetContainerSelected: stylesAddress.alphabetContainer : null}>
+            <Text>{item}</Text>
+            </View>
+            </TouchableOpacity>
+
+        </View>
+      </TouchableOpacity>
+    )
+  };
+
 
   const [showAddress, setShowAddress, ] = useState(false)
 
@@ -169,19 +221,27 @@ const ModalReceiveOrder=(props) =>{
       <List.Section>
 
         <List.Subheader>Your Address</List.Subheader>
-        <View style={{flex:0.5,paddingTop:15,paddingBottom:50}}>
-          <TextInput
-            placeholder="Your Address"
-            maxLength={40}
-            style={{borderWidth: 1,
-              padding: 20,
-              borderRadius: 50,
-              borderColor: '#888888',
-              fontSize: 18
-            }}
-            value={userAddressStore.userAddress}
-            onChangeText={userAddressStore.setUserAddress}
-          />
+        <View >
+          <FlatList
+            // extraData={authStore.addressesOfUser}
+            data={authStore.addressesOfUser}
+            renderItem={renderAdressesItem}
+
+          >
+          </FlatList>
+          {/*<TextInput*/}
+          {/*  placeholder="Your Address"*/}
+          {/*  maxLength={40}*/}
+          {/*  style={{borderWidth: 1,*/}
+          {/*    padding: 20,*/}
+          {/*    borderRadius: 50,*/}
+          {/*    borderColor: '#888888',*/}
+          {/*    fontSize: 18*/}
+          {/*  }}*/}
+          {/*  value={authStore.addressesOfUser}*/}
+          {/*  onChangeText={authStore.setAddressesOfUser}*/}
+          {/*/>*/}
+
 
         </View>
 
@@ -195,7 +255,9 @@ const ModalReceiveOrder=(props) =>{
       >
       </FlatList>
 
-      <View >
+
+
+      <View>
         <View style={{justifyContent:'center',alignItems:'center',alignContent:'center',paddingBottom:10}}>
           <Text style={{marginBottom:2,marginTop:20,fontSize: 20, fontWeight: 'bold', color: '#6200EE'}}>Total: {basketStore.totalPrice} TL</Text>
         </View>
@@ -230,7 +292,7 @@ const ModalReceiveOrder=(props) =>{
           >
           <BouncyCheckboxGroup
             data={verticalStaticData}
-            style={{ flexDirection: "column" }}
+            style={{ flexDirection: "column" ,}}
             onChange={(selectedItem: ICheckboxButton) => {
               productStore.setPayment(selectedItem.text)
               // console.log("SelectedItem: ", productStore.payment);
@@ -285,3 +347,24 @@ const ModalReceiveOrder=(props) =>{
   )
 }
 export default observer(ModalReceiveOrder)
+const stylesAddress = StyleSheet.create({
+
+    alphabetContainer: {
+  width: 24,
+    height: 24,
+    marginLeft: 14,
+    marginTop: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+
+},
+alphabetContainerSelected: {
+  width: 24,
+    height: 24,
+    marginLeft: 14,
+    marginTop: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'red'
+},
+});
