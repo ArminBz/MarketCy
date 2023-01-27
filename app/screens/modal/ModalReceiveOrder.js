@@ -18,6 +18,7 @@ import { useStores } from "../../store";
 import { purpleButton,greenButton } from '../../style'
 import NumericInput from 'react-native-numeric-input'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import Button from '../../components/Button'
 
 // import subheading from "react-native-paper/src/components/Typography/Subheading";
 import NavigationService from "../../router/NavigationService";
@@ -99,7 +100,7 @@ const ModalReceiveOrder=(props) =>{
   const { t, i18n } = useTranslation();
 
   const [checkboxState, setCheckboxState] = React.useState(false);
-  const [changeColorAddress, setChangeColorAddress] = React.useState(false);
+  const [indexChangeColorAddress, setIndexChangeColorAddress] = React.useState(0);
 
   const {
     authStore,
@@ -108,6 +109,9 @@ const ModalReceiveOrder=(props) =>{
     basketStore,
   } = useStores()
 
+  useEffect(()=>{
+    authStore.getUser()
+  }, [],)
 
   const renderItem = ({item}) =>{
     let name = item?.store_product.product?.name || null
@@ -179,56 +183,84 @@ const ModalReceiveOrder=(props) =>{
   };
 
 
-  const renderAdressesItem = ({item}) =>{
-    // console.log('ann',item)
-    return (
-      <TouchableOpacity  style={{
-        flex: 1,
-        marginBottom: 10,
-        marginTop: 5,
-        padding: 10,
-        width: width,
-        flexDirection: 'row',
-        borderWidth: 1,
-        borderColor: '#E2E2E2',
-
-      }} >
-        <View style={{ flex: 1 }}>
-
-          <TouchableOpacity onPress={() => {
-            userAddressStore.setUserAddress(item)
-            setChangeColorAddress(true)
-            console.log('dasdasdas',item === userAddressStore.userAddress)
-          }} >
-
-            <View style={changeColorAddress ? item === userAddressStore.userAddress ? stylesAddress.alphabetContainerSelected: stylesAddress.alphabetContainer : null}>
-            <Text>{item}</Text>
-            </View>
-            </TouchableOpacity>
-
-        </View>
-      </TouchableOpacity>
-    )
-  };
+  // const renderAdressesItem = ({item}) =>{
+  //   // console.log('ann',item)
+  //   return (
+  //     // <TouchableOpacity  style={{
+  //     //   flex: 1,
+  //     //   marginBottom: 10,
+  //     //   marginTop: 5,
+  //     //   padding: 10,
+  //     //   width: width,
+  //     //   flexDirection: 'row',
+  //     //   borderWidth: 1,
+  //     //   borderColor: '#E2E2E2',
+  //     //
+  //     // }} >
+  //     //   <ScrollView style={{ flex: 1 }}>
+  //     //
+  //     //     <TouchableOpacity onPress={() => {
+  //     //       userAddressStore.setUserAddress(item)
+  //     //       setChangeColorAddress(true)
+  //     //       console.log('dasdasdas',item === userAddressStore.userAddress)
+  //     //     }} >
+  //     //       <View style={item === userAddressStore.userAddress ? stylesAddress.alphabetContainerSelected: stylesAddress.alphabetContainer}>
+  //     //       <Text>{item}</Text>
+  //     //       </View>
+  //     //       </TouchableOpacity>
+  //     //
+  //     //   </ScrollView>
+  //     // </TouchableOpacity>
+  //     // <List.Section title="Accordions">
+  //     //   <List.Accordion
+  //     //     title="Adress"
+  //     //     left={props => <List.Icon {...props} icon="folder" />}>
+  //     //     <List.Item title={item} />
+  //     //
+  //     //   </List.Accordion>
+  //     // </List.Section>
+  //   )
+  // };
 
 
   const [showAddress, setShowAddress, ] = useState(false)
-
+  const itemStyles = [
+    stylesAddress.alphabetContainer,
+    indexChangeColorAddress && stylesAddress.alphabetContainerSelected,
+  ];
   let name = props?.route?.params?.name || null
   return (
 
     <View style={{ flex: 1}}>
-      <List.Section>
+        {/*<List.Subheader>Your Address</List.Subheader>*/}
+        <View>
+          <ScrollView style={{height:200}}>
+          <List.Section title="Your Addresses">
+            <List.Accordion
+              style={{height:70}}
+              title="Select your address"
+              left={props => <List.Icon {...props} icon="location-enter" />}>
+              {/*// right={props =><Button > <List.Icon  {...props} icon="delete" color={"#6200EE"}  onPress={() => {userAddressStore.deleteAddresses(indexChangeColorAddress)}}/> </Button>}*/}
+              {Object.keys(authStore.addressesOfUser).map((ads,index) => (
+                <List.Item  style={ indexChangeColorAddress === index ? stylesAddress.alphabetContainerSelected : null} onPress={() => {
+                            userAddressStore.setUserAddress(authStore.addressesOfUser[ads])
+                            setIndexChangeColorAddress(index)
+                  console.log('aa',indexChangeColorAddress)
 
-        <List.Subheader>Your Address</List.Subheader>
-        <View >
-          <FlatList
-            // extraData={authStore.addressesOfUser}
-            data={authStore.addressesOfUser}
-            renderItem={renderAdressesItem}
+                            // console.log('userAddress', userAddressStore.userAddress)
+                          }} title={authStore.addressesOfUser[ads]} key={ads}  />
+              ))}
+            </List.Accordion>
 
-          >
-          </FlatList>
+          </List.Section>
+          </ScrollView>
+          {/*<FlatList*/}
+          {/*  // extraData={authStore.addressesOfUser}*/}
+          {/*  data={authStore.addressesOfUser}*/}
+          {/*  renderItem={renderAdressesItem}*/}
+
+          {/*>*/}
+          {/*</FlatList>*/}
           {/*<TextInput*/}
           {/*  placeholder="Your Address"*/}
           {/*  maxLength={40}*/}
@@ -241,11 +273,9 @@ const ModalReceiveOrder=(props) =>{
           {/*  value={authStore.addressesOfUser}*/}
           {/*  onChangeText={authStore.setAddressesOfUser}*/}
           {/*/>*/}
-
-
         </View>
 
-      </List.Section>
+
 <View style={{flex:0.8}}>
       <FlatList
         extraData={basketStore.basketItems}
@@ -317,6 +347,7 @@ const ModalReceiveOrder=(props) =>{
                        checkboxState===true && userAddressStore.userAddress!== undefined && userAddressStore.userAddress.length > 0?
                        basketStore.checkOut(1,userAddressStore.userAddress,productStore.payment)
                      :  alert("Check the Payment method or add your address")
+                     NavigationService.navigate('ListOfProducts')
                    }}
 
         >
@@ -350,21 +381,11 @@ export default observer(ModalReceiveOrder)
 const stylesAddress = StyleSheet.create({
 
     alphabetContainer: {
-  width: 24,
-    height: 24,
-    marginLeft: 14,
-    marginTop: 14,
-    justifyContent: 'center',
-    alignItems: 'center',
+  backgroundColor:'white'
 
 },
 alphabetContainerSelected: {
-  width: 24,
-    height: 24,
-    marginLeft: 14,
-    marginTop: 14,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'red'
+
+    backgroundColor: '#AFB5F5'
 },
 });

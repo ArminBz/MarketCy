@@ -35,6 +35,9 @@ const WorkerHomePage: () => Node = () =>{
     authStore
   } = useStores()
 
+  useEffect(()=>{
+    workerStore.getAdminOrders(null)
+  }, [],)
 
   const toggleSwitch = () => {
     setCheckboxState(previousState => !previousState)
@@ -255,6 +258,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     backgroundColor: 'white',
+    marginBottom:130
   },
   header: {
     display: 'flex',

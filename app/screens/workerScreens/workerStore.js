@@ -22,6 +22,8 @@ class workerStore {
       searchResult: observable,
       priceToString:observable,
       discountPriceToString:observable,
+      orders:observable,
+      selectedOrderProducts:observable,
 
 
 
@@ -31,6 +33,8 @@ class workerStore {
       setSearchResult: action,
       setPriceToString:action,
       setDiscountPriceToString:action,
+      setOrders:action,
+      setSelectedOrderProducts:action,
     },)
   }
 
@@ -40,11 +44,16 @@ class workerStore {
   searchResult={};
   priceToString=''
   discountPriceToString=''
+  orders={}
+  selectedOrderProducts={}
 
 
 
   setErrorMessage = (value) => {
     this.errorMessage = value
+  }
+  setSelectedOrderProducts = (value) => {
+    this.selectedOrderProducts = value
   }
   setShowErrMessage = (value) => {
     this.showErrMessage = value
@@ -60,6 +69,9 @@ class workerStore {
   }
   setDiscountPriceToString = (value) =>{
     this.discountPriceToString = value
+  }
+  setOrders = (value) =>{
+    this.orders = value
   }
 
 
@@ -101,6 +113,20 @@ class workerStore {
       // console.log("barCode search",response)
       console.log('add response', response)
 
+    } catch (err) {
+      console.log('login err', err)
+      this.handleError(err)
+    } finally {
+      this.setLoading(false)
+    }
+  }
+
+  getAdminOrders = async (status) => {
+    try {
+      this.setLoading(true)
+      const response = await StoreService.adminGetOrders(status)
+      // console.log("AdminGetOrders",response)
+      this.setOrders(response)
     } catch (err) {
       console.log('login err', err)
       this.handleError(err)

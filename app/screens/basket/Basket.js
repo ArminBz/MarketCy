@@ -40,7 +40,7 @@ const Basket: () => Node = () =>{
 
   useEffect(()=>{
     basketStore.getBasket()
-    authStore.getUser()
+    // authStore.getUser()
   }, [],)
 
 

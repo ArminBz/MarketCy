@@ -56,7 +56,6 @@ const ModalUserAddress=(props) =>{
   left: 20,
   zIndex: 99,}}>
       <TextInput
-
         placeholder={t("Add Address")}
         maxLength={40}
         value={userAddressStore.userAddress}
@@ -79,6 +78,8 @@ const ModalUserAddress=(props) =>{
                  onPress={async () => {
                    // alert(t("you have Entered successfully") )
                   await userAddressStore.addAddresses()
+                   NavigationService.goBack()
+
                    // NavigationService.goBack()
                   await authStore.getUser()
                    setShowAddress(true)

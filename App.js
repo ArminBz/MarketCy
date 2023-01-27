@@ -13,7 +13,7 @@ const MaterialLightTheme = {
     "onPrimaryContainer": "rgb(255, 215, 245)",
     "secondary": "rgb(218, 191, 210)",
     "onSecondary": "rgb(61, 43, 58)",
-    "secondaryContainer": "rgb(85, 65, 81)",
+    "secondaryContainer": "#6203EC",
     "onSecondaryContainer": "rgb(247, 218, 239)",
     "tertiary": "rgb(245, 184, 167)",
     "onTertiary": "rgb(76, 38, 27)",
@@ -28,11 +28,14 @@ const MaterialLightTheme = {
     "surface": "rgb(30, 26, 29)",
 
     "surfaceVariant": "rgb(78, 68, 75)",
-    "onSurfaceVariant": "rgb(209, 194, 203)",
+    // "onSurfaceVariant": "rgb(209, 194, 203)",
     "outline": "rgb(154, 141, 149)",
     "outlineVariant": "rgb(78, 68, 75)",
-    "shadow": "rgb(0, 0, 0)",
-    "scrim": "rgb(0, 0, 0)",
+
+    // custum colors
+    "shadow": "#6203EC",
+    "scrim": "#6203EC",
+
     "inverseSurface": "rgb(233, 224, 228)",
     "inverseOnSurface": "rgb(52, 47, 50)",
     "inversePrimary": "rgb(158, 42, 155)",

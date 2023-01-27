@@ -90,6 +90,7 @@ export class StoreService {
      * Get products of store
      * @param storeId
      * @param categoryId
+     * @param search
      * @param page
      * @returns PagedStoreProductSchema OK
      * @throws ApiError
@@ -97,6 +98,7 @@ export class StoreService {
     public static getProducts(
         storeId: number,
         categoryId?: number,
+        search?: string,
         page: number = 1,
     ): CancelablePromise<PagedStoreProductSchema> {
         return __request(OpenAPI, {
@@ -107,6 +109,7 @@ export class StoreService {
             },
             query: {
                 'category_id': categoryId,
+                'search': search,
                 'page': page,
             },
             errors: {

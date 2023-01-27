@@ -8,12 +8,14 @@ import VerifyNumber from "../screens/auth/VerifyNumber";
 import Search from "../screens/tabs/Search";
 import Offer from "../screens/tabs/Offer";
 import Map from "../screens/tabs/Map";
+import Orders from "../screens/workerScreens/Orders";
 import ModalEachProduct from "../screens/products/ModalEachProduct";
 import Basket from "../screens/basket/Basket";
 import ModalUserAddress from "../screens/userAddress/ModalUserAddress";
 import ModalReceiveOrder from "../screens/modal/ModalReceiveOrder";
 import WorkerHomePage from "../screens/workerScreens/WorkerHomePage";
 import ModalEachProductsFromBasket from "../screens/basket/ModalEachProductsFromBasket";
+import ModalOrderProducts from "../screens/workerScreens/ModalOrderProducts";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { BottomNavigation, Text, IconButton } from "react-native-paper";
@@ -96,7 +98,7 @@ export const SignedOutStackScreen = ()=> {
 const WorkerStack = createNativeStackNavigator()
 export const WorkerStackScreen = ()=> {
   return (
-    <WorkerStack.Navigator  screenOptions={{
+    <WorkerStack.Navigator   screenOptions={{
       headerTitleStyle: {
         color: '#fff',
       },
@@ -108,7 +110,11 @@ export const WorkerStackScreen = ()=> {
       },
     }}>
       <WorkerStack.Group>
-        <WorkerStack.Screen name="WorkerHomePage" component={WorkerHomePage} />
+        {/*<WorkerStack.Screen name="WorkerHomePage" component={WorkerHomePage} />*/}
+        <WorkerStack.Screen name="CY.market.admin" component={TabStackScreenWorkers} />
+      </WorkerStack.Group>
+      <WorkerStack.Group screenOptions={{ presentation: 'modal', }}>
+        <SignedInStack.Screen name="ModalOrderProducts" component={ModalOrderProducts} options={{ title: ''}}/>
       </WorkerStack.Group>
     </WorkerStack.Navigator>
   );
@@ -124,10 +130,10 @@ const TabStack = createMaterialBottomTabNavigator();
 export const TabStackScreen = ()=> {
   const { t, i18n } = useTranslation();
 
-    const [index, setIndex] = React.useState(2);
+    const [index, setIndex] = React.useState(1);
     const [routes] = React.useState([
       { key: 'markets', title: t('Markets'),focusedIcon: 'warehouse',unfocusedIcon: 'home-outline',color: '#6203EC' },
-      { key: 'search', title: t('Search'),focusedIcon:'magnify',color: '#BF571A'},
+      // { key: 'search', title: t('Search'),focusedIcon:'magnify',color: '#BF571A'},
       { key: 'map', focusedIcon:({})=>(
           <View style={{justifyContent: 'center', alignItems: 'center',shadowColor: "#6203EC",
             shadowOpacity: 5,
@@ -154,8 +160,8 @@ export const TabStackScreen = ()=> {
           height: 68,
           borderRadius:30,borderWidth:10,borderColor:'#6203EC',resizeMode: 'contain'}} />
     </View>
-  ),color: '#2A2A2A'},
-      { key: 'offer', title: t('Offer'),focusedIcon: 'star',unfocusedIcon: 'star-outline',color: '#009688'},
+  ),color: '#312534'},
+      // { key: 'offer', title: t('Offer'),focusedIcon: 'star',unfocusedIcon: 'star-outline',color: '#009688'},
       { key: 'dashboard', title: t('Dashboard'),focusedIcon: 'account-circle',unfocusedIcon: 'account-circle-outline',color: '#526E52' },
       // icon:()=> <Icon name='user' color='white'/>
     ]);
@@ -163,7 +169,7 @@ export const TabStackScreen = ()=> {
       markets: Markets,
       dashboard: Dashboard,
       search: Search,
-      offer: Offer,
+      // offer: Offer,
       map:Map,
     });
     return (
@@ -171,7 +177,8 @@ export const TabStackScreen = ()=> {
         navigationState={{ index, routes }}
         onIndexChange={setIndex}
         renderScene={renderScene}
-        barStyle={{}}
+        shifting={true}
+        // barStyle={{height:110,backgroundColor:'#6200EE'}}
 
       />
     //   <TabStack.Navigator useLegacyImplementation={true} drawerContent={(props,) => <DrawerNav {...props} />}>
@@ -186,4 +193,25 @@ export const TabStackScreen = ()=> {
 }
 
 
+export const TabStackScreenWorkers = ()=> {
+  const { t, i18n } = useTranslation();
+
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: 'workerHome', title: t('QR Code'),focusedIcon: 'qrcode',unfocusedIcon: 'qrcode-outline',color: '#6203EC' },
+    { key: 'orders', title: t('Orders'),focusedIcon:'order-bool-ascending',color: '#BF571A'},
+  ]);
+  const renderScene = BottomNavigation.SceneMap({
+    workerHome: WorkerHomePage,
+    orders: Orders,
+  });
+  return (
+    <BottomNavigation
+      navigationState={{ index, routes }}
+      onIndexChange={setIndex}
+      renderScene={renderScene}
+      shifting={true}
+    />
+  )
+}
 

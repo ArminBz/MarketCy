@@ -8,6 +8,7 @@ import { IconButton } from "react-native-paper";
 import Button from "../../components/Button";
 import Background from "../../components/Background";
 import { useTranslation } from "react-i18next";
+import { Searchbar } from "react-native-paper";
 
 
 const {
@@ -27,58 +28,26 @@ const ListOfProducts: () => Node = () =>{
   } = useStores()
 
 
+  const [searchQuery, setSearchQuery] = useState('')
+
   useEffect(()=>{
     basketStore.getBasket()
     productStore.setProduct([])
-    productStore.setPage(1)
-    productStore.getProducts(1)
+    // productStore.setPage(1)
+    productStore.getProducts(productStore.idMarkets,null,null,null)
   }, [],)
 
 
   const renderItemHeader = ({item}) => (
     <TouchableOpacity style={{borderWidth:6,borderColor: '#F2F2F2'}} onPress={async () => {
-      // console.log('productStore.product',productStore.product[0]?.product[0]?.category?.id)
-
-      // productStore.setSelectedProductByCat([])
-      //
-      // productStore.setSelectedCategories(item)
-      // console.log('item',item)
-      // console.log('productStore.product',productStore.product)
       productStore.setPage(1)
       productStore.setProduct([])
-     await productStore.getProducts(1,item.id)
-
-      // console.log('dasdas',productStore.selectedProducts)
-      // if(productStore.product) {
-      //   // let products = productStore.product.filter(p => (p.product.category.id.toString() === item.id.toString()))
-      //
-      //   // console.log('ee', products)
-      //   // productStore.setSelectedProductByCat(products)
-      // }
-
-      // return productStore.product.filter(item => {
-      //    category.some(category => {
-      // let arr
-      // for (const c of category) {
-      //   if (c.id === productStore.selectedCategories.id) {
-      //     console.log('ab', c.id === productStore.selectedCategories.id)
-      //     arr=(productStore.product.filter(item => (item.product.category.id) === productStore.selectedCategories.id))
-      //     arr.push(c.id)
-      //
-      //   }
-      // }
-      // if (arr)
-      // productStore.setProduct(arr)
-      // productStore.setProduct([{}])
-      // console.log('qerr', arr)
+     await productStore.getProducts(productStore.idMarkets,item.id)
     }
     }
-
-        // });
-      // })
     >
-      <View style={{borderWidth:1,borderColor:'#C6C6C6',borderRadius:1,height:40,backgroundColor:'#F2F2F2'}}>
-        <Text style={{fontSize: 13, fontWeight: 'bold',color:'#6200EE',borderWidth: 2,borderColor: '#F2F2F2',textAlign: 'center',height: 35,lineHeight: 35, justifyContent: 'center', alignItems: 'center',}} >{item.name}</Text>
+      <View style={{borderWidth:1,borderColor:'#C6C6C6',borderRadius:8,height:60,width:140,backgroundColor:'#6200EE',textAlign: 'center',justifyContent: 'center', alignItems: 'center'}}>
+        <Text style={{fontSize: 15, fontWeight: 'bold',color:'#FFFFFF',borderColor: '#F2F2F2',textAlign: 'center',height: 35,lineHeight: 35, justifyContent: 'center', alignItems: 'center',}} >{item.name}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -168,6 +137,16 @@ const ListOfProducts: () => Node = () =>{
       <FlatList
         data={categoryStore.categories}
         renderItem={renderItemHeader}
+        ListHeaderComponent={<TouchableOpacity style={{borderWidth:6,borderColor: '#F2F2F2'}} onPress={async () => {
+          productStore.setProduct([])
+          productStore.getProducts(productStore.idMarkets,null,null,null)
+        }
+        }
+        >
+          <View style={{borderWidth:1,borderColor:'#C6C6C6',borderRadius:8,height:60,width:140,backgroundColor:'#6200EE',textAlign: 'center',justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{fontSize: 15, fontWeight: 'bold',color:'#FFFFFF',borderColor: '#F2F2F2',textAlign: 'center',height: 35,lineHeight: 35, justifyContent: 'center', alignItems: 'center',}} >All</Text>
+          </View>
+        </TouchableOpacity>}
         horizontal={true}
         onEndReachedThreshold={0.1}
         onEndReached={async () => {
@@ -193,6 +172,20 @@ const ListOfProducts: () => Node = () =>{
         }}
         showsVerticalScrollIndicator={false}
       />
+  <View style={{paddingBottom:10,paddingTop:10}}>
+    <Searchbar
+      placeholdert="Search Products"
+      onChangeText={setSearchQuery}
+      value={searchQuery}
+      onIconPress={async () => {
+        productStore.setProduct([])
+        await productStore.getProducts(1,null,searchQuery,null)
+        console.log('aaa',productStore.idMarkets)
+      }
+      }
+    />
+  </View>
+
 </View>
       {productStore.product.length!==0 ?
 

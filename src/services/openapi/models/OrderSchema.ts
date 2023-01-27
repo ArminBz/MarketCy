@@ -12,5 +12,6 @@ export type OrderSchema = {
     created_at: string;
     items?: Array<OrderItemSchema>;
     total?: number;
+    phone?: string;
 };
 

@@ -78,9 +78,24 @@ class userAddressStore {
     try {
       this.setLoading(true)
       console.log("jj",this.userAddress)
-      const response = await UserService.addAddress('dsadda')
+      const response = await UserService.addAddress({address:this.userAddress})
       console.log('add address', response)
+      if (response) alert("Address added successfully")
 
+    } catch (err) {
+      console.log('add address err', err)
+      this.handleError(err)
+    } finally {
+      this.setLoading(false)
+    }
+  }
+
+  deleteAddresses = async (index) => {
+    try {
+      this.setLoading(true)
+      const response = await UserService.deleteAddress(index)
+      console.log('add address', response)
+      if (response) alert("Address deleted successfully")
     } catch (err) {
       console.log('add address err', err)
       this.handleError(err)

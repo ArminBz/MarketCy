@@ -34,6 +34,7 @@ class productStore {
       page:observable,
       onEndReachedLoading:observable,
       flatListOnReachEnd: observable,
+      idMarkets:observable,
 
 
 
@@ -50,6 +51,7 @@ class productStore {
       setPage:action,
       setOnEndReachedLoading:action,
       setFlatListOnReachEnd: action,
+      setIdMarkets:action,
 
 
     },)
@@ -68,9 +70,13 @@ class productStore {
   selectedProducts={}
   addProducts=[]
   selectedCategories={}
+  idMarkets=0
 
   setSelectedProductByCat=(value)=>{
     this.selectedProductByCat = value
+  }
+  setIdMarkets=(value)=>{
+    this.idMarkets = value
   }
   setLoading=(value)=>{
     this.loading = value
@@ -154,11 +160,11 @@ class productStore {
 
 
 
-  getProducts = async (storeId,categoryId) => {
+  getProducts = async (storeId,categoryId,search,page) => {
     try {
       this.setLoading(true)
-      const response = await StoreService.getProducts(storeId,categoryId,this.page)
-console.log('sasa',response)
+      const response = await StoreService.getProducts(storeId,categoryId,search,page)
+      console.log('getProducts res',response)
       // this.setSelectedProductByCat(response.items)
       // console.log('product',response.items.map(i=> i.product))
       // return response
@@ -181,13 +187,44 @@ console.log('sasa',response)
       // console.log("man product",response.items.map(i=> i.product))
       // console.log("man product",response)
     } catch (err) {
-      console.log('login err', err)
+      console.log('getProd err', err)
       this.setOnEndReachedLoading(false,)
       this.handleError(err)
     } finally {
       this.setLoading(false)
     }
   }
+
+
+  // getAllProducts = async () => {
+  //   try {
+  //     this.setLoading(true)
+  //     const response = await StoreService.getProduct()
+  //
+  //     if (response.items && response.items.length === 0) {
+  //       this.setFlatListOnReachEnd(false,)
+  //       this.setOnEndReachedLoading(false,)
+  //     } else {
+  //       this.setFlatListOnReachEnd(true,)
+  //     }
+  //     if (this.product.length>0) {
+  //       this.setProduct([...this.product, ...response.items,],)
+  //     } else {
+  //       this.setProduct(response.items)
+  //
+  //     }
+  //     this.setOnEndReachedLoading(false,)
+  //
+  //     // console.log("man product",response.items.map(i=> i.product))
+  //     // console.log("man product",response)
+  //   } catch (err) {
+  //     console.log('login err', err)
+  //     this.setOnEndReachedLoading(false,)
+  //     this.handleError(err)
+  //   } finally {
+  //     this.setLoading(false)
+  //   }
+  // }
 
 }
 
