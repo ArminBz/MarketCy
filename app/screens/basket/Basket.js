@@ -80,7 +80,7 @@ const Basket: () => Node = () =>{
 
         <Image style={{
           flex: 0.4,
-          height: 100,
+          height: 130,
           borderWidth: 0.8,
           borderColor: '#C6C6C6',
           width: 60,

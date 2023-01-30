@@ -54,7 +54,7 @@ const VerifyNumber: () => Node = () =>{
       <Button
         style={{marginBottom:220}}
         mode="outlined"
-        onPress={() => NavigationService.navigate('VerifyNumber')}
+        onPress={() =>  authStore.login()}
       >
         {t('Resend the code')}
       </Button>

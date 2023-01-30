@@ -132,7 +132,7 @@ export const TabStackScreen = ()=> {
 
     const [index, setIndex] = React.useState(1);
     const [routes] = React.useState([
-      { key: 'markets', title: t('Markets'),focusedIcon: 'warehouse',unfocusedIcon: 'home-outline',color: '#6203EC' },
+      { key: 'markets', title: t('Markets'),focusedIcon: 'warehouse',unfocusedIcon: 'home-outline',color: '#191970' },
       // { key: 'search', title: t('Search'),focusedIcon:'magnify',color: '#BF571A'},
       { key: 'map', focusedIcon:({})=>(
           <View style={{justifyContent: 'center', alignItems: 'center',shadowColor: "#6203EC",

@@ -35,6 +35,7 @@ const ListOfProducts: () => Node = () =>{
     productStore.setProduct([])
     // productStore.setPage(1)
     productStore.getProducts(productStore.idMarkets,null,null,null)
+    // console.log("id",productStore.idMarkets)
   }, [],)
 
 

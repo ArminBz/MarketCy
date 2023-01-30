@@ -58,14 +58,13 @@ const ModalUserAddress=(props) =>{
       <TextInput
         placeholder={t("Add Address")}
         maxLength={40}
-        value={userAddressStore.userAddress}
+        // value={userAddressStore.userAddress}
         onChangeText={userAddressStore.setUserAddress}
       />
 </View>
       </List.Section>
       <View>
         <FlatList
-
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
         >

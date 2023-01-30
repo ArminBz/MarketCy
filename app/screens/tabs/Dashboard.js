@@ -61,7 +61,7 @@ const Dashboard: () => Node = () =>{
     </List.Section>
 
       <Background>
-  <Button  style={{height:70,width:500,position: 'absolute',bottom: 0 }}>
+  <View  style={{flexDirection: 'row',width:105,justifyContent: 'center', alignItems: 'center',position: 'absolute',bottom: 0}}>
     {Object.keys(languageStore.lngs).map((lng) => (
       <Button  key={lng} style={{borderRadius:20,fontWeight: i18n.resolvedLanguage === lng ? 'bold' : 'normal' }} onPress={() => {
         i18n.changeLanguage(lng);
@@ -70,28 +70,9 @@ const Dashboard: () => Node = () =>{
         {languageStore.lngs[lng].nativeName}
       </Button>
     ))}
-  </Button>
+  </View>
     </Background>
     </View>
-    // <Background>
-    //   <Logo />
-    //
-    //   <Text>
-    //     Your amazing app starts here. Open you favorite code editor and start
-    //     editing this project.
-    //   </Text>
-    //   <Button
-    //     mode="outlined"
-    //     onPress={() =>
-    //       navigation.reset({
-    //         index: 0,
-    //         routes: [{ name: 'StartScreen' }],
-    //       })
-    //     }
-    //   >
-    //     Logout
-    //   </Button>
-    // </Background>
   )
 }
 export default observer(Dashboard)

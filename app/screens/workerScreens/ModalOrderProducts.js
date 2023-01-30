@@ -18,8 +18,6 @@ import { useStores } from "../../store";
 import { purpleButton,greenButton } from '../../style'
 import NumericInput from 'react-native-numeric-input'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import Button from '../../components/Button'
-
 // import subheading from "react-native-paper/src/components/Typography/Subheading";
 import NavigationService from "../../router/NavigationService";
 import { List } from "react-native-paper";
@@ -30,7 +28,7 @@ import BouncyCheckboxGroup, {
 } from "react-native-bouncy-checkbox-group";
 import { useTranslation } from "react-i18next";
 import workerStore from "./workerStore";
-
+import { Button } from 'react-native-paper';
 
 const _iconStyle = (borderColor: string) => ({
   height: 50,
@@ -66,15 +64,17 @@ const ModalOrderProducts=(props) =>{
 
 
   let items = workerStore.selectedOrderProducts?.items || null
-  // console.log('aa',items)
+
+  // console.log('aa',workerStore.selectedOrderProducts.id)
   // let name = props?.route?.params?.name || null
   return (
-
-    <View style={{ flex: 1,}}>
+<View style={{ flex: 1,}}>
+    <ScrollView >
       {/*<List.Subheader>Your Address</List.Subheader>*/}
       {items.map((item,index) => {
         // console.log('item',item.quantity)
         return (
+
           <TouchableOpacity key={index}  style={{
 
             marginBottom: 10,
@@ -83,7 +83,8 @@ const ModalOrderProducts=(props) =>{
             width: width,
             flexDirection: 'row',
             borderWidth: 1,
-            borderColor: '#E2E2E2'
+            borderColor: '#E2E2E2',
+
           }}
           >
             <Image style={{
@@ -134,14 +135,29 @@ const ModalOrderProducts=(props) =>{
               />
             </View>
           </TouchableOpacity>
+
         );
       })
       }
-      <View style={{justifyContent:'center',alignItems:'center',alignContent:'center',}}>
-        <Text style={{marginBottom:2,marginTop:20,fontSize: 17, fontWeight: 'bold', color: '#6200EE'}}>Total: {workerStore.selectedOrderProducts.total} TL</Text>
-      </View>
-    </View>
-
+    </ScrollView>
+  <View style={{justifyContent:'center',alignItems:'center',alignContent:'center',marginBottom:20}}>
+    <Text style={{marginBottom:2,marginTop:20,fontSize: 17, fontWeight: 'bold', color: '#6200EE'}}>Total: {workerStore.selectedOrderProducts.total} TL</Text>
+  </View>
+  <View style={{justifyContent:'center',alignItems:'center',alignContent:'center',height:80}}>
+  <Button onPress={() => {
+    workerStore.adminUpdateOrderStatus(workerStore.selectedOrderProducts.id,'accepted')
+    // NavigationService.navigate('ModalOrderProducts')
+  }} style={{position:'absolute',left:20,top:-10,backgroundColor:'green'}} icon="check" mode="contained" >
+    Accept
+  </Button>
+  <Button style={{position:'absolute',left:155,top:-10,backgroundColor:'red'}} icon="circle" mode="contained" onPress={() => console.log('Pressed')}>
+    Reject
+  </Button>
+  <Button style={{position:'absolute',left:290,top:-10}} icon="truck-delivery" mode="contained" onPress={() => console.log('Pressed')}>
+    Deliver
+  </Button>
+  </View>
+</View>
   );
 }
 export default observer(ModalOrderProducts)

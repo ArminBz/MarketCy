@@ -1,6 +1,6 @@
 import {
   ActivityIndicator,
-  Alert,
+  Alert, Dimensions,
   Keyboard,
   ScrollView,
   Text,
@@ -23,6 +23,9 @@ import { useStores } from "../../store";
 import VerifyNumber from "./VerifyNumber";
 import { useTranslation } from "react-i18next";
 
+const {
+  height, width,
+} = Dimensions.get('window',)
 const Intro: () => Node = () =>{
 
   const { t, i18n } = useTranslation();
@@ -79,11 +82,13 @@ const Intro: () => Node = () =>{
   //     />
   //
   //   </View>
-    <ScrollView contentContainerStyle={{flexGrow: 1}}>
+
+    <ScrollView  contentContainerStyle={{flexGrow: 1}}>
+      <View style={{flex:1}}>
         <Background>
           <Logo />
           <Text style={{ paddingBottom: 30, color: '#6203EC', fontWeight: "bold", fontSize: 15 }}>
-            {t('I Need Your Phone Number!')}
+            {t('Enter Your Phone Number!')}
           </Text>
           <PhoneInput
             ref={phoneInput}
@@ -100,14 +105,14 @@ const Intro: () => Node = () =>{
             autoFocus
           />
           <Button
-            style={{ marginBottom: 180,marginTop:40 }}
+            style={{ marginTop:40 }}
             mode="contained"
             // onPress={() =>authStore.phoneNumber? authStore.login():alert('please Enter your Number')}
             onPress={() => OnPress()}
           >
             {t('Send me the code!')}
           </Button>
-          <Button style={{ height: 70, width: 500, position: 'absolute', bottom: 0 }}>
+          <View style={{flexDirection: 'row',width:width/4,justifyContent: 'center', alignItems: 'center',position: 'absolute',bottom: 0}}>
             {Object.keys(languageStore.lngs).map((lng) => (
               <Button key={lng}
                       style={{ borderRadius: 20, fontWeight: i18n.resolvedLanguage === lng ? 'bold' : 'normal' }}
@@ -118,7 +123,7 @@ const Intro: () => Node = () =>{
                 {languageStore.lngs[lng].nativeName}
               </Button>
             ))}
-          </Button>
+          </View>
         </Background>
       {authStore.loading ? (
         <View style={{
@@ -130,6 +135,7 @@ const Intro: () => Node = () =>{
 
           />
         </View> ) :null}
+      </View>
     </ScrollView>
   );
 }

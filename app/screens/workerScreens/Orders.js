@@ -71,7 +71,7 @@ const Orders: () => Node = () =>{
                 paddingLeft:30,
                 paddingTop:10
               }}>{item.created_at}</Text>
-            {/*<List.Icon  color="#6200EE" icon="location-enter" style={{position:'absolute'}} />*/}
+            <List.Icon  color="#6200EE" icon="location-enter" style={{position:'absolute',left:-11,top:37}} />
             <Text style={{ flex: 0.2, fontSize: 14, fontWeight: 'bold',paddingLeft:30, paddingTop:10 }}>{item.address}</Text>
             <Text style={{
               flex: 0.2,

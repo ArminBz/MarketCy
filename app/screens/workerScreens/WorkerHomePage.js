@@ -133,21 +133,23 @@ const scanAgain = () => {
                     padding: 10,
                     color:'#4700AE',
                     fontSize:20}}
-                  onChangeText={workerStore.setSearchResult.price}
-                  keyboardType='decimal-pad'
+                  keyboardType="numeric"
+                  onChangeText={workerStore.setPriceProduct}
+                  // keyboardType='decimal-pad'
                   placeholder={workerStore.priceToString}
                   placeholderTextColor="#6200EE"
-                  value={workerStore.searchResult.price}
+                  value={workerStore.priceProduct}
                   /*{workerStore.searchResult.price}*/
                 />
                   <Text style={{fontSize: 14,fontWeight: 'bold',color:'#6200EE',left:-10}}> TL </Text>
                   <Text style={{fontSize: 14,fontWeight: 'bold',color:'#6200EE',paddingLeft:30}}>Discount Price: </Text>
                 <TextInput
                   keyboardType="numeric"
-                  style={INPUT} onChangeText={workerStore.setSearchResult.discount_price}
+                  style={INPUT}
+                  onChangeText={workerStore.setDiscountPriceProduct}
                   placeholder={workerStore.discountPriceToString}
                   placeholderTextColor="#6200EE"
-                  value={workerStore.searchResult.discount_price}
+                  value={workerStore.discountPriceProduct}
                 />
                 </View>
                 {/*<TextInput*/}
@@ -185,9 +187,9 @@ const scanAgain = () => {
                 elevation: 3,
                 backgroundColor: '#6200EE',
                 marginTop:2}}
-                         onPress={() => {
-                           console.log('ball',checkboxState)
-                           workerStore.adminCreateProduct(barcode,workerStore.searchResult.price,workerStore.searchResult.discount_price,checkboxState)
+                         onPress={async () => {
+                           console.log('ball',barcode,workerStore.priceProduct,workerStore.discountPriceProduct,checkboxState)
+                          await workerStore.adminCreateProduct(barcode,workerStore.priceProduct,workerStore.discountPriceProduct,checkboxState)
                            setScanResult(false)
                          }}
               >
@@ -258,7 +260,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     backgroundColor: 'white',
-    marginBottom:130
+    // marginBottom:250
   },
   header: {
     display: 'flex',

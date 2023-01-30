@@ -240,7 +240,9 @@ const ModalReceiveOrder=(props) =>{
               style={{height:70}}
               title="Select your address"
               left={props => <List.Icon {...props} icon="location-enter" />}>
-              {/*// right={props =><Button > <List.Icon  {...props} icon="delete" color={"#6200EE"}  onPress={() => {userAddressStore.deleteAddresses(indexChangeColorAddress)}}/> </Button>}*/}
+            {/*  right=<TouchableOpacity>*/}
+            {/*  <Text> Add </Text>*/}
+            {/*</TouchableOpacity>*/}
               {Object.keys(authStore.addressesOfUser).map((ads,index) => (
                 <List.Item  style={ indexChangeColorAddress === index ? stylesAddress.alphabetContainerSelected : null} onPress={() => {
                             userAddressStore.setUserAddress(authStore.addressesOfUser[ads])
@@ -250,6 +252,7 @@ const ModalReceiveOrder=(props) =>{
                             // console.log('userAddress', userAddressStore.userAddress)
                           }} title={authStore.addressesOfUser[ads]} key={ads}  />
               ))}
+              <List.Item  title={'Add your address'} onPress={() => NavigationService.navigate('ModalUserAddress')}/>
             </List.Accordion>
 
           </List.Section>

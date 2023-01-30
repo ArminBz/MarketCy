@@ -164,7 +164,7 @@ class productStore {
     try {
       this.setLoading(true)
       const response = await StoreService.getProducts(storeId,categoryId,search,page)
-      console.log('getProducts res',response)
+      // console.log('getProducts res',response)
       // this.setSelectedProductByCat(response.items)
       // console.log('product',response.items.map(i=> i.product))
       // return response
