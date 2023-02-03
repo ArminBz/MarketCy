@@ -138,6 +138,7 @@ const ListOfProducts: () => Node = () =>{
       <FlatList
         data={categoryStore.categories}
         renderItem={renderItemHeader}
+        keyExtractor={item => item.id}
         ListHeaderComponent={<TouchableOpacity style={{borderWidth:6,borderColor: '#F2F2F2'}} onPress={async () => {
           productStore.setProduct([])
           productStore.getProducts(productStore.idMarkets,null,null,null)
@@ -196,6 +197,7 @@ const ListOfProducts: () => Node = () =>{
         horizontal={false}
         numColumns={2}
         columnWrapperStyle={{flex: 1, justifyContent: "space-around"}}
+        keyExtractor={item => item.id}
         onEndReachedThreshold={0.1}
         onEndReached={async () => {
           // console.log('mainStore.flatListOnReachEnd', woshHistoryStore.flatListOnReachEnd,)

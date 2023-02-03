@@ -84,8 +84,14 @@ const Intro: () => Node = () =>{
   //   </View>
 
     <ScrollView  contentContainerStyle={{flexGrow: 1}}>
-      <View style={{flex:1}}>
-        <Background>
+      <View style={{flex:1,
+        padding: 20,
+        width: '100%',
+        maxWidth: 340,
+        alignSelf: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',marginBottom:80}}>
+
           <Logo />
           <Text style={{ paddingBottom: 30, color: '#6203EC', fontWeight: "bold", fontSize: 15 }}>
             {t('Enter Your Phone Number!')}
@@ -105,26 +111,15 @@ const Intro: () => Node = () =>{
             autoFocus
           />
           <Button
-            style={{ marginTop:40 }}
+            style={{ marginTop:40}}
             mode="contained"
             // onPress={() =>authStore.phoneNumber? authStore.login():alert('please Enter your Number')}
             onPress={() => OnPress()}
           >
             {t('Send me the code!')}
           </Button>
-          <View style={{flexDirection: 'row',width:width/4,justifyContent: 'center', alignItems: 'center',position: 'absolute',bottom: 0}}>
-            {Object.keys(languageStore.lngs).map((lng) => (
-              <Button key={lng}
-                      style={{ borderRadius: 20, fontWeight: i18n.resolvedLanguage === lng ? 'bold' : 'normal' }}
-                      onPress={() => {
-                        i18n.changeLanguage(lng);
-                        languageStore.setCounter(languageStore.count + 1);
-                      }}>
-                {languageStore.lngs[lng].nativeName}
-              </Button>
-            ))}
-          </View>
-        </Background>
+
+      </View>
       {authStore.loading ? (
         <View style={{
           position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center',
@@ -135,6 +130,18 @@ const Intro: () => Node = () =>{
 
           />
         </View> ) :null}
+
+      <View style={{flexDirection: 'row',width:width/4,justifyContent: 'center', alignItems: 'center',position: 'absolute',bottom: 0,flex:1,alignSelf: 'center'}}>
+        {Object.keys(languageStore.lngs).map((lng) => (
+          <Button key={lng}
+                  style={{ borderRadius: 20, fontWeight: i18n.resolvedLanguage === lng ? 'bold' : 'normal' }}
+                  onPress={() => {
+                    i18n.changeLanguage(lng);
+                    languageStore.setCounter(languageStore.count + 1);
+                  }}>
+            {languageStore.lngs[lng].nativeName}
+          </Button>
+        ))}
       </View>
     </ScrollView>
   );

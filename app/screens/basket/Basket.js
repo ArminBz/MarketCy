@@ -119,7 +119,7 @@ const Basket: () => Node = () =>{
               padding: 10,
               color:'#4700AE',
               fontSize:15,
-            height:35,width:55,textAlign:'center'}}
+            height:40,width:55,textAlign:'center'}}
             keyboardType = 'numeric'
             placeholder={quantity.toString()}
             placeholderTextColor="#6200EE"
@@ -155,7 +155,7 @@ const Basket: () => Node = () =>{
             textAlign:'center',
             position:'absolute',
             right:70,
-            top:80
+            top:88
           }}
           >
             <Text style={{ fontSize: 12,

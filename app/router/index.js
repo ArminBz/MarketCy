@@ -132,7 +132,7 @@ export const TabStackScreen = ()=> {
 
     const [index, setIndex] = React.useState(1);
     const [routes] = React.useState([
-      { key: 'markets', title: t('Markets'),focusedIcon: 'warehouse',unfocusedIcon: 'home-outline',color: '#191970' },
+      { key: 'markets', title: t('Markets'),focusedIcon: 'warehouse',unfocusedIcon: 'home-outline',color: '#6203EC' },
       // { key: 'search', title: t('Search'),focusedIcon:'magnify',color: '#BF571A'},
       { key: 'map', focusedIcon:({})=>(
           <View style={{justifyContent: 'center', alignItems: 'center',shadowColor: "#6203EC",
@@ -160,9 +160,9 @@ export const TabStackScreen = ()=> {
           height: 68,
           borderRadius:30,borderWidth:10,borderColor:'#6203EC',resizeMode: 'contain'}} />
     </View>
-  ),color: '#312534'},
+  ),color: '#6203EC'},
       // { key: 'offer', title: t('Offer'),focusedIcon: 'star',unfocusedIcon: 'star-outline',color: '#009688'},
-      { key: 'dashboard', title: t('Dashboard'),focusedIcon: 'account-circle',unfocusedIcon: 'account-circle-outline',color: '#526E52' },
+      { key: 'dashboard', title: t('Dashboard'),focusedIcon: 'account-circle',unfocusedIcon: 'account-circle-outline',color: '#6203EC' },
       // icon:()=> <Icon name='user' color='white'/>
     ]);
     const renderScene = BottomNavigation.SceneMap({
@@ -178,7 +178,7 @@ export const TabStackScreen = ()=> {
         onIndexChange={setIndex}
         renderScene={renderScene}
         shifting={true}
-        // barStyle={{height:110,backgroundColor:'#6200EE'}}
+        // barStyle={{backgroundColor:'#312534'}}
 
       />
     //   <TabStack.Navigator useLegacyImplementation={true} drawerContent={(props,) => <DrawerNav {...props} />}>
@@ -198,8 +198,8 @@ export const TabStackScreenWorkers = ()=> {
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'workerHome', title: t('QR Code'),focusedIcon: 'qrcode',unfocusedIcon: 'qrcode-outline',color: '#6203EC' },
-    { key: 'orders', title: t('Orders'),focusedIcon:'order-bool-ascending',color: '#BF571A'},
+    { key: 'workerHome', title: t('QR Code'),focusedIcon: 'qrcode',color: '#6203EC' },
+    { key: 'orders', title: t('Orders'),focusedIcon:'order-bool-ascending',color: '#6203EC'},
   ]);
   const renderScene = BottomNavigation.SceneMap({
     workerHome: WorkerHomePage,

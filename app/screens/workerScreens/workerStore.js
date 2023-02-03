@@ -22,11 +22,14 @@ class workerStore {
       searchResult: observable,
       priceToString:observable,
       discountPriceToString:observable,
-      orders:observable,
+      pendingOrders:observable,
       selectedOrderProducts:observable,
       orderID:observable,
       priceProduct:observable,
       discountPriceProduct:observable,
+      acceptedOrders:observable,
+      rejectedOrders:observable,
+      deliveredOrders:observable,
 
 
 
@@ -36,11 +39,14 @@ class workerStore {
       setSearchResult: action,
       setPriceToString:action,
       setDiscountPriceToString:action,
-      setOrders:action,
+      setPendingOrders:action,
       setSelectedOrderProducts:action,
       setOrderID:action,
       setPriceProduct:action,
-      setDiscountPriceProduct:action
+      setDiscountPriceProduct:action,
+      setAcceptedOrders:action,
+      setRejectedOrders:action,
+      setDeliveredOrders:action,
     },)
   }
 
@@ -50,16 +56,25 @@ class workerStore {
   searchResult={};
   priceToString=''
   discountPriceToString=''
-  orders={}
+  pendingOrders={}
   selectedOrderProducts={}
   orderID={}
   priceProduct=0
   discountPriceProduct=0
+  acceptedOrders={}
+  rejectedOrders={}
+  deliveredOrders={}
 
 
 
   setErrorMessage = (value) => {
     this.errorMessage = value
+  }
+  setDeliveredOrders = (value) => {
+    this.deliveredOrders = value
+  }
+  setRejectedOrders = (value) => {
+    this.rejectedOrders = value
   }
   setDiscountPriceProduct = (value) => {
     this.discountPriceProduct = value
@@ -88,8 +103,11 @@ class workerStore {
   setDiscountPriceToString = (value) =>{
     this.discountPriceToString = value
   }
-  setOrders = (value) =>{
-    this.orders = value
+  setPendingOrders = (value) =>{
+    this.pendingOrders = value
+  }
+  setAcceptedOrders = (value) =>{
+    this.acceptedOrders = value
   }
 
 
@@ -142,15 +160,60 @@ class workerStore {
     }
   }
 
-  getAdminOrders = async (status) => {
+  getAdminPendingOrders = async () => {
     try {
       this.setLoading(true)
-      const response = await StoreService.adminGetOrders(status)
+      const response = await StoreService.adminGetOrders('pending')
       // console.log("AdminGetOrders",response)
-      this.setOrders(response)
+      this.setPendingOrders(response)
 
     } catch (err) {
-      console.log('login err', err)
+      console.log('adminPendingGetOrder', err)
+      this.handleError(err)
+    } finally {
+      this.setLoading(false)
+    }
+  }
+
+  getAdminAcceptOrders = async () => {
+    try {
+      this.setLoading(true)
+      const response = await StoreService.adminGetOrders('accepted')
+      // console.log("AdminGetOrders",response)
+      this.setAcceptedOrders(response)
+
+    } catch (err) {
+      console.log('adminAcceptedGetOrder', err)
+      this.handleError(err)
+    } finally {
+      this.setLoading(false)
+    }
+  }
+
+  getAdminRejectedOrders = async () => {
+    try {
+      this.setLoading(true)
+      const response = await StoreService.adminGetOrders('rejected')
+      // console.log("AdminGetOrders",response)
+      this.setRejectedOrders(response)
+
+    } catch (err) {
+      console.log('adminAcceptedGetOrder', err)
+      this.handleError(err)
+    } finally {
+      this.setLoading(false)
+    }
+  }
+
+  getAdminDeliveredOrders = async () => {
+    try {
+      this.setLoading(true)
+      const response = await StoreService.adminGetOrders('delivered')
+      // console.log("AdminGetOrders",response)
+      this.setDeliveredOrders(response)
+
+    } catch (err) {
+      console.log('adminAcceptedGetOrder', err)
       this.handleError(err)
     } finally {
       this.setLoading(false)
@@ -163,6 +226,7 @@ class workerStore {
       const response = await StoreService.adminUpdateOrderStatus(orderId,status)
       console.log("update admin orders",response)
       this.setOrders(response)
+      alert(response.message)
 
     } catch (err) {
       console.log('login err', err)

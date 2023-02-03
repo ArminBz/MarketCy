@@ -74,7 +74,7 @@ class categoryStore {
 
   getCategory = async () => {
     try {
-      const response = await StoreService.getCategories(this.page)
+      const response = await StoreService.getCategories(null,this.page)
 
       // console.log('salam',response.items)
 
@@ -96,7 +96,7 @@ class categoryStore {
 
     } catch (err) {
       this.setOnEndReachedLoading(false,)
-      console.log('login err', err)
+      console.log('getCategory err', err)
       this.handleError(err)
     }
   }

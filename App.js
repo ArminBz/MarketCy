@@ -7,8 +7,8 @@ import { MD3LightTheme, MD3DarkTheme, Provider as PaperProvider, MD2LightTheme }
 
 const MaterialLightTheme = {
   "colors": {
-    "primary": "rgb(255, 170, 243)",
-    "onPrimary": "rgb(91, 0, 91)",
+    "primary": "#6203EC",
+    "onPrimary": "#FFFBFE",
     "primaryContainer": "rgb(129, 1, 129)",
     "onPrimaryContainer": "rgb(255, 215, 245)",
     "secondary": "rgb(218, 191, 210)",
@@ -28,7 +28,7 @@ const MaterialLightTheme = {
     "surface": "rgb(30, 26, 29)",
 
     "surfaceVariant": "rgb(78, 68, 75)",
-    // "onSurfaceVariant": "rgb(209, 194, 203)",
+    "onSurfaceVariant": "rgb(209, 194, 203)",
     "outline": "rgb(154, 141, 149)",
     "outlineVariant": "rgb(78, 68, 75)",
 
@@ -41,7 +41,7 @@ const MaterialLightTheme = {
     "inversePrimary": "rgb(158, 42, 155)",
     "elevation": {
       "level0": "transparent",
-      "level1": "rgb(41, 33, 40)",
+      "level1": "#FFFBFE",
       "level2": "rgb(48, 38, 46)",
       "level3": "rgb(55, 42, 53)",
       "level4": "rgb(57, 43, 55)",
@@ -59,7 +59,7 @@ const MarketCy: () => Node = () => {
       <StatusBar backgroundColor="#000000"
                  barStyle={Platform.OS === "ios" ? "dark-content" : "light-content"}
                  hidden={false} />
-      <PaperProvider theme={{version:2}}>
+      <PaperProvider theme={MaterialLightTheme}>
         <Suspense fallback="...is loading">
       <App/>
         </Suspense>

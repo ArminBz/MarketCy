@@ -19,17 +19,20 @@ export class StoreService {
     /**
      * Get categories
      * Get categories
+     * @param lang
      * @param page
      * @returns PagedCategorySchema OK
      * @throws ApiError
      */
     public static getCategories(
+        lang: string = 'en',
         page: number = 1,
     ): CancelablePromise<PagedCategorySchema> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/v1/store/categories',
             query: {
+                'lang': lang,
                 'page': page,
             },
             errors: {
@@ -91,6 +94,7 @@ export class StoreService {
      * @param storeId
      * @param categoryId
      * @param search
+     * @param lang
      * @param page
      * @returns PagedStoreProductSchema OK
      * @throws ApiError
@@ -99,6 +103,7 @@ export class StoreService {
         storeId: number,
         categoryId?: number,
         search?: string,
+        lang: string = 'en',
         page: number = 1,
     ): CancelablePromise<PagedStoreProductSchema> {
         return __request(OpenAPI, {
@@ -110,6 +115,7 @@ export class StoreService {
             query: {
                 'category_id': categoryId,
                 'search': search,
+                'lang': lang,
                 'page': page,
             },
             errors: {

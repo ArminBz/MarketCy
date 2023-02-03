@@ -46,6 +46,36 @@ const CARD_WIDTH = CARD_HEIGHT - 50;
 
 const Map: () => Node = () =>{
 
+  async function requestPermissions() {
+    try {
+      if (Platform.OS === 'ios') {
+          const auth =  Geolocation.requestAuthorization('whenInUse');
+        //   if (auth === 'granted') {
+        //
+        //   }
+        }
+      if (Platform.OS === 'android') {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            'title': 'Example App',
+            'message': 'Example App access to your location '
+          }
+        )
+      }
+      // if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      //   // console.log("You can use the location")
+      //   // alert("You can use the location");
+      // } else {
+      //   // console.log("location permission denied")
+      //   // alert("Location permission denied");
+      // }
+    } catch (err) {
+      console.warn(err)
+    }
+  }
+
+
 
   const { t, i18n } = useTranslation();
 
@@ -160,6 +190,22 @@ const Map: () => Node = () =>{
       }, 10);
     });
 
+    // if (Platform.OS === 'ios') {
+    //   const auth =  Geolocation.requestAuthorization('whenInUse');
+    //   if (auth === 'granted') {
+    //
+    //   }
+    // }
+    //
+    // if (Platform.OS === 'android') {
+    //   const granted = PermissionsAndroid.request(
+    //     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+    //   );
+    //   if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+    //
+    //   }
+    // }
+requestPermissions()
     Geolocation.getCurrentPosition(
       //Will give you the current location
       (position) => {
@@ -177,23 +223,7 @@ const Map: () => Node = () =>{
         enableHighAccuracy: true, timeout: 20000, maximumAge: 1000
       }
     );
-    // if (Platform.OS === 'ios') {
-    //   const auth = Geolocation.requestAuthorization("whenInUse");
-    //   // console.log('auth', auth)
-    //   if(auth === "granted") {
-    //    console.log('loc', JSON.stringify(position.coords.longitude))
-    //     // do something if granted...
-    //   }
-    // }
-    // if (Platform.OS === 'android') {
-    //   PermissionsAndroid.request(
-    //     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-    //   );
-    //   if ('granted' === PermissionsAndroid.RESULTS.GRANTED) {
-    //     console.log('loc', JSON.stringify(position.coords.longitude))
-    //     // do something if granted...
-    //   }
-    // }
+
 
 
   },[])

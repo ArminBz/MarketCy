@@ -35,7 +35,14 @@ const VerifyNumber: () => Node = () =>{
     //   </View>
     //
     <ScrollView contentContainerStyle={{flexGrow: 1}}>
-    <Background>
+    <View style={{flex: 1,
+
+      paddingTop:80,
+      width: '100%',
+      maxWidth: 340,
+      alignSelf: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',}}>
       <Logo />
       <TextInput
         style={INPUT}
@@ -59,7 +66,7 @@ const VerifyNumber: () => Node = () =>{
         {t('Resend the code')}
       </Button>
 
-    </Background>
+    </View>
       {authStore.loading ? (
         <View style={{
           position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center',

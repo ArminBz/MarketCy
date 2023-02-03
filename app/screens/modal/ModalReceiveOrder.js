@@ -303,7 +303,7 @@ const ModalReceiveOrder=(props) =>{
         >
           <View
             style={{
-              height: 30,
+              height: 40,
               width: 200,
               alignItems: "center",
               justifyContent: "center",

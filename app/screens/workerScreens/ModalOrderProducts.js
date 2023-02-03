@@ -146,14 +146,32 @@ const ModalOrderProducts=(props) =>{
   <View style={{justifyContent:'center',alignItems:'center',alignContent:'center',height:80}}>
   <Button onPress={() => {
     workerStore.adminUpdateOrderStatus(workerStore.selectedOrderProducts.id,'accepted')
-    // NavigationService.navigate('ModalOrderProducts')
+    workerStore.getAdminPendingOrders()
+    workerStore.getAdminRejectedOrders()
+    workerStore.getAdminDeliveredOrders()
+    workerStore.getAdminAcceptOrders()
+    NavigationService.goBack()
   }} style={{position:'absolute',left:20,top:-10,backgroundColor:'green'}} icon="check" mode="contained" >
     Accept
   </Button>
-  <Button style={{position:'absolute',left:155,top:-10,backgroundColor:'red'}} icon="circle" mode="contained" onPress={() => console.log('Pressed')}>
+  <Button onPress={() => {
+    workerStore.adminUpdateOrderStatus(workerStore.selectedOrderProducts.id,'rejected')
+    workerStore.getAdminPendingOrders()
+    workerStore.getAdminRejectedOrders()
+    workerStore.getAdminDeliveredOrders()
+    workerStore.getAdminAcceptOrders()
+    NavigationService.goBack()
+  }} style={{position:'absolute',left:155,top:-10,backgroundColor:'red'}} icon="circle" mode="contained">
     Reject
   </Button>
-  <Button style={{position:'absolute',left:290,top:-10}} icon="truck-delivery" mode="contained" onPress={() => console.log('Pressed')}>
+  <Button onPress={() => {
+    workerStore.adminUpdateOrderStatus(workerStore.selectedOrderProducts.id,'delivered')
+    workerStore.getAdminPendingOrders()
+    workerStore.getAdminRejectedOrders()
+    workerStore.getAdminDeliveredOrders()
+    workerStore.getAdminAcceptOrders()
+    NavigationService.goBack()
+  }} style={{position:'absolute',left:290,top:-10}} icon="truck-delivery" mode="contained" >
     Deliver
   </Button>
   </View>

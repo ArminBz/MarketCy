@@ -36,7 +36,10 @@ const WorkerHomePage: () => Node = () =>{
   } = useStores()
 
   useEffect(()=>{
-    workerStore.getAdminOrders(null)
+    workerStore.getAdminPendingOrders()
+    workerStore.getAdminRejectedOrders()
+    workerStore.getAdminDeliveredOrders()
+    workerStore.getAdminAcceptOrders()
   }, [],)
 
   const toggleSwitch = () => {
@@ -231,15 +234,21 @@ const scanAgain = () => {
           /> : null
         }
       </Fragment>
-        <Background>
-          <Button
-            style={{ marginTop: 1 }}
-            mode="contained"
-            onPress={() => authStore.onSignOut()}
-          >
-            {t('LogOut')}
-          </Button>
-        </Background>
+       {/*<Background>*/}
+      {/*<View style={{*/}
+      {/*  maxWidth: 340,*/}
+      {/*  alignSelf: 'center',*/}
+      {/*  alignItems: 'center',*/}
+      {/*  justifyContent: 'center',paddingBottom:40}}>*/}
+      {/*    <Button*/}
+      {/*      style={{ marginTop: 1 }}*/}
+      {/*      mode="contained"*/}
+      {/*      onPress={() => authStore.onSignOut()}*/}
+      {/*    >*/}
+      {/*      {t('LogOut')}*/}
+      {/*    </Button>*/}
+      {/*</View>*/}
+        {/*</Background> */}
       {workerStore.loading ? (
         <View style={{
           position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center',
