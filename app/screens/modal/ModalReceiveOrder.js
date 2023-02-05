@@ -7,7 +7,7 @@ import {
   Image,
   TextInput,
   FlatList,
-  TouchableOpacity, ScrollView,
+  TouchableOpacity, ScrollView, Alert,
 } from "react-native";
 import React, {
   useEffect, useState,useRef,
@@ -169,7 +169,7 @@ const ModalReceiveOrder=(props) =>{
                           padding: 10,
                           color:'#4700AE',
                           fontSize:15,
-                          height:35,width:55,textAlign:'center'}}
+                          textAlign:'center'}}
                         keyboardType = 'numeric'
                         placeholder={quantity.toString()}
                         placeholderTextColor="#6200EE"
@@ -237,7 +237,7 @@ const ModalReceiveOrder=(props) =>{
           <ScrollView style={{height:200}}>
           <List.Section title="Your Addresses">
             <List.Accordion
-              style={{height:70}}
+              style={{}}
               title="Select your address"
               left={props => <List.Icon {...props} icon="location-enter" />}>
             {/*  right=<TouchableOpacity>*/}
@@ -301,21 +301,7 @@ const ModalReceiveOrder=(props) =>{
             justifyContent: "center",
           }}
         >
-          <View
-            style={{
-              height: 40,
-              width: 200,
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: 12,
-              backgroundColor: checkboxState ? "#34eb83" : "#eb4034",
-              marginBottom:0.5,
-            }}
-          >
-            <Text
-              style={{ color: "#fff" }}
-            >{`Check Payment method: ${checkboxState.toString()}`}</Text>
-          </View>
+
           <View
             style={{
               marginBottom:10,
@@ -333,6 +319,21 @@ const ModalReceiveOrder=(props) =>{
             }}
           />
           </View>
+          <View
+            style={{
+
+              width: 250,
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 12,
+              backgroundColor: checkboxState ? "#34eb83" : "#eb4034",
+              marginBottom:18,
+            }}
+          >
+            <Text
+              style={{ color: "#fff" }}
+            >{`Check Payment method: ${checkboxState.toString()}`}</Text>
+          </View>
         </SafeAreaView>
 </View>
       <View style={{ flex:0.15,alignItems: 'center',justifyContent: 'center'}}>
@@ -349,7 +350,7 @@ const ModalReceiveOrder=(props) =>{
                      // setShowAddress(true)
                        checkboxState===true && userAddressStore.userAddress!== undefined && userAddressStore.userAddress.length > 0?
                        basketStore.checkOut(1,userAddressStore.userAddress,productStore.payment)
-                     :  alert("Check the Payment method or add your address")
+                     :  Alert.alert("Check the Payment method or add your address")
                      NavigationService.navigate('ListOfProducts')
                    }}
 

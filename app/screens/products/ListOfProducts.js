@@ -48,7 +48,7 @@ const ListOfProducts: () => Node = () =>{
     }
     >
       <View style={{borderWidth:1,borderColor:'#C6C6C6',borderRadius:8,height:60,width:140,backgroundColor:'#6200EE',textAlign: 'center',justifyContent: 'center', alignItems: 'center'}}>
-        <Text style={{fontSize: 15, fontWeight: 'bold',color:'#FFFFFF',borderColor: '#F2F2F2',textAlign: 'center',height: 35,lineHeight: 35, justifyContent: 'center', alignItems: 'center',}} >{item.name}</Text>
+        <Text style={{fontSize: 14, fontWeight: 'bold',color:'#FFFFFF',textAlign: 'center', justifyContent: 'center', alignItems: 'center',}} >{item.name}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -146,7 +146,7 @@ const ListOfProducts: () => Node = () =>{
         }
         >
           <View style={{borderWidth:1,borderColor:'#C6C6C6',borderRadius:8,height:60,width:140,backgroundColor:'#6200EE',textAlign: 'center',justifyContent: 'center', alignItems: 'center'}}>
-            <Text style={{fontSize: 15, fontWeight: 'bold',color:'#FFFFFF',borderColor: '#F2F2F2',textAlign: 'center',height: 35,lineHeight: 35, justifyContent: 'center', alignItems: 'center',}} >All</Text>
+            <Text style={{fontSize: 14, fontWeight: 'bold',color:'#FFFFFF',textAlign: 'center',lineHeight: 35, justifyContent: 'center', alignItems: 'center',}} >All</Text>
           </View>
         </TouchableOpacity>}
         horizontal={true}

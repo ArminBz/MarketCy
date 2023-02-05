@@ -86,15 +86,13 @@ const Intro: () => Node = () =>{
     <ScrollView  contentContainerStyle={{flexGrow: 1}}>
       <View style={{flex:1,
         padding: 20,
-        width: '100%',
         maxWidth: 340,
         alignSelf: 'center',
         alignItems: 'center',
         justifyContent: 'center',marginBottom:80}}>
-
           <Logo />
           <Text style={{ paddingBottom: 30, color: '#6203EC', fontWeight: "bold", fontSize: 15 }}>
-            {t('Enter Your Phone Number!')}
+            {t('Enter Your Phone Number')}
           </Text>
           <PhoneInput
             ref={phoneInput}
@@ -111,9 +109,8 @@ const Intro: () => Node = () =>{
             autoFocus
           />
           <Button
-            style={{ marginTop:40}}
+            style={{ marginTop:40,width:240}}
             mode="contained"
-            // onPress={() =>authStore.phoneNumber? authStore.login():alert('please Enter your Number')}
             onPress={() => OnPress()}
           >
             {t('Send me the code!')}

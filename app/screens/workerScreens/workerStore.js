@@ -9,6 +9,7 @@ import {
   resetToken, setToken,
 } from '../../utils/Api'
 import { StoreService } from "../../../src/services/openapi";
+import { Alert } from "react-native";
 
 class workerStore {
 
@@ -139,6 +140,7 @@ class workerStore {
     } catch (err) {
       console.log('login err', err)
       this.handleError(err)
+      // Alert.alert('Error:',err.message)
     } finally {
       this.setLoading(false)
     }
@@ -149,11 +151,12 @@ class workerStore {
     try {
       this.setLoading(true)
       const response = await StoreService.adminCreateProduct({barcode:barCode,price:price,discount_price:discount_price,available:available})
-      alert(response.message)
+      Alert.alert('Successful',response.message)
       // console.log("barCode search",response)
       console.log('add response', response)
     } catch (err) {
-      console.log('login err', err)
+      console.log('adminCreateProd err', err)
+      Alert.alert('Error:',err.message)
       this.handleError(err)
     } finally {
       this.setLoading(false)
@@ -225,11 +228,12 @@ class workerStore {
       this.setLoading(true)
       const response = await StoreService.adminUpdateOrderStatus(orderId,status)
       console.log("update admin orders",response)
-      this.setOrders(response)
-      alert(response.message)
+      // this.setOrders(response)
+      Alert.alert("Successful",response.message)
 
     } catch (err) {
-      console.log('login err', err)
+      console.log('adminUpdateOrder err', err)
+      Alert.alert("Error:",err.message)
       this.handleError(err)
     } finally {
       this.setLoading(false)

@@ -2,6 +2,7 @@ import React, {
   useEffect, useState,useRef,
 } from 'react'
 import {
+  ActivityIndicator,
   Dimensions,
   FlatList,
   Image,
@@ -280,35 +281,155 @@ const Orders: () => Node = () =>{
   // };
 
   return (
-    <ScrollView style={{flex: 1}} >
-      <SafeAreaView >
-      <List.Section>
-        <List.Subheader>{t("Number")}</List.Subheader>
-        <View style={{top: 10,
-          width: width - 40,
-          left: 20,
-          zIndex: 99,}}>
-          <TextInput
-            mode={'outlined'}
-            label={authStore.phoneNumber}
-            value={text}
-            onChangeText={text => setText(text)}
-            disabled
-            inlineImageLeft='search_icon'
-          />
-        </View>
-        <List.Subheader style={{paddingTop:30,color:'#6200EE'}}>{t('Pending Orders')}</List.Subheader>
-        <FlatList
-          data={workerStore.pendingOrders}
-          renderItem={renderPendingItem}
-          keyExtractor={item => item.id}
-          />
-        <List.Subheader style={{paddingTop:30,color:'green'}}>{t('Accepted Orders')}</List.Subheader>
-        <FlatList
-          data={workerStore.acceptedOrders}
-          renderItem={renderAcceptedItem}
-          keyExtractor={item => item.id}
+    <View style={{flex: 1}}>
+      <List.Subheader>{t("Number")}</List.Subheader>
+      <View style={{top: 10,
+        width: width - 40,
+        left: 20,
+        zIndex: 99,paddingBottom:20}}>
+        <TextInput
+          mode={'outlined'}
+          label={authStore.phoneNumber}
+          value={text}
+          onChangeText={text => setText(text)}
+          disabled
+          inlineImageLeft='search_icon'
         />
+      </View>
+<ScrollView>
+      <View style={{paddingTop:10,flex:1}}>
+
+        {/*<List.Subheader style={{paddingTop:30,color:'#6200EE'}}>{t('Pending Orders')}</List.Subheader>*/}
+        {/*<List.Item*/}
+        {/*  onPress={() => authStore.onSignOut()}*/}
+        {/*  title={t("Pending")}*/}
+        {/*  left={() => <List.Icon color="#000" icon="logout" />}*/}
+        {/*/>*/}
+        {/*<View style={{paddingTop:10}}>*/}
+        {/*<FlatList*/}
+        {/*  data={workerStore.pendingOrders}*/}
+        {/*  renderItem={renderPendingItem}*/}
+        {/*  keyExtractor={item => item.id}*/}
+        {/*  />*/}
+        {/*</View>*/}
+        {Object.keys(workerStore.pendingOrders).map((item) => {
+          // console.log('sasa',workerStore.pendingOrders[item])
+          return(
+          <View  key={item} style={{
+            marginBottom: 10,
+            marginTop: 5,
+            padding: 10,
+            width:width,
+            borderWidth: 1,
+            borderColor: '#E2E2E2',
+          }}>
+            <TouchableOpacity style={{width: width}} onPress={() => {
+              workerStore.setSelectedOrderProducts(workerStore.pendingOrders[item])
+              // console.log('ww',item)
+              NavigationService.navigate('ModalOrderProducts')
+            }}>
+              <View style={{width:width }}>
+                {/*<List.Icon  color="#6200EE" icon="phone" style={{position:'absolute',left:-12,bottom:53}} />*/}
+                {/*<Text style={{ flex: 0.2, fontSize: 15, fontWeight: 'bold' }}>{price}</Text>*/}
+                <Text style={{
+
+                  fontSize: 15,
+                  fontWeight: 'bold',width: '100%',
+                }}>{workerStore.pendingOrders[item].phone}</Text>
+                {/*<List.Icon color="#6200EE" icon="update" style={{position:'absolute',left:-12,top:25}} />*/}
+                <Text style={{
+
+                  fontSize: 15,
+                  fontWeight: 'bold',
+                  paddingTop:10,
+                  width: '100%'
+                }}>{workerStore.pendingOrders[item].created_at}</Text>
+                {/*<List.Icon  color="#6200EE" icon="location-enter" style={{position:'absolute',left:-11,top:53}} />*/}
+                <Text style={{ flex: 0.2, fontSize: 14, fontWeight: 'bold', paddingTop:10 ,width: '100%'}}>{workerStore.pendingOrders[item].address}</Text>
+                <View style={{position:'absolute',right:28,}}>
+                <Text style={{
+                  fontSize: 15,
+                  fontWeight: 'bold',
+                  color: '#6200EE',
+                }}>{workerStore.pendingOrders[item].status}</Text>
+
+                <Text style={{
+                  fontSize: 15,
+                  fontWeight: 'bold',
+                  color: '#6200EE',top:10
+                }}>{workerStore.pendingOrders[item].total} TL</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View>
+          )}
+        )}
+
+        {Object.keys(workerStore.acceptedOrders).map((item) => {
+          // console.log('sasa',workerStore.pendingOrders[item])
+          return(
+            <View key={item} style={{
+              flex: 1,
+              marginBottom: 10,
+              marginTop: 5,
+              padding: 10,
+              width: '100%',
+              borderWidth: 1,
+              borderColor: '#E2E2E2',
+
+            }}>
+              <TouchableOpacity style={{width: '100%'}} onPress={() => {
+                workerStore.setSelectedOrderProducts(workerStore.acceptedOrders[item])
+                // console.log('ww',item)
+                NavigationService.navigate('ModalOrderProducts')
+              }}>
+                <View style={{ width: width }}>
+                  {/*<List.Icon  color="#6200EE" icon="phone" style={{position:'absolute',left:-12,bottom:53}} />*/}
+                  {/*<Text style={{ flex: 0.2, fontSize: 15, fontWeight: 'bold' }}>{price}</Text>*/}
+                  <Text style={{
+
+                    fontSize: 15,
+                    fontWeight: 'bold',
+                    width: '100%'
+                  }}>{workerStore.acceptedOrders[item].phone}</Text>
+                  {/*<List.Icon color="#6200EE" icon="update" style={{position:'absolute',left:-12,top:25}} />*/}
+                  <Text style={{
+
+                    fontSize: 15,
+                    fontWeight: 'bold',
+                    paddingTop:10,
+                    width: '100%'
+                  }}>{workerStore.acceptedOrders[item].created_at}</Text>
+                  {/*<List.Icon  color="#6200EE" icon="location-enter" style={{position:'absolute',left:-11,top:53}} />*/}
+                  <Text style={{ flex: 0.2, fontSize: 14, fontWeight: 'bold', paddingTop:10 }}>{workerStore.acceptedOrders[item].address}</Text>
+                  <View style={{position:'absolute',right:28,}}>
+                  <Text style={{
+                    fontSize: 15,
+                    fontWeight: 'bold',
+                    color: 'green',
+                  }}>{workerStore.acceptedOrders[item].status}</Text>
+
+                  <Text style={{
+
+                    fontSize: 15,
+                    fontWeight: 'bold',
+                    color: 'green',top:10,
+                  }}>{workerStore.acceptedOrders[item].total} TL</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            </View>
+          )}
+        )}
+
+        {/*<List.Subheader style={{paddingTop:30,color:'green'}}>{t('Accepted Orders')}</List.Subheader>*/}
+        {/*<View style={{paddingTop:10}}>*/}
+        {/*<FlatList*/}
+        {/*  data={workerStore.acceptedOrders}*/}
+        {/*  renderItem={renderAcceptedItem}*/}
+        {/*  keyExtractor={item => item.id}*/}
+        {/*/>*/}
+        {/*</View>*/}
         {/*<List.Subheader style={{paddingTop:30,color:'blue'}}>{t('Delivered Orders')}</List.Subheader>*/}
         {/*<FlatList*/}
         {/*  data={workerStore.deliveredOrders}*/}
@@ -321,47 +442,31 @@ const Orders: () => Node = () =>{
         {/*  renderItem={renderRejectedItem}*/}
         {/*  keyExtractor={item => item.id}*/}
         {/*/>*/}
+
+      </View>
+
+
+
+      {workerStore.loading ? (
+        <View style={{
+          position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center',
+        }} >
+          <ActivityIndicator
+            size="large"
+            color="#6200EE"
+
+          />
+        </View> ) :null}
+</ScrollView>
+      <View style={{borderWidth:10,borderColor:'#30262E',bottom:0}}>
         <List.Item
+
           onPress={() => authStore.onSignOut()}
           title={t("Log out")}
-          left={() => <List.Icon color="#000" icon="logout" />}
+          left={() => <List.Icon color="#000" icon="logout"  />}
         />
-      </List.Section>
-
-      {/*<Background>*/}
-      {/*  <Button  style={{height:70,width:500,position: 'absolute',bottom: 0 }}>*/}
-      {/*    {Object.keys(languageStore.lngs).map((lng) => (*/}
-      {/*      <Button  key={lng} style={{borderRadius:20,fontWeight: i18n.resolvedLanguage === lng ? 'bold' : 'normal' }} onPress={() => {*/}
-      {/*        i18n.changeLanguage(lng);*/}
-      {/*        languageStore.setCounter(languageStore.count + 1);*/}
-      {/*      }}>*/}
-      {/*        {languageStore.lngs[lng].nativeName}*/}
-      {/*      </Button>*/}
-      {/*    ))}*/}
-      {/*  </Button>*/}
-      {/*</Background>*/}
-      </SafeAreaView>
-    </ScrollView>
-
-    // <Background>
-    //   <Logo />
-    //
-    //   <Text>
-    //     Your amazing app starts here. Open you favorite code editor and start
-    //     editing this project.
-    //   </Text>
-    //   <Button
-    //     mode="outlined"
-    //     onPress={() =>
-    //       navigation.reset({
-    //         index: 0,
-    //         routes: [{ name: 'StartScreen' }],
-    //       })
-    //     }
-    //   >
-    //     Logout
-    //   </Button>
-    // </Background>
+      </View>
+    </View>
   )
 }
 export default observer(Orders)

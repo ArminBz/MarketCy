@@ -24,17 +24,21 @@ const ModalEachProduct=(props) =>{
   let name = props?.route?.params?.name || null
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Image style={{flex:0.4,height:200,borderWidth: 0.8,borderColor:'#C6C6C6',width:200,marginBottom:30}}
+      <Image style={{flex:0.5,height:200,borderWidth: 0.8,borderColor:'#C6C6C6',width:200,marginBottom:30}}
              source={{
                uri: productStore.selectedProducts.product.thumb,
              }}
              resizeMode="cover"
       />
 
-      <Text style={{flex:0.06,fontSize: 17,fontWeight: 'bold',}}>{productStore.selectedProducts.product.name}</Text>
-      <Text style={{flex:0.06,fontSize: 16}}>{productStore.selectedProducts.product.description}</Text>
+      <Text style={{padding:2,fontSize: 15,fontWeight: 'bold',flexShrink: 1,paddingBottom:10}}>{productStore.selectedProducts.product.name}</Text>
+      {productStore.selectedProducts.product.description && productStore.selectedProducts.product.description!=='No description found.' && productStore.selectedProducts.product.description!=='No description found' ?
+        <View style={{ padding: 5, flex: 0.3 }}>
+          <Text style={{ fontSize: 16 }}>{productStore.selectedProducts.product.description}</Text>
+        </View> : null
+      }
       {/*<Text style={{flex:0.06,fontSize: 17,}}>{productStore.selectedProducts.amount}</Text>*/}
-      <View style={{flex:0.07,height:60,justifyContent:'center',alignItems:'center',marginBottom:10}}>
+      <View style={{flex:0.07,justifyContent:'center',alignItems:'center',marginBottom:15}}>
 
       <Text style={{fontSize: 17,fontWeight: 'bold',color: productStore.selectedProducts.discount_price!==null && productStore.selectedProducts.discount_price!==0  ? 'red' : '#6200EE',
         textDecorationLine: productStore.selectedProducts.discount_price!==null && productStore.selectedProducts.discount_price!==0 ? 'line-through' :'',

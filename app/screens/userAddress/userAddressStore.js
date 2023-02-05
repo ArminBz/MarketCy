@@ -9,6 +9,7 @@ import {
   resetToken, setToken,
 } from '../../utils/Api'
 import { StoreService,UserService } from "../../../src/services/openapi";
+import { Alert } from "react-native";
 
 class userAddressStore {
 
@@ -80,10 +81,11 @@ class userAddressStore {
       console.log("jj",this.userAddress)
       const response = await UserService.addAddress({address:this.userAddress})
       console.log('add address', response)
-      if (response) alert("Address added successfully")
+      if (response) Alert.alert("Address added successfully")
 
     } catch (err) {
       console.log('add address err', err)
+      Alert.alert("Error:",err.message)
       this.handleError(err)
     } finally {
       this.setLoading(false)

@@ -143,26 +143,22 @@ const Basket: () => Node = () =>{
           <Button onPress={() => {
             basketStore.deleteBasketItem(1,id)
             basketStore.getBasket()
-          }}> <Icon name={'trash'} size={20} color={"#6200EE"}/></Button>
+          }}> <Icon name={'trash'} size={25} color={"#6200EE"}/></Button>
 
           <View style={{ alignItems: 'center',
             justifyContent: 'center',
-            height:25,
-            width:30,
+            height:33,
+            width:33,
             borderRadius: 8,
             elevation: 3,
             backgroundColor: '#6200EE',
             textAlign:'center',
             position:'absolute',
-            right:70,
-            top:88
+            right:80,
+            top:85
           }}
           >
-            <Text style={{ fontSize: 12,
-
-              fontWeight: 'bold',
-
-              color: 'white', }}> {t('Edit')}</Text>
+            <Text style={{fontWeight: 'bold', color: 'white', fontSize:12}}> {t('Edit')}</Text>
           </View>
         </View>
 

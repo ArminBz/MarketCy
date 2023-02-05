@@ -6,6 +6,7 @@ import {
 // import { signInApi, userAddressApi } from "../../api/api";
 // import AsyncStorage from '@react-native-async-storage/async-storage'
 import { StoreService } from "../../../src/services/openapi";
+import { Alert } from "react-native";
 
 class basketStore {
 
@@ -124,10 +125,11 @@ class basketStore {
     try {
       this.setLoading(true)
       const response = await StoreService.checkout(store_id, address, paymentMethod)
-      alert(response.message)
+      Alert.alert('Successful',response.message)
       // console.log("checkout",response)
     } catch (err) {
-      console.log('login err', err)
+      console.log('checkout err', err)
+      Alert.alert('Error:',err.message)
       this.handleError(err)
     } finally {
       this.setLoading(false)

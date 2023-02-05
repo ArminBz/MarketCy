@@ -82,6 +82,7 @@ import org.apache.tools.ant.taskdefs.condition.Os
 
 project.ext.react = [
     enableHermes: true,  // clean and rebuild if changing
+//    enableVmCleanup: false
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -139,8 +140,16 @@ android {
                 keyAlias 'androiddebugkey'
                 keyPassword 'android'
             }
+        release {
+            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
+                storeFile file(MYAPP_UPLOAD_STORE_FILE)
+                storePassword MYAPP_UPLOAD_STORE_PASSWORD
+                keyAlias MYAPP_UPLOAD_KEY_ALIAS
+                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+            }
         }
-    buildTypes {
+    }
+        buildTypes {
             debug {
                 signingConfig signingConfigs.debug
             }
@@ -150,110 +159,110 @@ android {
                 signingConfig signingConfigs.debug
                 minifyEnabled enableProguardInReleaseBuilds
                 proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+                signingConfig signingConfigs.release
             }
         }
-    ndkVersion rootProject.ext.ndkVersion
-    compileSdk 31
-    defaultConfig {
-        missingDimensionStrategy('react-native-camera','general')
-        applicationId "com.marketcy"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
-        buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
+        ndkVersion rootProject.ext.ndkVersion
+        compileSdk 31
+        defaultConfig {
+            missingDimensionStrategy('react-native-camera', 'general')
+            applicationId "com.marketcy"
+            minSdkVersion rootProject.ext.minSdkVersion
+            targetSdkVersion rootProject.ext.targetSdkVersion
+            versionCode 1
+            versionName "1.0"
+            buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
+
+            if (isNewArchitectureEnabled()) {
+                // We configure the CMake build only if you decide to opt-in for the New Architecture.
+                externalNativeBuild {
+                    cmake {
+                        arguments "-DPROJECT_BUILD_DIR=$buildDir",
+                                "-DREACT_ANDROID_DIR=$rootDir/../node_modules/react-native/ReactAndroid",
+                                "-DREACT_ANDROID_BUILD_DIR=$rootDir/../node_modules/react-native/ReactAndroid/build",
+                                "-DNODE_MODULES_DIR=$rootDir/../node_modules",
+                                "-DANDROID_STL=c++_shared"
+                    }
+                }
+                if (!enableSeparateBuildPerCPUArchitecture) {
+                    ndk {
+                        abiFilters(*reactNativeArchitectures())
+                    }
+                }
+            }
+        }
+        splits {
+            abi {
+                reset()
+                enable enableSeparateBuildPerCPUArchitecture
+                universalApk false  // If true, also generate a universal APK
+                include(*reactNativeArchitectures())
+            }
+        }
+
 
         if (isNewArchitectureEnabled()) {
-            // We configure the CMake build only if you decide to opt-in for the New Architecture.
+            // We configure the NDK build only if you decide to opt-in for the New Architecture.
             externalNativeBuild {
                 cmake {
-                    arguments "-DPROJECT_BUILD_DIR=$buildDir",
-                        "-DREACT_ANDROID_DIR=$rootDir/../node_modules/react-native/ReactAndroid",
-                        "-DREACT_ANDROID_BUILD_DIR=$rootDir/../node_modules/react-native/ReactAndroid/build",
-                        "-DNODE_MODULES_DIR=$rootDir/../node_modules",
-                        "-DANDROID_STL=c++_shared"
+                    path "$projectDir/src/main/jni/CMakeLists.txt"
                 }
             }
-            if (!enableSeparateBuildPerCPUArchitecture) {
-                ndk {
-                    abiFilters (*reactNativeArchitectures())
-                }
+            def reactAndroidProjectDir = project(':ReactAndroid').projectDir
+            def packageReactNdkDebugLibs = tasks.register("packageReactNdkDebugLibs", Copy) {
+                dependsOn(":ReactAndroid:packageReactNdkDebugLibsForBuck")
+                from("$reactAndroidProjectDir/src/main/jni/prebuilt/lib")
+                into("$buildDir/react-ndk/exported")
             }
-        }
-    }
-    splits {
-        abi {
-            reset()
-            enable enableSeparateBuildPerCPUArchitecture
-            universalApk false  // If true, also generate a universal APK
-            include (*reactNativeArchitectures())
-        }
-    }
-
-
-    if (isNewArchitectureEnabled()) {
-        // We configure the NDK build only if you decide to opt-in for the New Architecture.
-        externalNativeBuild {
-            cmake {
-                path "$projectDir/src/main/jni/CMakeLists.txt"
+            def packageReactNdkReleaseLibs = tasks.register("packageReactNdkReleaseLibs", Copy) {
+                dependsOn(":ReactAndroid:packageReactNdkReleaseLibsForBuck")
+                from("$reactAndroidProjectDir/src/main/jni/prebuilt/lib")
+                into("$buildDir/react-ndk/exported")
             }
-        }
-        def reactAndroidProjectDir = project(':ReactAndroid').projectDir
-        def packageReactNdkDebugLibs = tasks.register("packageReactNdkDebugLibs", Copy) {
-            dependsOn(":ReactAndroid:packageReactNdkDebugLibsForBuck")
-            from("$reactAndroidProjectDir/src/main/jni/prebuilt/lib")
-            into("$buildDir/react-ndk/exported")
-        }
-        def packageReactNdkReleaseLibs = tasks.register("packageReactNdkReleaseLibs", Copy) {
-            dependsOn(":ReactAndroid:packageReactNdkReleaseLibsForBuck")
-            from("$reactAndroidProjectDir/src/main/jni/prebuilt/lib")
-            into("$buildDir/react-ndk/exported")
-        }
-        afterEvaluate {
-            // If you wish to add a custom TurboModule or component locally,
-            // you should uncomment this line.
-            // preBuild.dependsOn("generateCodegenArtifactsFromSchema")
-            preDebugBuild.dependsOn(packageReactNdkDebugLibs)
-            preReleaseBuild.dependsOn(packageReactNdkReleaseLibs)
+            afterEvaluate {
+                // If you wish to add a custom TurboModule or component locally,
+                // you should uncomment this line.
+                // preBuild.dependsOn("generateCodegenArtifactsFromSchema")
+                preDebugBuild.dependsOn(packageReactNdkDebugLibs)
+                preReleaseBuild.dependsOn(packageReactNdkReleaseLibs)
 
-            // Due to a bug inside AGP, we have to explicitly set a dependency
-            // between configureCMakeDebug* tasks and the preBuild tasks.
-            // This can be removed once this is solved: https://issuetracker.google.com/issues/207403732
-            configureCMakeRelWithDebInfo.dependsOn(preReleaseBuild)
-            configureCMakeDebug.dependsOn(preDebugBuild)
-            reactNativeArchitectures().each { architecture ->
-                tasks.findByName("configureCMakeDebug[${architecture}]")?.configure {
-                    dependsOn("preDebugBuild")
-                }
-                tasks.findByName("configureCMakeRelWithDebInfo[${architecture}]")?.configure {
-                    dependsOn("preReleaseBuild")
+                // Due to a bug inside AGP, we have to explicitly set a dependency
+                // between configureCMakeDebug* tasks and the preBuild tasks.
+                // This can be removed once this is solved: https://issuetracker.google.com/issues/207403732
+                configureCMakeRelWithDebInfo.dependsOn(preReleaseBuild)
+                configureCMakeDebug.dependsOn(preDebugBuild)
+                reactNativeArchitectures().each { architecture ->
+                    tasks.findByName("configureCMakeDebug[${architecture}]")?.configure {
+                        dependsOn("preDebugBuild")
+                    }
+                    tasks.findByName("configureCMakeRelWithDebInfo[${architecture}]")?.configure {
+                        dependsOn("preReleaseBuild")
+                    }
                 }
             }
         }
-    }
 
 
-    // applicationVariants are e.g. debug, release
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            // For each separate APK per architecture, set a unique version code as described here:
-            // https://developer.android.com/studio/build/configure-apk-splits.html
-            // Example: versionCode 1 will generate 1001 for armeabi-v7a, 1002 for x86, etc.
-            def versionCodes = ["armeabi-v7a": 1, "x86": 2, "arm64-v8a": 3, "x86_64": 4]
-            def abi = output.getFilter(OutputFile.ABI)
-            if (abi != null) {  // null for the universal-debug, universal-release variants
-                output.versionCodeOverride =
-                        defaultConfig.versionCode * 1000 + versionCodes.get(abi)
+        // applicationVariants are e.g. debug, release
+        applicationVariants.all { variant ->
+            variant.outputs.each { output ->
+                // For each separate APK per architecture, set a unique version code as described here:
+                // https://developer.android.com/studio/build/configure-apk-splits.html
+                // Example: versionCode 1 will generate 1001 for armeabi-v7a, 1002 for x86, etc.
+                def versionCodes = ["armeabi-v7a": 1, "x86": 2, "arm64-v8a": 3, "x86_64": 4]
+                def abi = output.getFilter(OutputFile.ABI)
+                if (abi != null) {  // null for the universal-debug, universal-release variants
+                    output.versionCodeOverride =
+                            defaultConfig.versionCode * 1000 + versionCodes.get(abi)
+                }
+
             }
-
         }
     }
-}
-
 dependencies {
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation fileTree(dir: "libs", include: ["*.jar"])
-
+    implementation project(':react-native-splash-screen')
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
 

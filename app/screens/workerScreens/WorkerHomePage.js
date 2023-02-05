@@ -88,8 +88,8 @@ const scanAgain = () => {
 
   return (
     <View style={styles.scrollViewStyle}>
-      <Fragment>
-        <View style={styles.header}>
+
+        <View>
           <TouchableOpacity>
             {/*<Image source={require('./assets/back.png')} style={{height: 36, width: 36}}></Image>*/}
           </TouchableOpacity>
@@ -233,7 +233,7 @@ const scanAgain = () => {
             }
           /> : null
         }
-      </Fragment>
+
        {/*<Background>*/}
       {/*<View style={{*/}
       {/*  maxWidth: 340,*/}
@@ -295,8 +295,7 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   cardView: {
-    width: width - 32,
-    height: height - 300,
+    height:height,
     alignSelf: 'center',
     justifyContent: 'flex-start',
     alignItems: 'center',
@@ -305,7 +304,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginRight: 5,
     marginTop: '10%',
-    backgroundColor: '#6200EE'
+    backgroundColor: '#6200EE',
   },
   scanCardView: {
     width: width - 32,
@@ -333,7 +332,7 @@ const styles = StyleSheet.create({
     paddingRight: 25,
     paddingBottom: 1,
     paddingLeft: 25,
-    marginTop: 20,
+    marginTop: 5,
     alignItems: 'center',
   },
   buttonScan2: {
@@ -351,11 +350,12 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   centerText: {
-    flex:1,
+
     textAlign: 'center',
     fontSize: 13,
     padding: 32,
     color: 'black',
+    height:170
   },
   textBold: {
     fontWeight: '500',

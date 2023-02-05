@@ -7,7 +7,7 @@ import {
   Image,
   TextInput,
   FlatList,
-  TouchableOpacity, ScrollView,
+  TouchableOpacity, ScrollView, ActivityIndicator,
 } from "react-native";
 import React, {
   useEffect, useState,useRef,
@@ -124,8 +124,8 @@ const ModalOrderProducts=(props) =>{
                   borderWidth: 2,
                   padding: 10,
                   color:'#4700AE',
-                  fontSize:15,
-                  height:35,width:55,textAlign:'center'}}
+                  fontSize:15
+                  ,textAlign:'center'}}
                 keyboardType = 'numeric'
                 placeholder={item.quantity.toString()}
                 placeholderTextColor="#6200EE"
@@ -140,10 +140,10 @@ const ModalOrderProducts=(props) =>{
       })
       }
     </ScrollView>
-  <View style={{justifyContent:'center',alignItems:'center',alignContent:'center',marginBottom:20}}>
+  <View style={{justifyContent:'center',alignItems:'center',alignContent:'center',marginBottom:80}}>
     <Text style={{marginBottom:2,marginTop:20,fontSize: 17, fontWeight: 'bold', color: '#6200EE'}}>Total: {workerStore.selectedOrderProducts.total} TL</Text>
   </View>
-  <View style={{justifyContent:'center',alignItems:'center',alignContent:'center',height:80}}>
+  <View style={{flexDirection: 'row',width:width/3,justifyContent: 'center', alignItems: 'center',position: 'absolute',bottom: 0,flex:1,alignSelf: 'center',height:80,}}>
   <Button onPress={() => {
     workerStore.adminUpdateOrderStatus(workerStore.selectedOrderProducts.id,'accepted')
     workerStore.getAdminPendingOrders()
@@ -151,7 +151,7 @@ const ModalOrderProducts=(props) =>{
     workerStore.getAdminDeliveredOrders()
     workerStore.getAdminAcceptOrders()
     NavigationService.goBack()
-  }} style={{position:'absolute',left:20,top:-10,backgroundColor:'green'}} icon="check" mode="contained" >
+  }} style={{backgroundColor:'green'}} icon="check" mode="contained" >
     Accept
   </Button>
   <Button onPress={() => {
@@ -161,7 +161,7 @@ const ModalOrderProducts=(props) =>{
     workerStore.getAdminDeliveredOrders()
     workerStore.getAdminAcceptOrders()
     NavigationService.goBack()
-  }} style={{position:'absolute',left:155,top:-10,backgroundColor:'red'}} icon="circle" mode="contained">
+  }} style={{backgroundColor:'red'}} icon="circle" mode="contained">
     Reject
   </Button>
   <Button onPress={() => {
@@ -171,10 +171,20 @@ const ModalOrderProducts=(props) =>{
     workerStore.getAdminDeliveredOrders()
     workerStore.getAdminAcceptOrders()
     NavigationService.goBack()
-  }} style={{position:'absolute',left:290,top:-10}} icon="truck-delivery" mode="contained" >
+  }} style={{}} icon="truck-delivery" mode="contained" >
     Deliver
   </Button>
   </View>
+  {workerStore.loading ? (
+    <View style={{
+      position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center',
+    }} >
+      <ActivityIndicator
+        size="large"
+        color="#6200EE"
+
+      />
+    </View> ) :null}
 </View>
   );
 }

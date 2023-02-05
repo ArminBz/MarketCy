@@ -1,10 +1,19 @@
 import { Suspense } from 'react';
-
-import * as React from 'react';
-import {  View, StatusBar, Platform } from "react-native";
+import React, {
+  useEffect, useState,useRef,Fragment,
+} from 'react'
+import { View, StatusBar, Platform, TextInput,Text } from "react-native";
 import App from "./app/app";
 import { MD3LightTheme, MD3DarkTheme, Provider as PaperProvider, MD2LightTheme } from "react-native-paper";
-
+import SplashScreen from 'react-native-splash-screen'
+Text.defaultProps = {
+  ...(Text.defaultProps || {}),
+  allowFontScaling: false,
+};
+TextInput.defaultProps = {
+  ...(TextInput.defaultProps || {}),
+  allowFontScaling: false,
+};
 const MaterialLightTheme = {
   "colors": {
     "primary": "#6203EC",
@@ -52,7 +61,10 @@ const MaterialLightTheme = {
   }}
 
 const MarketCy: () => Node = () => {
-
+  useEffect(()=>{
+    Platform.OS === "android" ?
+    SplashScreen.hide() : null
+  }, [],)
 
   return (
     <View style={{flex:1}}>

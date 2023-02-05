@@ -61,7 +61,7 @@ const Dashboard: () => Node = () =>{
     </List.Section>
 
       <Background>
-  <View  style={{flexDirection: 'row',width:105,justifyContent: 'center', alignItems: 'center',position: 'absolute',bottom: 0}}>
+  <View  style={{flexDirection: 'row',width:width/4,justifyContent: 'center', alignItems: 'center',position: 'absolute',bottom: 0}}>
     {Object.keys(languageStore.lngs).map((lng) => (
       <Button  key={lng} style={{borderRadius:20,fontWeight: i18n.resolvedLanguage === lng ? 'bold' : 'normal' }} onPress={() => {
         i18n.changeLanguage(lng);

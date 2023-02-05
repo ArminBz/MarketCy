@@ -36,7 +36,6 @@ const VerifyNumber: () => Node = () =>{
     //
     <ScrollView contentContainerStyle={{flexGrow: 1}}>
     <View style={{flex: 1,
-
       paddingTop:80,
       width: '100%',
       maxWidth: 340,
@@ -45,13 +44,19 @@ const VerifyNumber: () => Node = () =>{
       justifyContent: 'center',}}>
       <Logo />
       <TextInput
-        style={INPUT}
+        style={{ height: 40,
+          margin: 12,
+          borderWidth: 1,
+          padding: 10,
+          color:'#4700AE',
+          }}
         onChangeText={authStore.setCodeCheck}
         // value={authStore.codeCheck}
         placeholder="Enter the code here"
         keyboardType="numeric"
       />
       <Button
+        style={{width:240}}
         mode="contained"
         onPress={() => authStore.confirmOtp()}
       >
@@ -59,7 +64,7 @@ const VerifyNumber: () => Node = () =>{
       </Button>
 
       <Button
-        style={{marginBottom:220}}
+        style={{marginBottom:220,width:240}}
         mode="outlined"
         onPress={() =>  authStore.login()}
       >
