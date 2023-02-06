@@ -33,17 +33,17 @@ const ListOfProducts: () => Node = () =>{
   useEffect(()=>{
     basketStore.getBasket()
     productStore.setProduct([])
-    // productStore.setPage(1)
-    productStore.getProducts(productStore.idMarkets,null,null,null)
+    productStore.setPage(1)
+    productStore.getProducts(productStore.idMarkets,null,null,null,null)
     // console.log("id",productStore.idMarkets)
   }, [],)
 
 
   const renderItemHeader = ({item}) => (
     <TouchableOpacity style={{borderWidth:6,borderColor: '#F2F2F2'}} onPress={async () => {
-      productStore.setPage(1)
+      // productStore.setPage(1)
       productStore.setProduct([])
-     await productStore.getProducts(productStore.idMarkets,item.id)
+     await productStore.getProducts(productStore.idMarkets,item.id,null,null,null)
     }
     }
     >
@@ -141,7 +141,8 @@ const ListOfProducts: () => Node = () =>{
         keyExtractor={item => item.id}
         ListHeaderComponent={<TouchableOpacity style={{borderWidth:6,borderColor: '#F2F2F2'}} onPress={async () => {
           productStore.setProduct([])
-          productStore.getProducts(productStore.idMarkets,null,null,null)
+          productStore.setPage(1)
+          productStore.getProducts(productStore.idMarkets,null,null,null,null)
         }
         }
         >
@@ -166,7 +167,7 @@ const ListOfProducts: () => Node = () =>{
             return (<View style={{
               flex: 1, justifyContent: 'center', alignItems: 'center',
             }}>
-              <ActivityIndicator  color={'red'}/>
+              <ActivityIndicator  color="#6200EE"/>
             </View>)
           } else {
             return (<View/>)
@@ -205,6 +206,7 @@ const ListOfProducts: () => Node = () =>{
             console.log('onEndReached',)
             productStore.onEndReachedLoading = true
             productStore.setPage(productStore.page + 1,)
+            productStore.getProducts(productStore.idMarkets,null,null,null,productStore.page)
           }
         }
         }
@@ -213,7 +215,7 @@ const ListOfProducts: () => Node = () =>{
             return (<View style={{
               flex: 1, justifyContent: 'center', alignItems: 'center',
             }}>
-              <ActivityIndicator  color={'red'}/>
+              <ActivityIndicator  color="#6200EE"/>
             </View>)
           } else {
             return (<View/>)

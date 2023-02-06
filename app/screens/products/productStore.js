@@ -160,10 +160,10 @@ class productStore {
 
 
 
-  getProducts = async (storeId,categoryId,search,page) => {
+  getProducts = async (storeId,categoryId,search,lang,page) => {
     try {
       this.setLoading(true)
-      const response = await StoreService.getProducts(storeId,categoryId,search,page)
+      const response = await StoreService.getProducts(storeId,categoryId,search,lang,page)
       // console.log('getProducts res',response)
       // this.setSelectedProductByCat(response.items)
       // console.log('product',response.items.map(i=> i.product))
