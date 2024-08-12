@@ -129,7 +129,6 @@ class workerStore {
     try {
       this.setLoading(true)
       const response = await StoreService.adminGetProduct(barCode)
-      // console.log("barCode search",response)
       this.setSearchResult({})
       this.setSearchResult(response)
       console.log("barCode search",response.discount_price)
@@ -140,7 +139,6 @@ class workerStore {
     } catch (err) {
       console.log('login err', err)
       this.handleError(err)
-      // Alert.alert('Error:',err.message)
     } finally {
       this.setLoading(false)
     }
@@ -167,7 +165,6 @@ class workerStore {
     try {
       this.setLoading(true)
       const response = await StoreService.adminGetOrders('pending')
-      // console.log("AdminGetOrders",response)
       this.setPendingOrders(response)
 
     } catch (err) {
@@ -182,7 +179,6 @@ class workerStore {
     try {
       this.setLoading(true)
       const response = await StoreService.adminGetOrders('accepted')
-      // console.log("AdminGetOrders",response)
       this.setAcceptedOrders(response)
 
     } catch (err) {
@@ -197,7 +193,6 @@ class workerStore {
     try {
       this.setLoading(true)
       const response = await StoreService.adminGetOrders('rejected')
-      // console.log("AdminGetOrders",response)
       this.setRejectedOrders(response)
 
     } catch (err) {
@@ -212,7 +207,6 @@ class workerStore {
     try {
       this.setLoading(true)
       const response = await StoreService.adminGetOrders('delivered')
-      // console.log("AdminGetOrders",response)
       this.setDeliveredOrders(response)
 
     } catch (err) {
@@ -227,8 +221,6 @@ class workerStore {
     try {
       this.setLoading(true)
       const response = await StoreService.adminUpdateOrderStatus(orderId,status)
-      console.log("update admin orders",response)
-      // this.setOrders(response)
       Alert.alert("Successful",response.message)
 
     } catch (err) {

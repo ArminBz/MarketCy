@@ -54,9 +54,6 @@ const WorkerHomePage: () => Node = () =>{
     workerStore.getProductByBarcode(data)
   }
 
-  // useEffect(()=>{
-  //
-  // }, [],)
 
   const [scan, setScan] = React.useState(false);
   const [ScanResult, setScanResult] = React.useState(false);
@@ -91,7 +88,6 @@ const scanAgain = () => {
 
         <View>
           <TouchableOpacity>
-            {/*<Image source={require('./assets/back.png')} style={{height: 36, width: 36}}></Image>*/}
           </TouchableOpacity>
           <Text style={styles.textTitle}>Scan QR Code</Text>
         </View>
@@ -155,13 +151,6 @@ const scanAgain = () => {
                   value={workerStore.discountPriceProduct}
                 />
                 </View>
-                {/*<TextInput*/}
-                {/*  style={INPUT}*/}
-                {/*  onChangeText={(j)=>console.log("jj",j)}*/}
-                {/*  value={workerStore.searchResult.price}*/}
-                {/*  // placeholder={workerStore.searchResult.price}*/}
-                {/*  keyboardType="numeric"*/}
-                {/*/>*/}
                 <Text style={{fontSize: 14,fontWeight: 'bold',color:'#6200EE',position:'absolute',right:-15,bottom:35}}> TL </Text>
 
               </View>
@@ -233,22 +222,6 @@ const scanAgain = () => {
             }
           /> : null
         }
-
-       {/*<Background>*/}
-      {/*<View style={{*/}
-      {/*  maxWidth: 340,*/}
-      {/*  alignSelf: 'center',*/}
-      {/*  alignItems: 'center',*/}
-      {/*  justifyContent: 'center',paddingBottom:40}}>*/}
-      {/*    <Button*/}
-      {/*      style={{ marginTop: 1 }}*/}
-      {/*      mode="contained"*/}
-      {/*      onPress={() => authStore.onSignOut()}*/}
-      {/*    >*/}
-      {/*      {t('LogOut')}*/}
-      {/*    </Button>*/}
-      {/*</View>*/}
-        {/*</Background> */}
       {workerStore.loading ? (
         <View style={{
           position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center',
@@ -258,7 +231,6 @@ const scanAgain = () => {
             color="#6200EE"
           />
         </View> ) :null}
-      {/*{ apiCall ? chechScanResult(): setApiCall(false) }*/}
     </View>
    )
 }
@@ -269,7 +241,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     backgroundColor: 'white',
-    // marginBottom:250
   },
   header: {
     display: 'flex',

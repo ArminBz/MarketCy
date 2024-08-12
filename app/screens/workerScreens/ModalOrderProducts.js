@@ -13,21 +13,9 @@ import React, {
   useEffect, useState,useRef,
 } from 'react'
 import { observer } from "mobx-react";
-
 import { useStores } from "../../store";
-import { purpleButton,greenButton } from '../../style'
-import NumericInput from 'react-native-numeric-input'
-import Icon from 'react-native-vector-icons/FontAwesome'
-// import subheading from "react-native-paper/src/components/Typography/Subheading";
 import NavigationService from "../../router/NavigationService";
-import { List } from "react-native-paper";
-import qs from 'qs';
-import { Linking,Platform,StyleSheet  } from "react-native";
-import BouncyCheckboxGroup, {
-  ICheckboxButton,
-} from "react-native-bouncy-checkbox-group";
 import { useTranslation } from "react-i18next";
-import workerStore from "./workerStore";
 import { Button } from 'react-native-paper';
 
 const _iconStyle = (borderColor: string) => ({
@@ -65,18 +53,13 @@ const ModalOrderProducts=(props) =>{
 
   let items = workerStore.selectedOrderProducts?.items || null
 
-  // console.log('aa',workerStore.selectedOrderProducts.id)
-  // let name = props?.route?.params?.name || null
   return (
 <View style={{ flex: 1,}}>
     <ScrollView >
-      {/*<List.Subheader>Your Address</List.Subheader>*/}
       {items.map((item,index) => {
-        // console.log('item',item.quantity)
         return (
 
           <TouchableOpacity key={index}  style={{
-
             marginBottom: 10,
             marginTop: 5,
             padding: 10,
@@ -84,7 +67,6 @@ const ModalOrderProducts=(props) =>{
             flexDirection: 'row',
             borderWidth: 1,
             borderColor: '#E2E2E2',
-
           }}
           >
             <Image style={{

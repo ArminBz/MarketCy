@@ -8,19 +8,16 @@ import { getOffersApi } from "../../api/api";
 
 class offerStore {
 
-
   constructor() {
 
     makeObservable(this, {
       offer:observable,
 
 
-
       setOffer:action,
 
     },)
   }
-
   offer=[{
     id:1,
     image:'https://img.freepik.com/free-vector/gradient-local-market-sale-banner_23-2149462019.jpg?w=2000'
@@ -39,7 +36,6 @@ class offerStore {
   setOffer = (value) =>{
     this.offer = value
   }
-
 
   getOffers = async () => {
     try {

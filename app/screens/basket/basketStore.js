@@ -2,9 +2,7 @@
 import {
   action, makeObservable, observable,
 } from 'mobx'
-// import { Stores, } from '../../store'
-// import { signInApi, userAddressApi } from "../../api/api";
-// import AsyncStorage from '@react-native-async-storage/async-storage'
+
 import { StoreService } from "../../../src/services/openapi";
 import { Alert } from "react-native";
 
@@ -82,7 +80,6 @@ class basketStore {
     try {
       this.setLoading(true)
       const response = await StoreService.getBasket(1)
-      // return response
       this.setBasketItems([])
       this.setBasketItems(response.items)
       this.setTotalPrice(response.total_price)
@@ -97,9 +94,7 @@ class basketStore {
 
   updateBasket = async (store_id,product_id,quantity) => {
     try {
-      // console.log('response update basket',store_id,product_id,quantity)
       const response = await StoreService.updateBasket(store_id,product_id,quantity)
-      // console.log('salam',response)
     } catch (err) {
       console.log('login err', err)
       this.handleError(err)
@@ -126,7 +121,6 @@ class basketStore {
       this.setLoading(true)
       const response = await StoreService.checkout(store_id, address, paymentMethod)
       Alert.alert('Successful',response.message)
-      // console.log("checkout",response)
     } catch (err) {
       console.log('checkout err', err)
       Alert.alert('Error:',err.message)

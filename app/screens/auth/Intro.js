@@ -29,15 +29,10 @@ const {
 const Intro: () => Node = () =>{
 
   const { t, i18n } = useTranslation();
-  // const [count, setCounter] = useState(0);
 
-  // const [lngs, setLngs] = useState({ en: { nativeName: 'English' }});
 
   useEffect(() => {
-    // i18n.services.backendConnector.backend.getLanguages((err, ret) => {
-    //   if (err) return // TODO: handle err...
-    //   languageStore.setLngs(ret);
-    // });
+
   }, []);
 
 
@@ -47,7 +42,6 @@ const Intro: () => Node = () =>{
   } = useStores()
 
 
-  // const [name, setName, ] = useState('Intro')
 
   const phoneInput = React.useRef(null);
 
@@ -74,15 +68,6 @@ const Intro: () => Node = () =>{
   }
 
   return (
-  //   <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-  //     <Text>{name}</Text>
-  //     <Button
-  //       title="Go to Details"
-  //       onPress={() => setName('aidin')}
-  //     />
-  //
-  //   </View>
-
     <ScrollView  contentContainerStyle={{flexGrow: 1}}>
       <View style={{flex:1,
         padding: 20,
@@ -124,7 +109,6 @@ const Intro: () => Node = () =>{
           <ActivityIndicator
             size="large"
             color="#6200EE"
-
           />
         </View> ) :null}
 

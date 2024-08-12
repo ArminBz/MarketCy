@@ -3,24 +3,15 @@ import React, {
    useEffect, useState,useRef,
 } from 'react'
 import { observer } from "mobx-react";
-
 import { useStores } from "../../store";
 import { purpleButton,greenButton } from '../../style'
-import NumericInput from 'react-native-numeric-input'
-// import subheading from "react-native-paper/src/components/Typography/Subheading";
 import NavigationService from "../../router/NavigationService";
 import { List,TextInput } from "react-native-paper";
 import { useTranslation } from "react-i18next";
+
 const {
   height, width,
 } = Dimensions.get('window',)
-
-// const showAddressList = () => {
-//   return (
-//
-//
-//   )
-// }
 
 const ModalUserAddress=(props) =>{
   const { t, i18n } = useTranslation();
@@ -30,9 +21,6 @@ const ModalUserAddress=(props) =>{
     authStore,
   } = useStores()
 
-  // useEffect(()=>{
-  //
-  // }, [],)
 
   const [showAddress, setShowAddress, ] = useState(false)
 
@@ -58,7 +46,6 @@ const ModalUserAddress=(props) =>{
       <TextInput
         placeholder={t("Add Address")}
         maxLength={40}
-        // value={userAddressStore.userAddress}
         onChangeText={userAddressStore.setUserAddress}
       />
 </View>
@@ -83,7 +70,6 @@ const ModalUserAddress=(props) =>{
                   await authStore.getUser()
                    setShowAddress(true)
                  }}
-
       >
         <Text style={{ fontSize: 16,
           lineHeight: 21,

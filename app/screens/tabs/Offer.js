@@ -1,12 +1,6 @@
 import React from 'react'
-import Background from '../../components/Background'
-import Logo from '../../components/Logo'
-import Button from '../../components/Button'
 import { Dimensions, FlatList, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { observer } from "mobx-react";
-import NavigationService from "../../router/NavigationService";
-import NumericInput from "react-native-numeric-input";
-import Icon from "react-native-vector-icons/FontAwesome";
 import { useStores } from "../../store";
 
 

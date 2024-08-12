@@ -35,13 +35,11 @@ const ListOfProducts: () => Node = () =>{
     productStore.setProduct([])
     productStore.setPage(1)
     productStore.getProducts(productStore.idMarkets,null,null,null,null)
-    // console.log("id",productStore.idMarkets)
   }, [],)
 
 
   const renderItemHeader = ({item}) => (
     <TouchableOpacity style={{borderWidth:6,borderColor: '#F2F2F2'}} onPress={async () => {
-      // productStore.setPage(1)
       productStore.setProduct([])
      await productStore.getProducts(productStore.idMarkets,item.id,null,null,null)
     }
@@ -57,7 +55,6 @@ const ListOfProducts: () => Node = () =>{
     let name = item?.product?.name || null
     let price = item?.product?.price || null
     let thumb = item?.product?.thumb || null
-    // console.log('sss',item)
     return (
     <TouchableOpacity style={{
       flex: 1,
@@ -101,8 +98,6 @@ const ListOfProducts: () => Node = () =>{
         : null
       }
 
-      {/*<Text style={{flex:0.2,fontSize: 12}}>{item.amount}</Text>*/}
-
       <View style={{
         borderRadius: 10,
         width: 30,
@@ -119,18 +114,6 @@ const ListOfProducts: () => Node = () =>{
     </TouchableOpacity>
     )
   };
-  // const renderHeader = (item) => (
-  //   <View
-  //     style={{flex:1,flexDirection:'row',marginBottom: 10,marginTop: 10,padding: 10,backgroundColor: '#6200EE'}}
-  //
-  //   >
-  //     <Text style={{flex:0.2,color:'white'}}>Dessert</Text>
-  //     <Text style={{flex:0.2,color:'white'}}>quantity</Text>
-  //     <Text style={{flex:0.2,color:'white'}}>Image</Text>
-  //
-  //   </View>
-  // );
-
   return (
     <View style={{flex:1}}>
 <View style={{paddingBottom:1}}>
@@ -153,7 +136,6 @@ const ListOfProducts: () => Node = () =>{
         horizontal={true}
         onEndReachedThreshold={0.1}
         onEndReached={async () => {
-          // console.log('mainStore.flatListOnReachEnd', woshHistoryStore.flatListOnReachEnd,)
           if (categoryStore.flatListOnReachEnd) {
             console.log('onEndReached',)
             categoryStore.setOnEndReachedLoading(true)
@@ -201,7 +183,6 @@ const ListOfProducts: () => Node = () =>{
         keyExtractor={item => item.id}
         onEndReachedThreshold={0.1}
         onEndReached={async () => {
-          // console.log('mainStore.flatListOnReachEnd', woshHistoryStore.flatListOnReachEnd,)
           if (productStore.flatListOnReachEnd) {
             console.log('onEndReached',)
             productStore.onEndReachedLoading = true
@@ -228,8 +209,6 @@ const ListOfProducts: () => Node = () =>{
             iconColor={'#6200EE'}
             size={120}
             onPress={() => NavigationService.navigate('Basket')}
-            // animated={true}
-            // style={{justifyItems:'center',justifyContent:'center'}}
           />
 
           <Text style={{fontSize: 14,fontWeight: 'bold',}}>

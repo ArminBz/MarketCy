@@ -25,7 +25,7 @@ import { RegistrationError } from "react-native-notifications";
 import messaging, { firebase } from "@react-native-firebase/messaging";
 import { useTranslation } from "react-i18next";
 import CustomMapStyle from '../../components/CustomMapStyle.json'
-// import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+
 
 
 const {
@@ -50,9 +50,6 @@ const Map: () => Node = () =>{
     try {
       if (Platform.OS === 'ios') {
           const auth =  Geolocation.requestAuthorization('whenInUse');
-        //   if (auth === 'granted') {
-        //
-        //   }
         }
       if (Platform.OS === 'android') {
         const granted = await PermissionsAndroid.request(
@@ -63,13 +60,6 @@ const Map: () => Node = () =>{
           }
         )
       }
-      // if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      //   // console.log("You can use the location")
-      //   // alert("You can use the location");
-      // } else {
-      //   // console.log("location permission denied")
-      //   // alert("Location permission denied");
-      // }
     } catch (err) {
       console.warn(err)
     }
@@ -113,26 +103,6 @@ const Map: () => Node = () =>{
       description: t("Located at caesar resort and has variety of products"),
       image: Images[1],
     },
-    // {
-    //   coordinate: {
-    //     latitude: 35.256088142310205,
-    //     longitude: 33.904544485000386,
-    //   },
-    //   id :3,
-    //   title: t("Noyanlar Market"),
-    //   description: t("open till midnight"),
-    //   image: Images[2],
-    // },
-    // {
-    //   coordinate: {
-    //     latitude: 35.25367501019976,
-    //     longitude: 33.899871788483615,
-    //   },
-    //   id :4,
-    //   title: t("RoyalSun Market"),
-    //   description: t("Located at royalsun"),
-    //   image: Images[3],
-    // },
   ]);
   const [region, setRegion] = useState({
     latitude: 35.28278808375736,
@@ -157,8 +127,6 @@ const Map: () => Node = () =>{
   useEffect(()=>{
     requestFirebasePushNotificationPermission()
     categoryStore.getCategory()
-    // productStore.getProducts(1)
-    // basketStore.getBasket()
   }, [],)
 
   useEffect(()=>{
@@ -189,22 +157,6 @@ const Map: () => Node = () =>{
         }
       }, 10);
     });
-
-    // if (Platform.OS === 'ios') {
-    //   const auth =  Geolocation.requestAuthorization('whenInUse');
-    //   if (auth === 'granted') {
-    //
-    //   }
-    // }
-    //
-    // if (Platform.OS === 'android') {
-    //   const granted = PermissionsAndroid.request(
-    //     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-    //   );
-    //   if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-    //
-    //   }
-    // }
 requestPermissions()
     Geolocation.getCurrentPosition(
       //Will give you the current location
@@ -256,7 +208,6 @@ requestPermissions()
         showsUserLocation={true}
         initialRegion={region}
         style={styles.container}
-        // annotations={markers}
         customMapStyle={CustomMapStyle}
         loadingEnabled
         showUserLocationButton={true}
@@ -329,9 +280,7 @@ requestPermissions()
         ))}
       </Animated.ScrollView>
 
-
     </View>
-
   );
 }
 

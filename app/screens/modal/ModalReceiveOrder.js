@@ -20,7 +20,7 @@ import NumericInput from 'react-native-numeric-input'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Button from '../../components/Button'
 
-// import subheading from "react-native-paper/src/components/Typography/Subheading";
+
 import NavigationService from "../../router/NavigationService";
 import { List } from "react-native-paper";
 import qs from 'qs';
@@ -89,13 +89,6 @@ const {
   height, width,
 } = Dimensions.get('window',)
 
-// const showAddressList = () => {
-//   return (
-//
-//
-//   )
-// }
-
 const ModalReceiveOrder=(props) =>{
   const { t, i18n } = useTranslation();
 
@@ -148,19 +141,6 @@ const ModalReceiveOrder=(props) =>{
                       {/*<Text style={{ flex: 0.2, fontSize: 12, }}>{item.amount}</Text>*/}
                     </View>
                     <View style={{ marginTop: 17 }}>
-                      {/*<NumericInput*/}
-                      {/*  value={quantity}*/}
-                      {/*  onChange={item.setQuantityOfProduct}*/}
-                      {/*  // onLimitReached={(isMax,msg) => console.log(isMax,msg)}*/}
-                      {/*  totalWidth={70}*/}
-                      {/*  totalHeight={30}*/}
-                      {/*  iconSize={25}*/}
-                      {/*  valueType='real'*/}
-                      {/*  rounded*/}
-                      {/*  textColor='#6200EE'*/}
-                      {/*  iconStyle={{ color: 'white' }}*/}
-                      {/*  rightButtonBackgroundColor='#6200EE'*/}
-                      {/*  leftButtonBackgroundColor='#009588' />*/}
                       <TextInput
                         style={{
                           margin: 12,
@@ -183,46 +163,6 @@ const ModalReceiveOrder=(props) =>{
   };
 
 
-  // const renderAdressesItem = ({item}) =>{
-  //   // console.log('ann',item)
-  //   return (
-  //     // <TouchableOpacity  style={{
-  //     //   flex: 1,
-  //     //   marginBottom: 10,
-  //     //   marginTop: 5,
-  //     //   padding: 10,
-  //     //   width: width,
-  //     //   flexDirection: 'row',
-  //     //   borderWidth: 1,
-  //     //   borderColor: '#E2E2E2',
-  //     //
-  //     // }} >
-  //     //   <ScrollView style={{ flex: 1 }}>
-  //     //
-  //     //     <TouchableOpacity onPress={() => {
-  //     //       userAddressStore.setUserAddress(item)
-  //     //       setChangeColorAddress(true)
-  //     //       console.log('dasdasdas',item === userAddressStore.userAddress)
-  //     //     }} >
-  //     //       <View style={item === userAddressStore.userAddress ? stylesAddress.alphabetContainerSelected: stylesAddress.alphabetContainer}>
-  //     //       <Text>{item}</Text>
-  //     //       </View>
-  //     //       </TouchableOpacity>
-  //     //
-  //     //   </ScrollView>
-  //     // </TouchableOpacity>
-  //     // <List.Section title="Accordions">
-  //     //   <List.Accordion
-  //     //     title="Adress"
-  //     //     left={props => <List.Icon {...props} icon="folder" />}>
-  //     //     <List.Item title={item} />
-  //     //
-  //     //   </List.Accordion>
-  //     // </List.Section>
-  //   )
-  // };
-
-
   const [showAddress, setShowAddress, ] = useState(false)
   const itemStyles = [
     stylesAddress.alphabetContainer,
@@ -232,7 +172,6 @@ const ModalReceiveOrder=(props) =>{
   return (
 
     <View style={{ flex: 1}}>
-        {/*<List.Subheader>Your Address</List.Subheader>*/}
         <View>
           <ScrollView style={{height:200}}>
           <List.Section title="Your Addresses">
@@ -240,16 +179,10 @@ const ModalReceiveOrder=(props) =>{
               style={{}}
               title="Select your address"
               left={props => <List.Icon {...props} icon="location-enter" />}>
-            {/*  right=<TouchableOpacity>*/}
-            {/*  <Text> Add </Text>*/}
-            {/*</TouchableOpacity>*/}
               {Object.keys(authStore.addressesOfUser).map((ads,index) => (
                 <List.Item  style={ indexChangeColorAddress === index ? stylesAddress.alphabetContainerSelected : null} onPress={() => {
                             userAddressStore.setUserAddress(authStore.addressesOfUser[ads])
                             setIndexChangeColorAddress(index)
-                  console.log('aa',indexChangeColorAddress)
-
-                            // console.log('userAddress', userAddressStore.userAddress)
                           }} title={authStore.addressesOfUser[ads]} key={ads}  />
               ))}
               <List.Item  title={'Add your address'} onPress={() => NavigationService.navigate('ModalUserAddress')}/>
@@ -257,25 +190,6 @@ const ModalReceiveOrder=(props) =>{
 
           </List.Section>
           </ScrollView>
-          {/*<FlatList*/}
-          {/*  // extraData={authStore.addressesOfUser}*/}
-          {/*  data={authStore.addressesOfUser}*/}
-          {/*  renderItem={renderAdressesItem}*/}
-
-          {/*>*/}
-          {/*</FlatList>*/}
-          {/*<TextInput*/}
-          {/*  placeholder="Your Address"*/}
-          {/*  maxLength={40}*/}
-          {/*  style={{borderWidth: 1,*/}
-          {/*    padding: 20,*/}
-          {/*    borderRadius: 50,*/}
-          {/*    borderColor: '#888888',*/}
-          {/*    fontSize: 18*/}
-          {/*  }}*/}
-          {/*  value={authStore.addressesOfUser}*/}
-          {/*  onChangeText={authStore.setAddressesOfUser}*/}
-          {/*/>*/}
         </View>
 
 
@@ -287,7 +201,6 @@ const ModalReceiveOrder=(props) =>{
         keyExtractor={(item) => item.id}
       >
       </FlatList>
-
 
 
       <View>
@@ -345,15 +258,11 @@ const ModalReceiveOrder=(props) =>{
           backgroundColor: '#6200EE',
           marginTop:10}}
                    onPress={() => {
-
-                     // NavigationService.navigate('UserAddress')
-                     // setShowAddress(true)
                        checkboxState===true && userAddressStore.userAddress!== undefined && userAddressStore.userAddress.length > 0?
                        basketStore.checkOut(1,userAddressStore.userAddress,productStore.payment)
                      :  Alert.alert("Check the Payment method or add your address")
                      NavigationService.navigate('ListOfProducts')
                    }}
-
         >
           <Text style={{ fontSize: 16,
             lineHeight: 21,
@@ -375,8 +284,6 @@ const ModalReceiveOrder=(props) =>{
             color: 'white', }}>Close</Text>
         </Pressable>
       </View>
-
-
     </View>
 
   )

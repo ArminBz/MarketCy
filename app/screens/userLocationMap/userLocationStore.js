@@ -12,25 +12,8 @@ class userLocationStore {
 
     makeObservable(this, {
 
-
-      // position:observable,
-
-
-
-
-
-
-
     },)
   }
-
-  l
-
-
-  // setPosition = (value) =>{
-  //   this.position = value
-  // }
-
 }
 
 

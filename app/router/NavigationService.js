@@ -6,7 +6,6 @@ export const navigationRef = createNavigationContainerRef()
 
 const navigate = (name, params,)=> {
 
-    // navigationRef.dispatch(navigationRef.navigate(name, params),)
     if (navigationRef.isReady()) {
         navigationRef.navigate(name, params,)
     }
@@ -33,7 +32,6 @@ const currentRoute = ()=>{
     }
 
 }
-
 
 export default {
     navigate,

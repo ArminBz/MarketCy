@@ -17,11 +17,8 @@ import { observer } from "mobx-react";
 import { IconButton, List,TextInput } from "react-native-paper";
 import NavigationService from "../../router/NavigationService";
 import { useStores } from "../../store";
-import navigationService from "../../router/NavigationService";
 import { useTranslation } from "react-i18next";
-import Button from "../../components/Button";
-import Background from "../../components/Background";
-import Icon from "react-native-vector-icons/FontAwesome";
+
 
 const {
   height, width,
@@ -30,9 +27,6 @@ const {
 const Orders: () => Node = () =>{
   const { t, i18n } = useTranslation();
 
-  // useEffect(()=>{
-  //   workerStore.getAdminOrders(null)
-  // }, [],)
 
   const {
     languageStore,
@@ -44,9 +38,6 @@ const Orders: () => Node = () =>{
   const [text, setText] = React.useState("");
 
   const renderPendingItem = ({item}) => {
-    // let thumb = items?.product?.thumb || null
-    // console.log('item',item.phone)
-    // console.log('pr',itemProducts)
     return (
       <ScrollView style={{
         flex: 1,
@@ -54,14 +45,12 @@ const Orders: () => Node = () =>{
         marginTop: 5,
         padding: 10,
         width: width,
-
         borderWidth: 1,
         borderColor: '#E2E2E2',
 
       }}>
         <TouchableOpacity onPress={() => {
           workerStore.setSelectedOrderProducts(item)
-          // console.log('ww',item)
           NavigationService.navigate('ModalOrderProducts')
         }}>
           <View style={{ flex: 1 }}>
@@ -104,9 +93,6 @@ const Orders: () => Node = () =>{
 
 
   const renderAcceptedItem = ({item}) => {
-    // let thumb = items?.product?.thumb || null
-    // console.log('item',item.phone)
-    // console.log('pr',itemProducts)
     return (
       <ScrollView style={{
         flex: 1,
@@ -121,7 +107,6 @@ const Orders: () => Node = () =>{
       }}>
         <TouchableOpacity onPress={() => {
           workerStore.setSelectedOrderProducts(item)
-          // console.log('ww',item)
           NavigationService.navigate('ModalOrderProducts')
         }}>
           <View style={{ flex: 1 }}>
@@ -161,124 +146,6 @@ const Orders: () => Node = () =>{
       </ScrollView>
     )
   };
-
-  // const renderRejectedItem = ({item}) => {
-  //   // let thumb = items?.product?.thumb || null
-  //   // console.log('item',item.phone)
-  //   // console.log('pr',itemProducts)
-  //   return (
-  //     <ScrollView style={{
-  //       flex: 1,
-  //       marginBottom: 10,
-  //       marginTop: 5,
-  //       padding: 10,
-  //       width: width,
-  //
-  //       borderWidth: 1,
-  //       borderColor: '#E2E2E2',
-  //
-  //     }}>
-  //       <TouchableOpacity onPress={() => {
-  //         workerStore.setSelectedOrderProducts(item)
-  //         // console.log('ww',item)
-  //         NavigationService.navigate('ModalOrderProducts')
-  //       }}>
-  //         <View style={{ flex: 1 }}>
-  //           <List.Icon  color="#6200EE" icon="phone" style={{position:'absolute',left:-12,bottom:38}} />
-  //           {/*<Text style={{ flex: 0.2, fontSize: 15, fontWeight: 'bold' }}>{price}</Text>*/}
-  //           <Text style={{
-  //             flex: 0.2,
-  //             fontSize: 15,
-  //             fontWeight: 'bold',
-  //             paddingLeft:30
-  //           }}>{item.phone}</Text>
-  //           <List.Icon color="#6200EE" icon="update" style={{position:'absolute',left:-12,top:10}} />
-  //           <Text style={{
-  //             flex: 0.2,
-  //             fontSize: 15,
-  //             fontWeight: 'bold',
-  //
-  //             paddingLeft:30,
-  //             paddingTop:10
-  //           }}>{item.created_at}</Text>
-  //           <List.Icon  color="#6200EE" icon="location-enter" style={{position:'absolute',left:-11,top:37}} />
-  //           <Text style={{ flex: 0.2, fontSize: 14, fontWeight: 'bold',paddingLeft:30, paddingTop:10 }}>{item.address}</Text>
-  //           <Text style={{
-  //             flex: 0.2,
-  //             fontSize: 15,
-  //             fontWeight: 'bold',
-  //             color: 'red',position:'absolute',left:340
-  //           }}>{item.status}</Text>
-  //           <Text style={{
-  //             flex: 0.2,
-  //             fontSize: 15,
-  //             fontWeight: 'bold',
-  //             color: 'red',position:'absolute',left:340,top:30
-  //           }}>{item.total} TL</Text>
-  //         </View>
-  //       </TouchableOpacity>
-  //     </ScrollView>
-  //   )
-  // };
-  //
-  // const renderDeliveredItem = ({item}) => {
-  //   // let thumb = items?.product?.thumb || null
-  //   // console.log('item',item.phone)
-  //   // console.log('pr',itemProducts)
-  //   return (
-  //     <ScrollView style={{
-  //       flex: 1,
-  //       marginBottom: 10,
-  //       marginTop: 5,
-  //       padding: 10,
-  //       width: width,
-  //
-  //       borderWidth: 1,
-  //       borderColor: '#E2E2E2',
-  //
-  //     }}>
-  //       <TouchableOpacity onPress={() => {
-  //         workerStore.setSelectedOrderProducts(item)
-  //         // console.log('ww',item)
-  //         NavigationService.navigate('ModalOrderProducts')
-  //       }}>
-  //         <View style={{ flex: 1 }}>
-  //           <List.Icon  color="#6200EE" icon="phone" style={{position:'absolute',left:-12,bottom:38}} />
-  //           {/*<Text style={{ flex: 0.2, fontSize: 15, fontWeight: 'bold' }}>{price}</Text>*/}
-  //           <Text style={{
-  //             flex: 0.2,
-  //             fontSize: 15,
-  //             fontWeight: 'bold',
-  //             paddingLeft:30
-  //           }}>{item.phone}</Text>
-  //           <List.Icon color="#6200EE" icon="update" style={{position:'absolute',left:-12,top:10}} />
-  //           <Text style={{
-  //             flex: 0.2,
-  //             fontSize: 15,
-  //             fontWeight: 'bold',
-  //
-  //             paddingLeft:30,
-  //             paddingTop:10
-  //           }}>{item.created_at}</Text>
-  //           <List.Icon  color="#6200EE" icon="location-enter" style={{position:'absolute',left:-11,top:37}} />
-  //           <Text style={{ flex: 0.2, fontSize: 14, fontWeight: 'bold',paddingLeft:30, paddingTop:10 }}>{item.address}</Text>
-  //           <Text style={{
-  //             flex: 0.2,
-  //             fontSize: 15,
-  //             fontWeight: 'bold',
-  //             color: 'blue',position:'absolute',left:340
-  //           }}>{item.status}</Text>
-  //           <Text style={{
-  //             flex: 0.2,
-  //             fontSize: 15,
-  //             fontWeight: 'bold',
-  //             color: 'blue',position:'absolute',left:340,top:30
-  //           }}>{item.total} TL</Text>
-  //         </View>
-  //       </TouchableOpacity>
-  //     </ScrollView>
-  //   )
-  // };
 
   return (
     <View style={{flex: 1}}>
@@ -325,18 +192,14 @@ const Orders: () => Node = () =>{
           }}>
             <TouchableOpacity style={{width: width}} onPress={() => {
               workerStore.setSelectedOrderProducts(workerStore.pendingOrders[item])
-              // console.log('ww',item)
               NavigationService.navigate('ModalOrderProducts')
             }}>
               <View style={{width:width }}>
-                {/*<List.Icon  color="#6200EE" icon="phone" style={{position:'absolute',left:-12,bottom:53}} />*/}
-                {/*<Text style={{ flex: 0.2, fontSize: 15, fontWeight: 'bold' }}>{price}</Text>*/}
                 <Text style={{
 
                   fontSize: 15,
                   fontWeight: 'bold',width: '100%',
                 }}>{workerStore.pendingOrders[item].phone}</Text>
-                {/*<List.Icon color="#6200EE" icon="update" style={{position:'absolute',left:-12,top:25}} />*/}
                 <Text style={{
 
                   fontSize: 15,
@@ -344,7 +207,6 @@ const Orders: () => Node = () =>{
                   paddingTop:10,
                   width: '100%'
                 }}>{workerStore.pendingOrders[item].created_at}</Text>
-                {/*<List.Icon  color="#6200EE" icon="location-enter" style={{position:'absolute',left:-11,top:53}} />*/}
                 <Text style={{ flex: 0.2, fontSize: 14, fontWeight: 'bold', paddingTop:10 ,width: '100%'}}>{workerStore.pendingOrders[item].address}</Text>
                 <View style={{position:'absolute',right:28,}}>
                 <Text style={{
@@ -366,7 +228,6 @@ const Orders: () => Node = () =>{
         )}
 
         {Object.keys(workerStore.acceptedOrders).map((item) => {
-          // console.log('sasa',workerStore.pendingOrders[item])
           return(
             <View key={item} style={{
               flex: 1,
@@ -380,27 +241,20 @@ const Orders: () => Node = () =>{
             }}>
               <TouchableOpacity style={{width: '100%'}} onPress={() => {
                 workerStore.setSelectedOrderProducts(workerStore.acceptedOrders[item])
-                // console.log('ww',item)
                 NavigationService.navigate('ModalOrderProducts')
               }}>
                 <View style={{ width: width }}>
-                  {/*<List.Icon  color="#6200EE" icon="phone" style={{position:'absolute',left:-12,bottom:53}} />*/}
-                  {/*<Text style={{ flex: 0.2, fontSize: 15, fontWeight: 'bold' }}>{price}</Text>*/}
                   <Text style={{
-
                     fontSize: 15,
                     fontWeight: 'bold',
                     width: '100%'
                   }}>{workerStore.acceptedOrders[item].phone}</Text>
-                  {/*<List.Icon color="#6200EE" icon="update" style={{position:'absolute',left:-12,top:25}} />*/}
                   <Text style={{
-
                     fontSize: 15,
                     fontWeight: 'bold',
                     paddingTop:10,
                     width: '100%'
                   }}>{workerStore.acceptedOrders[item].created_at}</Text>
-                  {/*<List.Icon  color="#6200EE" icon="location-enter" style={{position:'absolute',left:-11,top:53}} />*/}
                   <Text style={{ flex: 0.2, fontSize: 14, fontWeight: 'bold', paddingTop:10 }}>{workerStore.acceptedOrders[item].address}</Text>
                   <View style={{position:'absolute',right:28,}}>
                   <Text style={{
@@ -421,31 +275,7 @@ const Orders: () => Node = () =>{
             </View>
           )}
         )}
-
-        {/*<List.Subheader style={{paddingTop:30,color:'green'}}>{t('Accepted Orders')}</List.Subheader>*/}
-        {/*<View style={{paddingTop:10}}>*/}
-        {/*<FlatList*/}
-        {/*  data={workerStore.acceptedOrders}*/}
-        {/*  renderItem={renderAcceptedItem}*/}
-        {/*  keyExtractor={item => item.id}*/}
-        {/*/>*/}
-        {/*</View>*/}
-        {/*<List.Subheader style={{paddingTop:30,color:'blue'}}>{t('Delivered Orders')}</List.Subheader>*/}
-        {/*<FlatList*/}
-        {/*  data={workerStore.deliveredOrders}*/}
-        {/*  renderItem={renderDeliveredItem}*/}
-        {/*  keyExtractor={item => item.id}*/}
-        {/*/>*/}
-        {/*<List.Subheader style={{paddingTop:30,color:'red'}}>{t('Rejected Orders')}</List.Subheader>*/}
-        {/*<FlatList*/}
-        {/*  data={workerStore.rejectedOrders}*/}
-        {/*  renderItem={renderRejectedItem}*/}
-        {/*  keyExtractor={item => item.id}*/}
-        {/*/>*/}
-
       </View>
-
-
 
       {workerStore.loading ? (
         <View style={{

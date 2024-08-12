@@ -15,7 +15,6 @@ import { useTranslation } from "react-i18next";
 const VerifyNumber: () => Node = () =>{
   const { t, i18n } = useTranslation();
 
-  // const phoneInput = useRef<PhoneInput>(null);
   const {
     languageStore,
     authStore,
@@ -25,15 +24,6 @@ const VerifyNumber: () => Node = () =>{
 
 
   return (
-    //   <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-    //     <Text>{name}</Text>
-    //     <Button
-    //       title="Go to Details"
-    //       onPress={() => setName('aidin')}
-    //     />
-    //
-    //   </View>
-    //
     <ScrollView contentContainerStyle={{flexGrow: 1}}>
     <View style={{flex: 1,
       paddingTop:80,

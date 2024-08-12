@@ -3,14 +3,9 @@ import {
   action, makeObservable, observable,
 } from 'mobx'
 import { basketReceiptApi, getOffersApi, getProductApi, signInApi } from "../../api/api";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { setToken } from "../../utils/Api";
 import { Stores, } from '../../store'
 import authStore from "../auth/authStore";
 import { StoreService } from "../../../src/services/openapi";
-import feather from "react-native-vector-icons/Feather";
-
-
 
 
 class productStore {
@@ -123,7 +118,6 @@ class productStore {
     for (const value of this.addProducts)
     {
       quantity=value.quantityOfProduct
-      // sum += value.price.replace(/[^0-9.]/g, '')*quantity;
     }
     return sum;
   }
@@ -135,11 +129,7 @@ class productStore {
 
   orderReceipt = async () => {
     try {
-      // this.setLoginLoading(true,)
-      // this.setServerError(null,)
-      // console.log('user', Stores.userAddressStore.userAddress,this.selectedProducts)
       const response = await basketReceiptApi(Stores.userAddressStore.userAddress,this.selectedProducts,Stores.authStore.phoneNumber)
-      console.log('receipt response', response,)
     } catch (err) {
 
       console.log('login err', err,)
@@ -164,12 +154,6 @@ class productStore {
     try {
       this.setLoading(true)
       const response = await StoreService.getProducts(storeId,categoryId,search,lang,page)
-      // console.log('getProducts res',response)
-      // this.setSelectedProductByCat(response.items)
-      // console.log('product',response.items.map(i=> i.product))
-      // return response
-      // this.setProduct(response.items)
-      // this.setSelectedProducts(response.items)
       if (response.items && response.items.length === 0) {
         this.setFlatListOnReachEnd(false,)
         this.setOnEndReachedLoading(false,)
@@ -180,12 +164,8 @@ class productStore {
         this.setProduct([...this.product, ...response.items,],)
       } else {
         this.setProduct(response.items)
-
       }
       this.setOnEndReachedLoading(false,)
-
-      // console.log("man product",response.items.map(i=> i.product))
-      // console.log("man product",response)
     } catch (err) {
       console.log('getProd err', err)
       this.setOnEndReachedLoading(false,)
@@ -194,38 +174,6 @@ class productStore {
       this.setLoading(false)
     }
   }
-
-
-  // getAllProducts = async () => {
-  //   try {
-  //     this.setLoading(true)
-  //     const response = await StoreService.getProduct()
-  //
-  //     if (response.items && response.items.length === 0) {
-  //       this.setFlatListOnReachEnd(false,)
-  //       this.setOnEndReachedLoading(false,)
-  //     } else {
-  //       this.setFlatListOnReachEnd(true,)
-  //     }
-  //     if (this.product.length>0) {
-  //       this.setProduct([...this.product, ...response.items,],)
-  //     } else {
-  //       this.setProduct(response.items)
-  //
-  //     }
-  //     this.setOnEndReachedLoading(false,)
-  //
-  //     // console.log("man product",response.items.map(i=> i.product))
-  //     // console.log("man product",response)
-  //   } catch (err) {
-  //     console.log('login err', err)
-  //     this.setOnEndReachedLoading(false,)
-  //     this.handleError(err)
-  //   } finally {
-  //     this.setLoading(false)
-  //   }
-  // }
-
 }
 
 

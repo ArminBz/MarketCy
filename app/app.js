@@ -4,16 +4,15 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { SignedInStackScreen, SignedOutStackScreen, TabStackScreen, WorkerStackScreen } from "./router";
 import { observer } from "mobx-react";
 import { createNativeStackNavigator, } from '@react-navigation/native-stack'
-import {
-  AppState, Platform, View, SafeAreaView, Pressable, Text,SafeAreaViewComponent
-} from "react-native";
+import {View} from "react-native";
 import { navigationRef, } from './router/NavigationService'
 import { useEffect, useState } from "react";
 import { useStores } from "./store";
 import { OpenAPI } from "../src/services/openapi";
 import Landing from "./screens/landing/Landing";
 import './screens/translation/i18n';
-import {useTranslation} from 'react-i18next';
+
+
 const App: () => Node = () => {
 
 
@@ -26,13 +25,6 @@ const App: () => Node = () => {
     authStore.checkIsSignedIn()
   }, [],)
 
-
-
-
-  // componentDidMount Before
-  // useEffect(()=>{
-  //
-  // },[])
 
   const RootStack = createNativeStackNavigator()
   const Stack = createNativeStackNavigator()
@@ -86,13 +78,10 @@ const App: () => Node = () => {
                       headerShown: false, headerBackTitleVisible: false,
                     }}
                   />
-
           }
         </RootStack.Navigator>
       </NavigationContainer>
-
     </View>
-
   )
 
 }

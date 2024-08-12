@@ -29,14 +29,6 @@ const Markets: () => Node = () =>{
   ]
 
   const [markets, setMarkets] = useState([
-    // {
-    //   id:0,
-    // image: Images[0],
-    //   name:'Unimar Market',
-    //   description:'ÜNİMARSÜPERMARKET 2009 yılından bu yana market sektöründe faaliyet gösteren bir firmadır. ',
-    //   time:'7am–10pm',
-    //   number:'+90 546 990 00 99'
-    // },
     {
       id:1,
       image: Images[1],
@@ -53,14 +45,6 @@ const Markets: () => Node = () =>{
       time:'8am–10pm',
       number:'3718517730 - 05338517739'
     },
-    // {
-    //   id:3,
-    //   image: Images[3],
-    //   name:'Royalsun Market',
-    //   description:'',
-    //   time:'',
-    //   number:''
-    // }
   ])
 
 
@@ -77,9 +61,6 @@ const Markets: () => Node = () =>{
         flexDirection: 'row',
         borderWidth: 1,
         borderColor: '#E2E2E2'
-      // }} onPress={() => {
-      //   productStore.setSelectedProducts(item)
-      //   NavigationService.navigate('ModalEachProduct')
       }}>
 
         <Image style={{
@@ -100,16 +81,12 @@ const Markets: () => Node = () =>{
           <Text style={{ flex: 0.2, fontSize: 15,marginTop:8 }}>{item.time}</Text>
           <Text style={{ flex: 0.2, fontSize: 15,marginTop:8 }}>{item.number}</Text>
         </View>
-        {/*<View style={{  }}>*/}
-        {/*  <Button onPress={() => {deleteItemById(item.id)}}> <Icon name={'trash'} size={20}/></Button>*/}
-        {/*</View>*/}
       </TouchableOpacity>
     </ScrollView>
   );
 
 
   return (
-
     <View style={{flex:1}}>
         <View style={{flex:1}}>
           <FlatList
@@ -120,7 +97,6 @@ const Markets: () => Node = () =>{
           >
           </FlatList>
         </View>
-
     </View>
 
   )

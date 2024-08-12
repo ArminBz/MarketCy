@@ -179,16 +179,7 @@ export const TabStackScreen = ()=> {
         renderScene={renderScene}
         shifting={true}
         // barStyle={{backgroundColor:'#312534'}}
-
       />
-    //   <TabStack.Navigator useLegacyImplementation={true} drawerContent={(props,) => <DrawerNav {...props} />}>
-    //       <TabStack.Screen name="Home" component={Home} options={{
-    //         tabBarIcon: ({ color }) => (
-    //           <Icon name="home" color={color} size={26} />
-    //         ), tabBarBadge: 3 }} />
-    //       <TabStack.Screen name="Dashboard" component={Dashboard} />
-    //   </TabStack.Navigator>
-
     )
 }
 

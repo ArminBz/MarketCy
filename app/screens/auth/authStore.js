@@ -2,12 +2,7 @@
 import {
     action, makeObservable, observable,
 } from 'mobx'
-import { Stores, } from '../../store'
-import { signInApi, } from '../../api/api'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import {
-    resetToken, setToken,
-} from '../../utils/Api'
 import { OpenAPI, UserService } from "../../../src/services/openapi";
 import NavigationService from "../../router/NavigationService";
 
@@ -31,8 +26,6 @@ class AuthStore {
             loggedIn: observable,
             checkUserStatus:observable,
             addressesOfUser:observable,
-
-
 
 
 
@@ -107,20 +100,10 @@ class AuthStore {
         this.addressesOfUser = value
     }
 
-    // login = () =>{
-    //    if( this.codeCheck)
-    //       this.userSignedIn=true
-    //     else
-    //         alert("Enter the code")
-    //
-    // }
 
     setItemsPerPage= (value) =>{
         this.itemsPerPage = value
     }
-
-
-
 
 
     handleError = (err) => {
@@ -204,8 +187,6 @@ class AuthStore {
             // console.log('confirmOtp response', response.user)
 
             if (response.api_key) {
-                // console.log("is it",response.user.store.name)
-                // if (response.user?.store?.name)
                     this.setUserLogin(response.api_key, response.user)
                 this.checkIsSignedIn()
                     this.setLoggedIn(true,)
@@ -228,7 +209,6 @@ class AuthStore {
             let number = await AsyncStorage.getItem('phone',)
             let userStatus = await AsyncStorage.getItem('userStatus',)
             console.log('userStatus', userStatus,)
-            // console.log('checkUserIsSignedIn this.loggedIn', this.loggedIn,)
 
 
             if (token !== null) {
@@ -245,12 +225,6 @@ class AuthStore {
             this.setCheckIsSignedInLoading(false,)
             console.log('isSignedIn() err:', err,)
             console.log('isSignedIn() err.response:', err.response,)
-
-            // // TODO - Evaluate alert and handle it properly
-            // if (Stores.mainStore.isConnected) {
-            //     alert('Something seems to be wrong, please try again',)
-            //     await this.onSignOut()
-            // }
         }
     };
 

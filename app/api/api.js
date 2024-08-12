@@ -1,5 +1,5 @@
 import { API, } from '../utils/Api'
-import { Platform, } from 'react-native'
+
 
 
 export const signInApi = async (phone) => {

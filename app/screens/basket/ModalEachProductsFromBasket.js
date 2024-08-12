@@ -5,9 +5,9 @@ import { TextInput } from 'react-native-paper';
 import { useStores } from "../../store";
 import { purpleButton,greenButton } from '../../style'
 import NumericInput from 'react-native-numeric-input'
-// import subheading from "react-native-paper/src/components/Typography/Subheading";
 import NavigationService from "../../router/NavigationService";
 import { useTranslation } from "react-i18next";
+
 const {
   height, width,
 } = Dimensions.get('window',)
@@ -60,8 +60,6 @@ const ModalEachProductsFromBasket=(props) =>{
       {/*<Button  onPress={() => navigation.goBack()} title="Close" />*/}
       <Pressable style={purpleButton}
                  onPress={() => {
-                   // productStore.setAddProducts({...productStore.selectedProducts,quantityOfProduct:productStore.quantityOfProduct})
-                   // console.log('selectedp',productStore.selectedProducts)
                    basketStore.updateBasket(1,id,productStore.quantityOfProduct)
                    console.log('selectedp',productStore.selectedProducts.id,productStore.quantityOfProduct)
                    basketStore.getBasket()

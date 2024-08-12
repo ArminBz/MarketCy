@@ -127,19 +127,6 @@ const Basket: () => Node = () =>{
             selectTextOnFocus={false}
             value = {quantity}
           />
-          {/*<NumericInput*/}
-          {/*  value={quantity}*/}
-          {/*  // onLimitReached={(isMax,msg) => console.log(isMax,msg)}*/}
-          {/*  totalWidth={70}*/}
-          {/*  totalHeight={30}*/}
-          {/*  iconSize={25}*/}
-
-          {/*  type={"up-down"}*/}
-          {/*  textColor='#6200EE'*/}
-          {/*  iconStyle={{ color: 'white' }}*/}
-          {/*  editable={false}*/}
-          {/*  rightButtonBackgroundColor='#6200EE'*/}
-          {/*  leftButtonBackgroundColor='#009588' />*/}
           <Button onPress={() => {
             basketStore.deleteBasketItem(1,id)
             basketStore.getBasket()
@@ -206,8 +193,6 @@ const Basket: () => Node = () =>{
         iconColor={'#6200EE'}
         size={120}
         onPress={() => NavigationService.navigate('Basket')}
-        // animated={true}
-        // style={{justifyItems:'center',justifyContent:'center'}}
       />
 
       <Text style={{fontSize: 14,fontWeight: 'bold',}}>

@@ -2,10 +2,9 @@
 import {
   action, makeObservable, observable,
 } from 'mobx'
-// import { Stores, } from '../../store'
-// import { getCategoriesApi, getProductApi } from "../../api/api";
+
 import { StoreService, UserService } from "../../../src/services/openapi";
-import NavigationService from "../../router/NavigationService";
+
 
 
 class categoryStore {
@@ -76,8 +75,6 @@ class categoryStore {
     try {
       const response = await StoreService.getCategories(null,this.page)
 
-      // console.log('salam',response.items)
-
       if (response.items && response.items.length === 0) {
         this.setFlatListOnReachEnd(false,)
         this.setOnEndReachedLoading(false,)
@@ -86,13 +83,10 @@ class categoryStore {
       }
       if (this.categories.length>0) {
         this.setCategory([...this.categories, ...response.items,],)
-        // console.log('hey', this.categories,)
       }
       else {
         this.setCategory(response.items)
       }
-      // this.setOnEndReachedLoading(false,)
-       // return response
 
     } catch (err) {
       this.setOnEndReachedLoading(false,)
