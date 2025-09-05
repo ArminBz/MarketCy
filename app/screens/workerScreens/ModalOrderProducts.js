@@ -41,7 +41,7 @@ const ModalOrderProducts = props => {
 
   useEffect(() => {
     authStore.getUser();
-  }, []);
+  }, [authStore]);
 
   let items = workerStore.selectedOrderProducts?.items || null;
 

@@ -129,7 +129,7 @@ const Map: () => Node = () => {
   useEffect(() => {
     requestFirebasePushNotificationPermission();
     categoryStore.getCategory();
-  }, []);
+  }, [categoryStore]);
 
   useEffect(() => {
     animationState.addListener(({value}) => {
@@ -183,7 +183,7 @@ const Map: () => Node = () => {
         maximumAge: 1000,
       },
     );
-  }, []);
+  }, [animationState, item, markers, region.latitudeDelta, region.longitudeDelta, regionTimeout]);
   const interpolations = markers.map((marker, index) => {
     const inputRange = [
       (index - 1) * CARD_WIDTH,

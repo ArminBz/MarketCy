@@ -33,7 +33,7 @@ const WorkerHomePage: () => Node = () => {
     workerStore.getAdminRejectedOrders();
     workerStore.getAdminDeliveredOrders();
     workerStore.getAdminAcceptOrders();
-  }, []);
+  }, [workerStore]);
 
   const toggleSwitch = () => {
     setCheckboxState(previousState => !previousState);
