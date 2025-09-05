@@ -265,7 +265,7 @@ const ListOfProducts: () => Node = () => {
           />
         </View>
       </View>
-      {productStore.product.length !== 0 ?
+      {productStore.product.length !== 0 ? (
         <FlatList
           data={productStore.product.slice()}
           renderItem={renderItem}

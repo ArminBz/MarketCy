@@ -22,7 +22,7 @@ const App = () => {
 
   useEffect(() => {
     authStore.checkIsSignedIn();
-  }, []);
+  }, [authStore]);
 
   const RootStack = createNativeStackNavigator();
   const Stack = createNativeStackNavigator();

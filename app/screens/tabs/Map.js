@@ -183,7 +183,14 @@ const Map: () => Node = () => {
         maximumAge: 1000,
       },
     );
-  }, [animationState, item, markers, region.latitudeDelta, region.longitudeDelta, regionTimeout]);
+  }, [
+    animationState,
+    item,
+    markers,
+    region.latitudeDelta,
+    region.longitudeDelta,
+    regionTimeout,
+  ]);
   const interpolations = markers.map((marker, index) => {
     const inputRange = [
       (index - 1) * CARD_WIDTH,

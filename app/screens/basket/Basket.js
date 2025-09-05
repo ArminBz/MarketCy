@@ -33,7 +33,7 @@ const Basket: () => Node = () => {
   useEffect(() => {
     basketStore.getBasket();
     // authStore.getUser()
-  }, []);
+  }, [basketStore]);
 
   const deleteItemById = id => {
     // console.log('id=>',id)

@@ -96,7 +96,7 @@ const ModalReceiveOrder = props => {
 
   useEffect(() => {
     authStore.getUser();
-  }, []);
+  }, [authStore]);
 
   const renderItem = ({item}) => {
     let name = item?.store_product.product?.name || null;
