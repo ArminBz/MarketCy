@@ -1,19 +1,22 @@
 import { Suspense } from 'react';
 import React, {
-  useEffect, useState,useRef,Fragment,
-} from 'react'
-import { View, StatusBar, Platform, TextInput,Text } from "react-native";
+  useEffect, useState, useRef, Fragment,
+} from 'react';
+import { View, StatusBar, Platform, TextInput, Text } from "react-native";
 import App from "./app/app";
 import { MD3LightTheme, MD3DarkTheme, Provider as PaperProvider, MD2LightTheme } from "react-native-paper";
-import SplashScreen from 'react-native-splash-screen'
+import SplashScreen from 'react-native-splash-screen';
+
 Text.defaultProps = {
   ...(Text.defaultProps || {}),
   allowFontScaling: false,
 };
+
 TextInput.defaultProps = {
   ...(TextInput.defaultProps || {}),
   allowFontScaling: false,
 };
+
 const MaterialLightTheme = {
   "colors": {
     "primary": "#6203EC",
@@ -35,13 +38,12 @@ const MaterialLightTheme = {
     "background": "#FFFBFE",
     "onBackground": "rgb(233, 224, 228)",
     "surface": "rgb(30, 26, 29)",
-
     "surfaceVariant": "rgb(78, 68, 75)",
     "onSurfaceVariant": "rgb(209, 194, 203)",
     "outline": "rgb(154, 141, 149)",
     "outlineVariant": "rgb(78, 68, 75)",
 
-    // custum colors
+    // custom colors
     "shadow": "#6203EC",
     "scrim": "#6203EC",
 
@@ -56,28 +58,30 @@ const MaterialLightTheme = {
       "level4": "rgb(57, 43, 55)",
       "level5": "rgb(62, 46, 59)"
     },
-
     "backdrop": "rgba(55, 46, 52, 0.4)"
-  }}
+  }
+};
 
-const MarketCy: () => Node = () => {
-  useEffect(()=>{
+const MarketCy = () => {
+  useEffect(() => {
     Platform.OS === "android" ?
-    SplashScreen.hide() : null
-  }, [],)
+      SplashScreen.hide() : null;
+  }, []);
 
   return (
-    <View style={{flex:1}}>
-      <StatusBar backgroundColor="#000000"
-                 barStyle={Platform.OS === "ios" ? "dark-content" : "light-content"}
-                 hidden={false} />
+    <View style={{ flex: 1 }}>
+      <StatusBar 
+        backgroundColor="#000000"
+        barStyle={Platform.OS === "ios" ? "dark-content" : "light-content"}
+        hidden={false} 
+      />
       <PaperProvider theme={MaterialLightTheme}>
         <Suspense fallback="...is loading">
-      <App/>
+          <App />
         </Suspense>
       </PaperProvider>
     </View>
   );
-}
+};
 
-export default MarketCy
+export default MarketCy;

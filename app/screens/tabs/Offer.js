@@ -1,22 +1,20 @@
-import React from 'react'
+import React from 'react';
 import { Dimensions, FlatList, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { observer } from "mobx-react";
 import { useStores } from "../../store";
 
-
 const {
   height, width,
-} = Dimensions.get('window',)
+} = Dimensions.get('window');
 
-const Offer: () => Node = () =>{
+const Offer = () => {
   const {
     offerStore,
-  } = useStores()
+  } = useStores();
 
 
-  const renderItem = ({item}) =>(
+  const renderItem = ({ item }) => (
     <ScrollView>
-
       <TouchableOpacity style={{
         flex: 1,
         marginBottom: 10,
@@ -29,9 +27,8 @@ const Offer: () => Node = () =>{
       }} onPress={() => {
 
       }}>
-
         <Image style={{
-          flex:1,
+          flex: 1,
           height: 150,
           borderWidth: 0.8,
           borderColor: '#C6C6C6',
@@ -39,25 +36,25 @@ const Offer: () => Node = () =>{
           padding: 6,
           marginRight: 10
         }}
-               source={{
-                 uri: item.image,
-               }}
-               resizeMode="cover"
+          source={{
+            uri: item.image,
+          }}
+          resizeMode="cover"
         />
       </TouchableOpacity>
     </ScrollView>
   );
 
   return (
-    <View style={{flex:1}}>
+    <View style={{ flex: 1 }}>
       <FlatList
         extraData={offerStore.offer}
         data={offerStore.offer}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
-      >
-      </FlatList>
+      />
     </View>
-  )
-}
-export default observer(Offer)
+  );
+};
+
+export default observer(Offer);

@@ -1,25 +1,23 @@
-import Background from '../../components/Background'
-import Logo from '../../components/Logo'
-import Button from '../../components/Button'
+import Background from '../../components/Background';
+import Logo from '../../components/Logo';
+import Button from '../../components/Button';
 import { Dimensions, FlatList, Image, Pressable, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { observer } from "mobx-react";
 import { useTranslation } from "react-i18next";
-import React, {useRef, useEffect,useState} from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useStores } from "../../store";
-
 
 const {
   height, width,
-} = Dimensions.get('window',)
+} = Dimensions.get('window');
 
-
-const Markets: () => Node = () =>{
+const Markets = () => {
   const { t, i18n } = useTranslation();
 
   const {
     authStore,
     productStore,
-  } = useStores()
+  } = useStores();
 
   const Images = [
     { uri: "https://play-lh.googleusercontent.com/2aatOyHIya1XPRMTnXZGYX9hN3DZpyXl7TrOHqsEdeCO61tnNM_gYXct176vMfB49yc" },
@@ -30,28 +28,25 @@ const Markets: () => Node = () =>{
 
   const [markets, setMarkets] = useState([
     {
-      id:1,
+      id: 1,
       image: Images[1],
-      name:'Sayılı Market (Caesar Resort)',
-      description:'Located at Caesar Resort Rd, Yeni İskele 99850, and has the widest variety of products and goods.',
-      time:'9am–11pm',
-      number:'05338517739'
+      name: 'Sayılı Market (Caesar Resort)',
+      description: 'Located at Caesar Resort Rd, Yeni İskele 99850, and has the widest variety of products and goods.',
+      time: '9am–11pm',
+      number: '05338517739'
     },
     {
-      id:2,
+      id: 2,
       image: Images[2],
-      name:'Sayılı Market (Bogaz)',
-      description:'Located at iskele bogaz. ',
-      time:'8am–10pm',
-      number:'3718517730 - 05338517739'
+      name: 'Sayılı Market (Bogaz)',
+      description: 'Located at iskele bogaz.',
+      time: '8am–10pm',
+      number: '3718517730 - 05338517739'
     },
-  ])
+  ]);
 
-
-
-  const renderItem = ({item}) =>(
+  const renderItem = ({ item }) => (
     <ScrollView>
-
       <TouchableOpacity style={{
         flex: 1,
         marginBottom: 10,
@@ -62,7 +57,6 @@ const Markets: () => Node = () =>{
         borderWidth: 1,
         borderColor: '#E2E2E2'
       }}>
-
         <Image style={{
           flex: 0.4,
           height: 180,
@@ -72,33 +66,30 @@ const Markets: () => Node = () =>{
           padding: 6,
           marginRight: 10
         }}
-               source={item.image}
+          source={item.image}
         />
         <View style={{ flex: 0.6 }}>
-          <Text style={{ flex: 0.2, fontSize: 17, fontWeight: 'bold',color: '#6200EE' }}>{item.name}</Text>
-
-          <Text style={{ flex: 0.2, fontSize: 14, fontWeight: 'bold',marginTop:8  }}>{item.description}</Text>
-          <Text style={{ flex: 0.2, fontSize: 15,marginTop:8 }}>{item.time}</Text>
-          <Text style={{ flex: 0.2, fontSize: 15,marginTop:8 }}>{item.number}</Text>
+          <Text style={{ flex: 0.2, fontSize: 17, fontWeight: 'bold', color: '#6200EE' }}>{item.name}</Text>
+          <Text style={{ flex: 0.2, fontSize: 14, fontWeight: 'bold', marginTop: 8 }}>{item.description}</Text>
+          <Text style={{ flex: 0.2, fontSize: 15, marginTop: 8 }}>{item.time}</Text>
+          <Text style={{ flex: 0.2, fontSize: 15, marginTop: 8 }}>{item.number}</Text>
         </View>
       </TouchableOpacity>
     </ScrollView>
   );
 
-
   return (
-    <View style={{flex:1}}>
-        <View style={{flex:1}}>
-          <FlatList
-            extraData={markets}
-            data={markets}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-          >
-          </FlatList>
-        </View>
+    <View style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
+        <FlatList
+          extraData={markets}
+          data={markets}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
     </View>
+  );
+};
 
-  )
-}
-export default observer(Markets)
+export default observer(Markets);

@@ -11,11 +11,11 @@ import {
   Image,
   AppRegistry, TouchableOpacity, Platform, PermissionsAndroid,
 } from "react-native";
-import React, {useRef, useEffect,useState} from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { observer } from "mobx-react";
 import { useStores } from "../../store";
-import  {Marker, Circle} from 'react-native-maps';
-import MapView, { PROVIDER_GOOGLE,PROVIDER_DEFAULT } from 'react-native-maps'
+import { Marker, Circle } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, PROVIDER_DEFAULT } from 'react-native-maps';
 import NavigationService from "../../router/NavigationService";
 import Geolocation, { getCurrentPosition } from "react-native-geolocation-service";
 import { googleMapIsInstalled } from "react-native-maps/lib/decorateMapComponent";
@@ -24,7 +24,7 @@ import { Registered } from "react-native-notifications";
 import { RegistrationError } from "react-native-notifications";
 import messaging, { firebase } from "@react-native-firebase/messaging";
 import { useTranslation } from "react-i18next";
-import CustomMapStyle from '../../components/CustomMapStyle.json'
+import CustomMapStyle from '../../components/CustomMapStyle.json';
 
 
 

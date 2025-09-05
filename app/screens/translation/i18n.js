@@ -1,5 +1,5 @@
 import i18n from 'i18next';
-import {initReactI18next} from 'react-i18next';
+import { initReactI18next } from 'react-i18next';
 import en from './en/en.json';
 import tr from './tr/tr.json';
 import fa from './fa/fa.json';
@@ -9,7 +9,6 @@ import Backend from 'i18next-locize-backend';
 import LastUsed from 'locize-lastused';
 import { locizePlugin } from "locize";
 
-
 i18n.use(initReactI18next).init({
   compatibilityJSON: 'v3',
   lng: 'en',
@@ -17,14 +16,12 @@ i18n.use(initReactI18next).init({
   resources: {
     en: en,
     tr: tr,
-    uk:uk,
-    fa:fa,
+    uk: uk,
+    fa: fa,
   },
   interpolation: {
     escapeValue: false // react already safes from xss
   }
-
-
 });
 
 // const locizeOptions = {
