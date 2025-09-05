@@ -35,7 +35,7 @@ const ListOfProducts: () => Node = () => {
     productStore.setProduct([]);
     productStore.setPage(1);
     productStore.getProducts(productStore.idMarkets, null, null, null, null);
-  }, []);
+  }, [basketStore, productStore]);
 
   const renderItemHeader = ({item}) => (
     <TouchableOpacity
