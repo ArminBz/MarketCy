@@ -1,11 +1,7 @@
-
-import {
-  action, makeObservable, observable,
-} from 'mobx';
+import {action, makeObservable, observable} from 'mobx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { OpenAPI, UserService } from "../../../src/services/openapi";
-import NavigationService from "../../router/NavigationService";
-
+import {OpenAPI, UserService} from '../../../src/services/openapi';
+import NavigationService from '../../router/NavigationService';
 
 class AuthStore {
   constructor() {
@@ -42,7 +38,6 @@ class AuthStore {
     });
   }
 
-
   phoneNumber = '';
   codeCheck = '';
   userSignedIn = false;
@@ -57,57 +52,55 @@ class AuthStore {
   checkUserStatus = null;
   addressesOfUser = [];
 
-
-  setPhoneNumber = (value) => {
+  setPhoneNumber = value => {
     this.phoneNumber = value;
   };
 
-  setCodeCheck = (value) => {
+  setCodeCheck = value => {
     this.codeCheck = value;
   };
 
-  setLoading = (value) => {
+  setLoading = value => {
     this.loading = value;
   };
 
-  setErrorMessage = (value) => {
+  setErrorMessage = value => {
     this.errorMessage = value;
   };
 
-  setShowErrMessage = (value) => {
+  setShowErrMessage = value => {
     this.showErrMessage = value;
   };
 
-  setConfirmPhone = (value) => {
+  setConfirmPhone = value => {
     this.confirmPhone = value;
   };
 
-  setResponseMessage = (value) => {
+  setResponseMessage = value => {
     this.responseMessage = value;
   };
 
-  setCheckIsSignedInLoading = (value) => {
+  setCheckIsSignedInLoading = value => {
     this.checkIsSignedInLoading = value;
   };
 
   setLoggedIn(value) {
     this.loggedIn = value;
-  };
+  }
 
   setCheckUserStatus(value) {
     this.checkUserStatus = value;
-  };
+  }
 
   setAddressesOfUser(value) {
     this.addressesOfUser = value;
-  };
+  }
 
-  setItemsPerPage = (value) => {
+  setItemsPerPage = value => {
     this.itemsPerPage = value;
   };
 
-
-  handleError = (err) => {
+  handleError = err => {
     if (err?.body?.message) {
       this.setErrorMessage(err.body.message);
       this.setShowErrMessage(true);
@@ -119,12 +112,11 @@ class AuthStore {
     }
   };
 
-
   login = async () => {
     try {
       this.setLoading(true);
       const response = await UserService.login({
-        phone: this.phoneNumber
+        phone: this.phoneNumber,
       });
 
       console.log('response', response);
@@ -142,7 +134,6 @@ class AuthStore {
     }
   };
 
-
   setUserLogin = (api_key, user) => {
     AsyncStorage.setItem('token', api_key.toString());
     AsyncStorage.setItem('phone', this.phoneNumber.toString());
@@ -153,7 +144,6 @@ class AuthStore {
     // this.setCheckUserStatus(user)
     OpenAPI.TOKEN = api_key;
   };
-
 
   getUser = async () => {
     try {
@@ -169,7 +159,6 @@ class AuthStore {
       this.setLoading(false);
     }
   };
-
 
   confirmOtp = async () => {
     try {

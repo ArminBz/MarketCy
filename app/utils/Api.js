@@ -1,19 +1,19 @@
-import axios from 'axios'
-import config from '../config/env/config'
+import axios from 'axios';
+import config from '../config/env/config';
 
-axios.defaults.timeout = 20000
-axios.defaults.headers.post['Content-Type'] = 'application/json'
-axios.defaults.headers.patch['Content-Type'] = 'application/json'
-axios.defaults.headers.delete['Content-Type'] = 'application/json'
+axios.defaults.timeout = 20000;
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.headers.patch['Content-Type'] = 'application/json';
+axios.defaults.headers.delete['Content-Type'] = 'application/json';
 
 export function resetToken() {
-  delete API.defaults.headers.common['Authorization']
+  delete API.defaults.headers.common.Authorization;
 }
 
-export function setToken(token,) {
-  API.defaults.headers.common['Authorization'] = token
+export function setToken(token) {
+  API.defaults.headers.common.Authorization = token;
 }
 
 export const API = axios.create({
   baseURL: 'https://m.up.railway.app/v1/',
-},)
+});

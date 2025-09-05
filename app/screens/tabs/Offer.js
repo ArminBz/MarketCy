@@ -1,41 +1,45 @@
 import React from 'react';
-import { Dimensions, FlatList, Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { observer } from "mobx-react";
-import { useStores } from "../../store";
+import {
+  Dimensions,
+  FlatList,
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {observer} from 'mobx-react';
+import {useStores} from '../../store';
 
-const {
-  height, width,
-} = Dimensions.get('window');
+const {height, width} = Dimensions.get('window');
 
 const Offer = () => {
-  const {
-    offerStore,
-  } = useStores();
+  const {offerStore} = useStores();
 
-
-  const renderItem = ({ item }) => (
+  const renderItem = ({item}) => (
     <ScrollView>
-      <TouchableOpacity style={{
-        flex: 1,
-        marginBottom: 10,
-        marginTop: 5,
-        padding: 10,
-        width: width,
-        flexDirection: 'row',
-        borderWidth: 1,
-        borderColor: '#E2E2E2'
-      }} onPress={() => {
-
-      }}>
-        <Image style={{
+      <TouchableOpacity
+        style={{
           flex: 1,
-          height: 150,
-          borderWidth: 0.8,
-          borderColor: '#C6C6C6',
-          width: 80,
-          padding: 6,
-          marginRight: 10
+          marginBottom: 10,
+          marginTop: 5,
+          padding: 10,
+          width: width,
+          flexDirection: 'row',
+          borderWidth: 1,
+          borderColor: '#E2E2E2',
         }}
+        onPress={() => {}}>
+        <Image
+          style={{
+            flex: 1,
+            height: 150,
+            borderWidth: 0.8,
+            borderColor: '#C6C6C6',
+            width: 80,
+            padding: 6,
+            marginRight: 10,
+          }}
           source={{
             uri: item.image,
           }}
@@ -46,12 +50,12 @@ const Offer = () => {
   );
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{flex: 1}}>
       <FlatList
         extraData={offerStore.offer}
         data={offerStore.offer}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
       />
     </View>
   );

@@ -1,22 +1,24 @@
-import { NavigationContainer } from "@react-navigation/native";
-import * as React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { SignedInStackScreen, SignedOutStackScreen, TabStackScreen, WorkerStackScreen } from "./router";
-import { observer } from "mobx-react";
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { View } from "react-native";
-import { navigationRef } from './router/NavigationService';
-import { useEffect, useState } from "react";
-import { useStores } from "./store";
-import { OpenAPI } from "../src/services/openapi";
-import Landing from "./screens/landing/Landing";
+import {NavigationContainer} from '@react-navigation/native';
+import * as React from 'react';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {
+  SignedInStackScreen,
+  SignedOutStackScreen,
+  TabStackScreen,
+  WorkerStackScreen,
+} from './router';
+import {observer} from 'mobx-react';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {View} from 'react-native';
+import {navigationRef} from './router/NavigationService';
+import {useEffect, useState} from 'react';
+import {useStores} from './store';
+import {OpenAPI} from '../src/services/openapi';
+import Landing from './screens/landing/Landing';
 import './screens/translation/i18n';
 
 const App = () => {
-  const {
-    authStore,
-    categoryStore
-  } = useStores();
+  const {authStore, categoryStore} = useStores();
 
   useEffect(() => {
     authStore.checkIsSignedIn();
@@ -28,7 +30,7 @@ const App = () => {
   OpenAPI.BASE = 'https://m.up.railway.app';
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{flex: 1}}>
       <NavigationContainer ref={navigationRef}>
         <RootStack.Navigator>
           {authStore.checkIsSignedInLoading ? (
@@ -36,24 +38,26 @@ const App = () => {
               name="Landing"
               component={Landing}
               options={{
-                headerShown: false, 
+                headerShown: false,
                 headerBackTitleVisible: false,
               }}
             />
-          ) : authStore.loggedIn === true && authStore.checkUserStatus === null ? (
+          ) : authStore.loggedIn === true &&
+            authStore.checkUserStatus === null ? (
             <Stack.Screen
               name="SignedInStackScreen"
               component={SignedInStackScreen}
               options={{
-                headerShown: false
+                headerShown: false,
               }}
             />
-          ) : authStore.loggedIn === true && authStore.checkUserStatus !== null ? (
+          ) : authStore.loggedIn === true &&
+            authStore.checkUserStatus !== null ? (
             <Stack.Screen
               name="WorkerStackScreen"
               component={WorkerStackScreen}
               options={{
-                headerShown: false
+                headerShown: false,
               }}
             />
           ) : authStore.loggedIn === false ? (
@@ -61,7 +65,7 @@ const App = () => {
               name="SignedOutStackScreen"
               component={SignedOutStackScreen}
               options={{
-                headerShown: false
+                headerShown: false,
               }}
             />
           ) : (
@@ -69,7 +73,7 @@ const App = () => {
               name="Landing"
               component={Landing}
               options={{
-                headerShown: false, 
+                headerShown: false,
                 headerBackTitleVisible: false,
               }}
             />
