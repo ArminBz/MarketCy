@@ -18,7 +18,7 @@ import NavigationService from '../../router/NavigationService';
 import {useTranslation} from 'react-i18next';
 import {Button} from 'react-native-paper';
 
-const _iconStyle = (borderColor: string) => ({
+const _iconStyle = borderColor => ({
   height: 50,
   width: 50,
   borderRadius: 25,

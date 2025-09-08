@@ -25,7 +25,7 @@ import BouncyCheckbox from 'react-native-bouncy-checkbox';
 
 const {height, width} = Dimensions.get('window');
 
-const WorkerHomePage: () => Node = () => {
+const WorkerHomePage = () => {
   const {workerStore, basketStore, authStore} = useStores();
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const WorkerHomePage: () => Node = () => {
   const toggleSwitch = () => {
     setCheckboxState(previousState => !previousState);
   };
-  let bouncyCheckboxRef: BouncyCheckbox | null = null;
+  let bouncyCheckboxRef = null;
   const [checkboxState, setCheckboxState] = React.useState(true);
 
   const chechScanResult = data => {

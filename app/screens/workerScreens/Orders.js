@@ -19,7 +19,7 @@ import {useTranslation} from 'react-i18next';
 
 const {height, width} = Dimensions.get('window');
 
-const Orders: () => Node = () => {
+const Orders = () => {
   const {t, i18n} = useTranslation();
 
   const {languageStore, authStore, workerStore, productStore} = useStores();

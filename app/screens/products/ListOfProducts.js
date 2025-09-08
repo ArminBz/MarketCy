@@ -23,7 +23,7 @@ const {height, width} = Dimensions.get('window');
 
 const optionsPerPage = [2, 3, 4];
 
-const ListOfProducts: () => Node = () => {
+const ListOfProducts = () => {
   const {t, i18n} = useTranslation();
 
   const {authStore, productStore, categoryStore, basketStore} = useStores();

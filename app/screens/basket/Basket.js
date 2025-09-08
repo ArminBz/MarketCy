@@ -25,7 +25,7 @@ import {useTranslation} from 'react-i18next';
 
 const {height, width} = Dimensions.get('window');
 
-const Basket: () => Node = () => {
+const Basket = () => {
   const {t, i18n} = useTranslation();
 
   const {authStore, productStore, basketStore} = useStores();

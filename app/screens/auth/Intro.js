@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {observer} from 'mobx-react';
 import NavigationService from '../../router/NavigationService';
-import React, {Node, useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import Background from '../../components/Background';
 import Logo from '../../components/Logo';
 import {Paragraph} from 'react-native-paper';

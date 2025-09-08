@@ -29,7 +29,7 @@ import BouncyCheckboxGroup, {
 } from 'react-native-bouncy-checkbox-group';
 import {useTranslation} from 'react-i18next';
 
-const _iconStyle = (borderColor: string) => ({
+const _iconStyle = borderColor => ({
   height: 50,
   width: 50,
   borderRadius: 25,
@@ -43,7 +43,7 @@ const styles = {
   iconImageStyle: {height: 20, width: 20},
 };
 
-const verticalStaticData: ICheckboxButton[] = [
+const verticalStaticData = [
   {
     id: 0,
     text: 'Card',
@@ -263,7 +263,7 @@ const ModalReceiveOrder = props => {
             <BouncyCheckboxGroup
               data={verticalStaticData}
               style={{flexDirection: 'column'}}
-              onChange={(selectedItem: ICheckboxButton) => {
+              onChange={selectedItem => {
                 productStore.setPayment(selectedItem.text);
                 // console.log("SelectedItem: ", productStore.payment);
                 JSON.stringify(selectedItem.id)
