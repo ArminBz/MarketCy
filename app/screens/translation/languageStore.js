@@ -1,6 +1,6 @@
 import {action, makeObservable, observable} from 'mobx';
 
-class languageStore {
+class LanguageStore {
   constructor() {
     makeObservable(this, {
       lngs: observable,
@@ -27,4 +27,4 @@ class languageStore {
   };
 }
 
-export default languageStore;
+export default LanguageStore;

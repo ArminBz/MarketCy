@@ -1,32 +1,23 @@
-import {
-  Text,
-  View,
-  SafeAreaView,
-  Pressable,
-  Dimensions,
-  Image,
-  FlatList,
-} from 'react-native';
-import React, {useEffect, useState, useRef} from 'react';
+import {Text, View, Pressable, Dimensions, FlatList} from 'react-native';
+import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import {useStores} from '../../store';
-import {purpleButton, greenButton} from '../../style';
+import {COLORS, purpleButton, greenButton} from '../../style';
 import NavigationService from '../../router/NavigationService';
 import {List, TextInput} from 'react-native-paper';
 import {useTranslation} from 'react-i18next';
 
-const {height, width} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 const ModalUserAddress = props => {
-  const {t, i18n} = useTranslation();
+  const {t} = useTranslation();
 
   const {userAddressStore, authStore} = useStores();
 
-  const [showAddress, setShowAddress] = useState(false);
+  const [, setShowAddress] = useState(false);
 
   const renderItem = ({item}) => <View />;
 
-  let name = props?.route?.params?.name || null;
   return (
     <View style={{flex: 1}}>
       <List.Section>
@@ -60,7 +51,7 @@ const ModalUserAddress = props => {
               lineHeight: 21,
               fontWeight: 'bold',
               letterSpacing: 0.25,
-              color: 'white',
+              color: COLORS.white,
             }}>
             {' '}
             {t('Add')}
@@ -75,7 +66,7 @@ const ModalUserAddress = props => {
               lineHeight: 21,
               fontWeight: 'bold',
               letterSpacing: 0.25,
-              color: 'white',
+              color: COLORS.white,
             }}>
             {t('Close')}
           </Text>

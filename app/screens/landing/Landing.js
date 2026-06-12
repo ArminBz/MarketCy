@@ -1,4 +1,5 @@
 import React from 'react';
+import {COLORS} from '../../style';
 import {Dimensions, Image, View} from 'react-native';
 
 let {width, height} = Dimensions.get('window');
@@ -8,7 +9,7 @@ const Landing = () => {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#6200EE',
+        backgroundColor: COLORS.primary,
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',

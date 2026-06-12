@@ -3,12 +3,12 @@ import {
   Dimensions,
   FlatList,
   Image,
-  ScrollView,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useRef, useEffect, useState} from 'react';
+import {COLORS, discountedPriceStyle} from '../../style';
+import React, {useEffect, useState} from 'react';
 import {observer} from 'mobx-react';
 import NavigationService from '../../router/NavigationService';
 import {useStores} from '../../store';
@@ -18,15 +18,14 @@ import Button from '../../components/Button';
 import Background from '../../components/Background';
 import {useTranslation} from 'react-i18next';
 import {Searchbar} from 'react-native-paper';
+import LoadingOverlay from '../../components/LoadingOverlay';
 
-const {height, width} = Dimensions.get('window');
-
-const optionsPerPage = [2, 3, 4];
+const {width} = Dimensions.get('window');
 
 const ListOfProducts = () => {
-  const {t, i18n} = useTranslation();
+  const {t} = useTranslation();
 
-  const {authStore, productStore, categoryStore, basketStore} = useStores();
+  const {productStore, categoryStore, basketStore} = useStores();
 
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -39,7 +38,7 @@ const ListOfProducts = () => {
 
   const renderItemHeader = ({item}) => (
     <TouchableOpacity
-      style={{borderWidth: 6, borderColor: '#F2F2F2'}}
+      style={{borderWidth: 6, borderColor: COLORS.surfaceMuted}}
       onPress={async () => {
         productStore.setProduct([]);
         await productStore.getProducts(
@@ -53,11 +52,11 @@ const ListOfProducts = () => {
       <View
         style={{
           borderWidth: 1,
-          borderColor: '#C6C6C6',
+          borderColor: COLORS.border,
           borderRadius: 8,
           height: 60,
           width: 140,
-          backgroundColor: '#6200EE',
+          backgroundColor: COLORS.primary,
           textAlign: 'center',
           justifyContent: 'center',
           alignItems: 'center',
@@ -66,7 +65,7 @@ const ListOfProducts = () => {
           style={{
             fontSize: 14,
             fontWeight: 'bold',
-            color: '#FFFFFF',
+            color: COLORS.white,
             textAlign: 'center',
             justifyContent: 'center',
             alignItems: 'center',
@@ -79,7 +78,6 @@ const ListOfProducts = () => {
 
   const renderItem = ({item}) => {
     let name = item?.product?.name || null;
-    let price = item?.product?.price || null;
     let thumb = item?.product?.thumb || null;
     return (
       <TouchableOpacity
@@ -90,8 +88,8 @@ const ListOfProducts = () => {
           padding: 10,
           width: width,
           borderWidth: 0.8,
-          borderColor: '#C6C6C6',
-          backgroundColor: 'white',
+          borderColor: COLORS.border,
+          backgroundColor: COLORS.white,
         }}
         onPress={() => {
           productStore.setSelectedProducts(item);
@@ -127,18 +125,9 @@ const ListOfProducts = () => {
             fontSize: 15,
             fontWeight: 'bold',
             marginBottom: 5,
-            color:
-              item.discount_price !== null && item.discount_price !== 0
-                ? 'red'
-                : '#6200EE',
-            textDecorationLine:
-              item.discount_price !== null && item.discount_price !== 0
-                ? 'line-through'
-                : '',
-            textDecorationStyle:
-              item.discount_price !== null && item.discount_price !== 0
-                ? 'solid'
-                : '',
+            ...discountedPriceStyle(
+              item.discount_price !== null && item.discount_price !== 0,
+            ),
           }}>
           {item.price} TL
         </Text>
@@ -148,7 +137,7 @@ const ListOfProducts = () => {
               flex: 0.2,
               fontSize: 15,
               fontWeight: 'bold',
-              color: '#6200EE',
+              color: COLORS.primary,
               marginBottom: 5,
             }}>
             {item.discount_price} TL
@@ -162,7 +151,7 @@ const ListOfProducts = () => {
             height: 30,
             marginLeft: 'auto',
             marginRight: 0,
-            backgroundColor: '#6200EE',
+            backgroundColor: COLORS.primary,
             justifyContent: 'center',
             alignContent: 'center',
           }}>
@@ -170,7 +159,7 @@ const ListOfProducts = () => {
             style={{textAlign: 'center'}}
             name="plus"
             size={15}
-            color={'white'}
+            color={COLORS.white}
           />
         </View>
       </TouchableOpacity>
@@ -185,7 +174,7 @@ const ListOfProducts = () => {
           keyExtractor={item => item.id}
           ListHeaderComponent={
             <TouchableOpacity
-              style={{borderWidth: 6, borderColor: '#F2F2F2'}}
+              style={{borderWidth: 6, borderColor: COLORS.surfaceMuted}}
               onPress={async () => {
                 productStore.setProduct([]);
                 productStore.setPage(1);
@@ -200,11 +189,11 @@ const ListOfProducts = () => {
               <View
                 style={{
                   borderWidth: 1,
-                  borderColor: '#C6C6C6',
+                  borderColor: COLORS.border,
                   borderRadius: 8,
                   height: 60,
                   width: 140,
-                  backgroundColor: '#6200EE',
+                  backgroundColor: COLORS.primary,
                   textAlign: 'center',
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -213,7 +202,7 @@ const ListOfProducts = () => {
                   style={{
                     fontSize: 14,
                     fontWeight: 'bold',
-                    color: '#FFFFFF',
+                    color: COLORS.white,
                     textAlign: 'center',
                     lineHeight: 35,
                     justifyContent: 'center',
@@ -228,7 +217,6 @@ const ListOfProducts = () => {
           onEndReachedThreshold={0.1}
           onEndReached={async () => {
             if (categoryStore.flatListOnReachEnd) {
-              console.log('onEndReached');
               categoryStore.setOnEndReachedLoading(true);
               categoryStore.setPage(categoryStore.page + 1);
               categoryStore.getCategory();
@@ -243,7 +231,7 @@ const ListOfProducts = () => {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  <ActivityIndicator color="#6200EE" />
+                  <ActivityIndicator color={COLORS.primary} />
                 </View>
               );
             } else {
@@ -254,13 +242,12 @@ const ListOfProducts = () => {
         />
         <View style={{paddingBottom: 10, paddingTop: 10}}>
           <Searchbar
-            placeholdert="Search Products"
+            placeholder="Search Products"
             onChangeText={setSearchQuery}
             value={searchQuery}
             onIconPress={async () => {
               productStore.setProduct([]);
               await productStore.getProducts(1, null, searchQuery, null);
-              console.log('aaa', productStore.idMarkets);
             }}
           />
         </View>
@@ -276,7 +263,6 @@ const ListOfProducts = () => {
           onEndReachedThreshold={0.1}
           onEndReached={async () => {
             if (productStore.flatListOnReachEnd) {
-              console.log('onEndReached');
               productStore.onEndReachedLoading = true;
               productStore.setPage(productStore.page + 1);
               productStore.getProducts(
@@ -297,7 +283,7 @@ const ListOfProducts = () => {
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  <ActivityIndicator color="#6200EE" />
+                  <ActivityIndicator color={COLORS.primary} />
                 </View>
               );
             } else {
@@ -310,7 +296,7 @@ const ListOfProducts = () => {
         <Background>
           <IconButton
             icon="database-lock"
-            iconColor={'#6200EE'}
+            iconColor={COLORS.primary}
             size={120}
             onPress={() => NavigationService.navigate('Basket')}
           />
@@ -325,21 +311,7 @@ const ListOfProducts = () => {
           </Button>
         </Background>
       )}
-      {productStore.loading ? (
-        <View
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0,0,0,0.5)',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <ActivityIndicator size="large" color="#6200EE" />
-        </View>
-      ) : null}
+      <LoadingOverlay visible={productStore.loading} />
     </View>
   );
 };

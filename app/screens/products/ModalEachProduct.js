@@ -1,25 +1,21 @@
-import {
-  Text,
-  View,
-  SafeAreaView,
-  Pressable,
-  Dimensions,
-  Image,
-} from 'react-native';
+import {Text, View, Pressable, Image} from 'react-native';
 import * as React from 'react';
 import {observer} from 'mobx-react';
 import {useStores} from '../../store';
-import {purpleButton, greenButton} from '../../style';
+import {
+  COLORS,
+  purpleButton,
+  greenButton,
+  discountedPriceStyle,
+} from '../../style';
 import NumericInput from 'react-native-numeric-input';
 import NavigationService from '../../router/NavigationService';
 import {useTranslation} from 'react-i18next';
-const {height, width} = Dimensions.get('window');
 
 const ModalEachProduct = props => {
-  const {authStore, productStore, basketStore} = useStores();
-  const {t, i18n} = useTranslation();
+  const {productStore, basketStore} = useStores();
+  const {t} = useTranslation();
 
-  let name = props?.route?.params?.name || null;
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Image
@@ -27,7 +23,7 @@ const ModalEachProduct = props => {
           flex: 0.5,
           height: 200,
           borderWidth: 0.8,
-          borderColor: '#C6C6C6',
+          borderColor: COLORS.border,
           width: 200,
           marginBottom: 30,
         }}
@@ -69,27 +65,17 @@ const ModalEachProduct = props => {
           style={{
             fontSize: 17,
             fontWeight: 'bold',
-            color:
+            ...discountedPriceStyle(
               productStore.selectedProducts.discount_price !== null &&
-              productStore.selectedProducts.discount_price !== 0
-                ? 'red'
-                : '#6200EE',
-            textDecorationLine:
-              productStore.selectedProducts.discount_price !== null &&
-              productStore.selectedProducts.discount_price !== 0
-                ? 'line-through'
-                : '',
-            textDecorationStyle:
-              productStore.selectedProducts.discount_price !== null &&
-              productStore.selectedProducts.discount_price !== 0
-                ? 'solid'
-                : '',
+                productStore.selectedProducts.discount_price !== 0,
+            ),
           }}>
           {productStore.selectedProducts.price} TL
         </Text>
         {productStore.selectedProducts.discount_price !== null &&
         productStore.selectedProducts.discount_price !== 0 ? (
-          <Text style={{fontSize: 17, fontWeight: 'bold', color: '#6200EE'}}>
+          <Text
+            style={{fontSize: 17, fontWeight: 'bold', color: COLORS.primary}}>
             {productStore.selectedProducts.discount_price} TL
           </Text>
         ) : null}
@@ -97,16 +83,15 @@ const ModalEachProduct = props => {
       <NumericInput
         value={productStore.quantityOfProduct}
         onChange={productStore.setQuantityOfProduct}
-        onLimitReached={(isMax, msg) => console.log(isMax, msg)}
         totalWidth={240}
         totalHeight={50}
         iconSize={25}
         valueType="real"
         rounded
-        textColor="#B0228C"
-        iconStyle={{color: 'white'}}
-        rightButtonBackgroundColor="#6200EE"
-        leftButtonBackgroundColor="#009588"
+        textColor={COLORS.pink}
+        iconStyle={{color: COLORS.white}}
+        rightButtonBackgroundColor={COLORS.primary}
+        leftButtonBackgroundColor={COLORS.green}
       />
       <Pressable
         style={purpleButton}
@@ -128,7 +113,7 @@ const ModalEachProduct = props => {
             lineHeight: 21,
             fontWeight: 'bold',
             letterSpacing: 0.25,
-            color: 'white',
+            color: COLORS.white,
           }}>
           {' '}
           {t('Add')}
@@ -141,7 +126,7 @@ const ModalEachProduct = props => {
             lineHeight: 21,
             fontWeight: 'bold',
             letterSpacing: 0.25,
-            color: 'white',
+            color: COLORS.white,
           }}>
           {t('Close')}
         </Text>

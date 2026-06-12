@@ -1,7 +1,6 @@
-import React, {useEffect, useState, useRef, Fragment} from 'react';
+import React, {useEffect} from 'react';
 import {
   Dimensions,
-  ImageBackground,
   Linking,
   Text,
   TouchableOpacity,
@@ -9,24 +8,20 @@ import {
   Image,
   StyleSheet,
   Pressable,
-  ActivityIndicator,
   TextInput,
   Switch,
 } from 'react-native';
 import {observer} from 'mobx-react';
 import {useTranslation} from 'react-i18next';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import Button from '../../components/Button';
-import Background from '../../components/Background';
 import {useStores} from '../../store';
-import {greenButton, INPUT, purpleButton} from '../../style';
-import NavigationService from '../../router/NavigationService';
-import BouncyCheckbox from 'react-native-bouncy-checkbox';
+import {COLORS, greenButton, INPUT} from '../../style';
+import LoadingOverlay from '../../components/LoadingOverlay';
 
 const {height, width} = Dimensions.get('window');
 
 const WorkerHomePage = () => {
-  const {workerStore, basketStore, authStore} = useStores();
+  const {workerStore} = useStores();
 
   useEffect(() => {
     workerStore.getAdminPendingOrders();
@@ -38,7 +33,6 @@ const WorkerHomePage = () => {
   const toggleSwitch = () => {
     setCheckboxState(previousState => !previousState);
   };
-  let bouncyCheckboxRef = null;
   const [checkboxState, setCheckboxState] = React.useState(true);
 
   const chechScanResult = data => {
@@ -53,11 +47,10 @@ const WorkerHomePage = () => {
   const onSuccess = async e => {
     const check = e.data.substring(0, 4);
     if (check === 'http') {
-      Linking.openURL(e.data).catch(err =>
-        console.error('An error occured', err),
-      );
+      Linking.openURL(e.data).catch(() => {
+        // ignore — failed to open external link
+      });
     } else {
-      console.log('e', e.data);
       await chechScanResult(e.data);
       setScan(false);
       setScanResult(true);
@@ -71,7 +64,7 @@ const WorkerHomePage = () => {
     setScanResult(false);
   };
 
-  const {t, i18n} = useTranslation();
+  const {t} = useTranslation();
 
   return (
     <View style={styles.scrollViewStyle}>
@@ -98,7 +91,7 @@ const WorkerHomePage = () => {
                 source={require('./../../assets/camera.png')}
                 style={{height: 36, width: 36}}
               />
-              <Text style={{...styles.buttonTextStyle, color: 'white'}}>
+              <Text style={{...styles.buttonTextStyle, color: COLORS.white}}>
                 Scan QR Code
               </Text>
             </View>
@@ -111,7 +104,7 @@ const WorkerHomePage = () => {
             style={{
               height: 200,
               borderWidth: 0.8,
-              borderColor: '#C6C6C6',
+              borderColor: COLORS.border,
               width: 200,
               marginBottom: 10,
             }}
@@ -126,7 +119,6 @@ const WorkerHomePage = () => {
           <Text style={{fontSize: 16}}>
             {workerStore.searchResult.description}
           </Text>
-          {/*<Text style={{flex:0.06,fontSize: 17,}}>{productStore.selectedProducts.amount}</Text>*/}
           <View style={{height: 90}}>
             <View
               style={{
@@ -139,7 +131,11 @@ const WorkerHomePage = () => {
                 alignItems: 'center',
               }}>
               <Text
-                style={{fontSize: 14, fontWeight: 'bold', color: '#6200EE'}}>
+                style={{
+                  fontSize: 14,
+                  fontWeight: 'bold',
+                  color: COLORS.primary,
+                }}>
                 {' '}
                 Price:{' '}
               </Text>
@@ -148,14 +144,14 @@ const WorkerHomePage = () => {
                   margin: 12,
                   borderWidth: 1,
                   padding: 10,
-                  color: '#4700AE',
+                  color: COLORS.primaryDark,
                   fontSize: 20,
                 }}
                 keyboardType="numeric"
                 onChangeText={workerStore.setPriceProduct}
                 // keyboardType='decimal-pad'
                 placeholder={workerStore.priceToString}
-                placeholderTextColor="#6200EE"
+                placeholderTextColor={COLORS.primary}
                 value={workerStore.priceProduct}
                 /*{workerStore.searchResult.price}*/
               />
@@ -163,7 +159,7 @@ const WorkerHomePage = () => {
                 style={{
                   fontSize: 14,
                   fontWeight: 'bold',
-                  color: '#6200EE',
+                  color: COLORS.primary,
                   left: -10,
                 }}>
                 {' '}
@@ -173,7 +169,7 @@ const WorkerHomePage = () => {
                 style={{
                   fontSize: 14,
                   fontWeight: 'bold',
-                  color: '#6200EE',
+                  color: COLORS.primary,
                   paddingLeft: 30,
                 }}>
                 Discount Price:{' '}
@@ -183,7 +179,7 @@ const WorkerHomePage = () => {
                 style={INPUT}
                 onChangeText={workerStore.setDiscountPriceProduct}
                 placeholder={workerStore.discountPriceToString}
-                placeholderTextColor="#6200EE"
+                placeholderTextColor={COLORS.primary}
                 value={workerStore.discountPriceProduct}
               />
             </View>
@@ -191,7 +187,7 @@ const WorkerHomePage = () => {
               style={{
                 fontSize: 14,
                 fontWeight: 'bold',
-                color: '#6200EE',
+                color: COLORS.primary,
                 position: 'absolute',
                 right: -15,
                 bottom: 35,
@@ -207,9 +203,14 @@ const WorkerHomePage = () => {
               paddingBottom: 20,
             }}>
             <Switch
-              trackColor={{false: '#767577', true: '#81b0ff'}}
-              thumbColor={checkboxState ? '#f5dd4b' : '#f4f3f4'}
-              ios_backgroundColor="#3e3e3e"
+              trackColor={{
+                false: COLORS.switchTrackOff,
+                true: COLORS.switchTrackOn,
+              }}
+              thumbColor={
+                checkboxState ? COLORS.switchThumbOn : COLORS.switchThumbOff
+              }
+              ios_backgroundColor={COLORS.switchIosBg}
               onValueChange={toggleSwitch}
               value={checkboxState}
             />
@@ -223,17 +224,10 @@ const WorkerHomePage = () => {
                 paddingHorizontal: 46,
                 borderRadius: 8,
                 elevation: 3,
-                backgroundColor: '#6200EE',
+                backgroundColor: COLORS.primary,
                 marginTop: 2,
               }}
               onPress={async () => {
-                console.log(
-                  'ball',
-                  barcode,
-                  workerStore.priceProduct,
-                  workerStore.discountPriceProduct,
-                  checkboxState,
-                );
                 await workerStore.adminCreateProduct(
                   barcode,
                   workerStore.priceProduct,
@@ -248,7 +242,7 @@ const WorkerHomePage = () => {
                   lineHeight: 21,
                   fontWeight: 'bold',
                   letterSpacing: 0.25,
-                  color: 'white',
+                  color: COLORS.white,
                 }}>
                 {' '}
                 {t('Add')}
@@ -261,7 +255,7 @@ const WorkerHomePage = () => {
                   lineHeight: 21,
                   fontWeight: 'bold',
                   letterSpacing: 0.25,
-                  color: 'white',
+                  color: COLORS.white,
                 }}>
                 {t('Close')}
               </Text>
@@ -274,7 +268,7 @@ const WorkerHomePage = () => {
                 source={require('./../../assets/camera.png')}
                 style={{height: 36, width: 36}}
               />
-              <Text style={{...styles.buttonTextStyle, color: '#6200EE'}}>
+              <Text style={{...styles.buttonTextStyle, color: COLORS.primary}}>
                 Click to scan again
               </Text>
             </View>
@@ -285,9 +279,6 @@ const WorkerHomePage = () => {
         <QRCodeScanner
           reactivate={true}
           showMarker={true}
-          ref={node => {
-            this.scanner = node;
-          }}
           onRead={onSuccess}
           topContent={
             <Text style={styles.centerText}>
@@ -296,21 +287,7 @@ const WorkerHomePage = () => {
           }
         />
       ) : null}
-      {workerStore.loading ? (
-        <View
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0,0,0,0.5)',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <ActivityIndicator size="large" color="#6200EE" />
-        </View>
-      ) : null}
+      <LoadingOverlay visible={workerStore.loading} />
     </View>
   );
 };
@@ -320,7 +297,7 @@ const styles = StyleSheet.create({
   scrollViewStyle: {
     flex: 1,
     justifyContent: 'flex-start',
-    backgroundColor: 'white',
+    backgroundColor: COLORS.white,
   },
   header: {
     display: 'flex',
@@ -336,14 +313,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
     padding: 16,
-    color: 'white',
+    color: COLORS.white,
   },
   textTitle1: {
     fontWeight: 'bold',
     fontSize: 18,
     textAlign: 'center',
     padding: 16,
-    color: 'white',
+    color: COLORS.white,
   },
   cardView: {
     height: height,
@@ -355,7 +332,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginRight: 5,
     marginTop: '10%',
-    backgroundColor: '#6200EE',
+    backgroundColor: COLORS.primary,
   },
   scanCardView: {
     width: width - 32,
@@ -368,7 +345,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginRight: 5,
     marginTop: 10,
-    backgroundColor: 'white',
+    backgroundColor: COLORS.white,
   },
   buttonWrapper: {
     display: 'flex',
@@ -378,7 +355,7 @@ const styles = StyleSheet.create({
   buttonScan: {
     borderWidth: 2,
     borderRadius: 10,
-    borderColor: 'white',
+    borderColor: COLORS.white,
     paddingTop: 1,
     paddingRight: 25,
     paddingBottom: 1,
@@ -395,7 +372,7 @@ const styles = StyleSheet.create({
     padding: 16,
     textAlign: 'center',
     fontSize: 16,
-    color: 'white',
+    color: COLORS.white,
   },
   highlight: {
     fontWeight: '700',
@@ -404,12 +381,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 13,
     padding: 32,
-    color: 'black',
+    color: COLORS.black,
     height: 170,
   },
   textBold: {
     fontWeight: '500',
-    color: '#000',
+    color: COLORS.black,
   },
   bottomContent: {
     width: width,
@@ -417,7 +394,7 @@ const styles = StyleSheet.create({
   },
   buttonTouchable: {
     fontSize: 21,
-    backgroundColor: 'white',
+    backgroundColor: COLORS.white,
     marginTop: 32,
     width: width - 62,
     justifyContent: 'center',
@@ -425,7 +402,7 @@ const styles = StyleSheet.create({
     height: 44,
   },
   buttonTextStyle: {
-    color: 'black',
+    color: COLORS.black,
     fontWeight: 'bold',
   },
 });

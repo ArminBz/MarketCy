@@ -4,30 +4,21 @@ import {
   SafeAreaView,
   Pressable,
   Dimensions,
-  Image,
   TextInput,
   FlatList,
-  TouchableOpacity,
   ScrollView,
   Alert,
 } from 'react-native';
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect} from 'react';
 import {observer} from 'mobx-react';
 
 import {useStores} from '../../store';
-import {purpleButton, greenButton} from '../../style';
-import NumericInput from 'react-native-numeric-input';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import Button from '../../components/Button';
+import {COLORS, discountedPriceStyle} from '../../style';
 
 import NavigationService from '../../router/NavigationService';
 import {List} from 'react-native-paper';
-import qs from 'qs';
-import {Linking, Platform, StyleSheet} from 'react-native';
-import BouncyCheckboxGroup, {
-  ICheckboxButton,
-} from 'react-native-bouncy-checkbox-group';
-import {useTranslation} from 'react-i18next';
+import {StyleSheet} from 'react-native';
+import BouncyCheckboxGroup from 'react-native-bouncy-checkbox-group';
 
 const _iconStyle = borderColor => ({
   height: 50,
@@ -47,9 +38,9 @@ const verticalStaticData = [
   {
     id: 0,
     text: 'Card',
-    fillColor: '#6200EE',
-    unfillColor: '#afb5f5',
-    iconStyle: _iconStyle('#afb5f5'),
+    fillColor: COLORS.primary,
+    unfillColor: COLORS.checkboxPurpleUnfill,
+    iconStyle: _iconStyle(COLORS.checkboxPurpleUnfill),
     textStyle: styles.textStyle,
     style: styles.verticalStyle,
     iconImageStyle: styles.iconImageStyle,
@@ -58,36 +49,18 @@ const verticalStaticData = [
   {
     id: 1,
     text: 'Cash',
-    fillColor: '#009588',
-    unfillColor: '#cbf2d5',
-    iconStyle: _iconStyle('#cbf2d5'),
+    fillColor: COLORS.green,
+    unfillColor: COLORS.checkboxGreenUnfill,
+    iconStyle: _iconStyle(COLORS.checkboxGreenUnfill),
     textStyle: styles.textStyle,
     style: styles.verticalStyle,
     iconImageStyle: styles.iconImageStyle,
   },
 ];
 
-export async function sendMessage(to, subject, body, options = {}) {
-  const url =
-    Platform.OS === 'android'
-      ? 'sms:919999999999?body=your message'
-      : 'sms:919999999999';
-  Linking.canOpenURL(url)
-    .then(supported => {
-      if (!supported) {
-        console.log('Unsupported url: ' + url);
-      } else {
-        return Linking.openURL(url);
-      }
-    })
-    .catch(err => console.error('An error occurred', err));
-}
-
-const {height, width} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 const ModalReceiveOrder = props => {
-  const {t, i18n} = useTranslation();
-
   const [checkboxState, setCheckboxState] = React.useState(false);
   const [indexChangeColorAddress, setIndexChangeColorAddress] =
     React.useState(0);
@@ -101,7 +74,6 @@ const ModalReceiveOrder = props => {
   const renderItem = ({item}) => {
     let name = item?.store_product.product?.name || null;
     let price = item?.store_product?.price || null;
-    let thumb = item?.store_product.product?.thumb || null;
     let quantity = item.quantity || null;
     return (
       <View
@@ -113,7 +85,7 @@ const ModalReceiveOrder = props => {
           width: width,
           flexDirection: 'row',
           borderWidth: 1,
-          borderColor: '#E2E2E2',
+          borderColor: COLORS.borderLight,
         }}>
         <View style={{flex: 1}}>
           <Text style={{flex: 0.2, fontSize: 14, fontWeight: 'bold'}}>
@@ -125,21 +97,10 @@ const ModalReceiveOrder = props => {
               flex: 0.2,
               fontSize: 15,
               fontWeight: 'bold',
-              color:
+              ...discountedPriceStyle(
                 item.store_product.discount_price !== null &&
-                item.store_product.discount_price !== 0
-                  ? 'red'
-                  : '#6200EE',
-              textDecorationLine:
-                item.store_product.discount_price !== null &&
-                item.store_product.discount_price !== 0
-                  ? 'line-through'
-                  : '',
-              textDecorationStyle:
-                item.store_product.discount_price !== null &&
-                item.store_product.discount_price !== 0
-                  ? 'solid'
-                  : '',
+                  item.store_product.discount_price !== 0,
+              ),
             }}>
             {price}
           </Text>
@@ -150,27 +111,26 @@ const ModalReceiveOrder = props => {
                 flex: 0.2,
                 fontSize: 15,
                 fontWeight: 'bold',
-                color: '#6200EE',
+                color: COLORS.primary,
               }}>
               {item.store_product.discount_price}
             </Text>
           ) : null}
-          {/*<Text style={{ flex: 0.2, fontSize: 12, }}>{item.amount}</Text>*/}
         </View>
         <View style={{marginTop: 17}}>
           <TextInput
             style={{
               margin: 12,
               borderWidth: 2,
-              borderColor: '#E9E9E9',
+              borderColor: COLORS.borderInput,
               padding: 10,
-              color: '#4700AE',
+              color: COLORS.primaryDark,
               fontSize: 15,
               textAlign: 'center',
             }}
             keyboardType="numeric"
             placeholder={quantity.toString()}
-            placeholderTextColor="#6200EE"
+            placeholderTextColor={COLORS.primary}
             editable={false}
             selectTextOnFocus={false}
             value={quantity}
@@ -180,12 +140,6 @@ const ModalReceiveOrder = props => {
     );
   };
 
-  const [showAddress, setShowAddress] = useState(false);
-  const itemStyles = [
-    stylesAddress.alphabetContainer,
-    indexChangeColorAddress && stylesAddress.alphabetContainerSelected,
-  ];
-  let name = props?.route?.params?.name || null;
   return (
     <View style={{flex: 1}}>
       <View>
@@ -243,7 +197,7 @@ const ModalReceiveOrder = props => {
                 marginTop: 20,
                 fontSize: 20,
                 fontWeight: 'bold',
-                color: '#6200EE',
+                color: COLORS.primary,
               }}>
               Total: {basketStore.totalPrice} TL
             </Text>
@@ -265,7 +219,6 @@ const ModalReceiveOrder = props => {
               style={{flexDirection: 'column'}}
               onChange={selectedItem => {
                 productStore.setPayment(selectedItem.text);
-                // console.log("SelectedItem: ", productStore.payment);
                 JSON.stringify(selectedItem.id)
                   ? setCheckboxState(true)
                   : setCheckboxState(setCheckboxState(false));
@@ -278,12 +231,14 @@ const ModalReceiveOrder = props => {
               alignItems: 'center',
               justifyContent: 'center',
               borderRadius: 12,
-              backgroundColor: checkboxState ? '#34eb83' : '#eb4034',
+              backgroundColor: checkboxState
+                ? COLORS.paymentOn
+                : COLORS.paymentOff,
               marginBottom: 18,
             }}>
             <Text
               style={{
-                color: '#fff',
+                color: COLORS.white,
               }}>{`Check Payment method: ${checkboxState.toString()}`}</Text>
           </View>
         </SafeAreaView>
@@ -296,7 +251,7 @@ const ModalReceiveOrder = props => {
             paddingHorizontal: 130,
             borderRadius: 8,
             elevation: 3,
-            backgroundColor: '#6200EE',
+            backgroundColor: COLORS.primary,
             marginTop: 10,
           }}
           onPress={() => {
@@ -317,7 +272,7 @@ const ModalReceiveOrder = props => {
               lineHeight: 21,
               fontWeight: 'bold',
               letterSpacing: 0.25,
-              color: 'white',
+              color: COLORS.white,
             }}>
             {' '}
             Order
@@ -329,7 +284,7 @@ const ModalReceiveOrder = props => {
             paddingHorizontal: 130,
             borderRadius: 8,
             elevation: 3,
-            backgroundColor: '#009588',
+            backgroundColor: COLORS.green,
             marginTop: 10,
           }}
           onPress={() => NavigationService.goBack()}>
@@ -339,7 +294,7 @@ const ModalReceiveOrder = props => {
               lineHeight: 21,
               fontWeight: 'bold',
               letterSpacing: 0.25,
-              color: 'white',
+              color: COLORS.white,
             }}>
             Close
           </Text>
@@ -351,9 +306,9 @@ const ModalReceiveOrder = props => {
 export default observer(ModalReceiveOrder);
 const stylesAddress = StyleSheet.create({
   alphabetContainer: {
-    backgroundColor: 'white',
+    backgroundColor: COLORS.white,
   },
   alphabetContainerSelected: {
-    backgroundColor: '#AFB5F5',
+    backgroundColor: COLORS.checkboxPurpleUnfill,
   },
 });

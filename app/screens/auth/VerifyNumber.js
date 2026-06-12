@@ -1,26 +1,17 @@
-import {
-  Text,
-  View,
-  TextInput,
-  ScrollView,
-  ActivityIndicator,
-} from 'react-native';
+import {View, TextInput, ScrollView} from 'react-native';
 import {observer} from 'mobx-react';
-import NavigationService from '../../router/NavigationService';
-import React, {useEffect, useState, useRef} from 'react';
-import Background from '../../components/Background';
+import React from 'react';
 import Logo from '../../components/Logo';
-import {Paragraph} from 'react-native-paper';
 import Button from '../../components/Button';
-import {INPUT} from '../../style';
+import {COLORS} from '../../style';
 import {useStores} from '../../store';
 import {useTranslation} from 'react-i18next';
+import LoadingOverlay from '../../components/LoadingOverlay';
 
 const VerifyNumber = () => {
-  const {t, i18n} = useTranslation();
+  const {t} = useTranslation();
 
-  const {languageStore, authStore} = useStores();
-  const [name, setName] = useState('Intro');
+  const {authStore} = useStores();
 
   return (
     <ScrollView contentContainerStyle={{flexGrow: 1}}>
@@ -41,7 +32,7 @@ const VerifyNumber = () => {
             margin: 12,
             borderWidth: 1,
             padding: 10,
-            color: '#4700AE',
+            color: COLORS.primaryDark,
           }}
           onChangeText={authStore.setCodeCheck}
           // value={authStore.codeCheck}
@@ -62,21 +53,7 @@ const VerifyNumber = () => {
           {t('Resend the code')}
         </Button>
       </View>
-      {authStore.loading ? (
-        <View
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0,0,0,0.5)',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <ActivityIndicator size="large" color="#6200EE" />
-        </View>
-      ) : null}
+      <LoadingOverlay visible={authStore.loading} />
     </ScrollView>
   );
 };

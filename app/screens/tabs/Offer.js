@@ -1,17 +1,17 @@
 import React from 'react';
+import {COLORS} from '../../style';
 import {
   Dimensions,
   FlatList,
   Image,
   ScrollView,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import {observer} from 'mobx-react';
 import {useStores} from '../../store';
 
-const {height, width} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 const Offer = () => {
   const {offerStore} = useStores();
@@ -27,7 +27,7 @@ const Offer = () => {
           width: width,
           flexDirection: 'row',
           borderWidth: 1,
-          borderColor: '#E2E2E2',
+          borderColor: COLORS.borderLight,
         }}
         onPress={() => {}}>
         <Image
@@ -35,7 +35,7 @@ const Offer = () => {
             flex: 1,
             height: 150,
             borderWidth: 0.8,
-            borderColor: '#C6C6C6',
+            borderColor: COLORS.border,
             width: 80,
             padding: 6,
             marginRight: 10,

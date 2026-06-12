@@ -1,4 +1,5 @@
 import React from 'react';
+import {COLORS} from '../style';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Intro from '../screens/auth/Intro';
 import ListOfProducts from '../screens/products/ListOfProducts';
@@ -16,39 +17,26 @@ import ModalReceiveOrder from '../screens/modal/ModalReceiveOrder';
 import WorkerHomePage from '../screens/workerScreens/WorkerHomePage';
 import ModalEachProductsFromBasket from '../screens/basket/ModalEachProductsFromBasket';
 import ModalOrderProducts from '../screens/workerScreens/ModalOrderProducts';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import {BottomNavigation, Text, IconButton} from 'react-native-paper';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-import Logo from '../components/Logo';
-import {
-  Button,
-  Dimensions,
-  Image,
-  SafeAreaView,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {BottomNavigation, IconButton} from 'react-native-paper';
+import {Image, View} from 'react-native';
 import NavigationService from './NavigationService';
 import {useTranslation} from 'react-i18next';
 import {Shadow} from 'react-native-shadow-2';
 
-const {height, width} = Dimensions.get('window');
 const SignedInStack = createNativeStackNavigator();
 
 export const SignedInStackScreen = () => {
-  const {t, i18n} = useTranslation();
   return (
     <SignedInStack.Navigator
       initialRouteName="TabStackScreen"
       screenOptions={{
         headerTitleStyle: {
-          color: '#fff',
+          color: COLORS.white,
         },
-        headerTintColor: '#fff',
+        headerTintColor: COLORS.white,
 
         headerStyle: {
-          backgroundColor: '#6200EE',
+          backgroundColor: COLORS.primary,
           fontWeight: 'bold',
         },
       }}>
@@ -63,7 +51,7 @@ export const SignedInStackScreen = () => {
             headerRight: () => (
               <IconButton
                 icon="basket"
-                iconColor={'white'}
+                iconColor={COLORS.white}
                 size={22}
                 onPress={() => NavigationService.navigate('Basket')}
               />
@@ -107,12 +95,12 @@ export const SignedOutStackScreen = () => {
       initialRouteName="Login"
       screenOptions={{
         headerTitleStyle: {
-          color: '#fff',
+          color: COLORS.white,
         },
 
-        headerTintColor: '#fff',
+        headerTintColor: COLORS.white,
         headerStyle: {
-          backgroundColor: '#6200EE',
+          backgroundColor: COLORS.primary,
           fontWeight: 'bold',
         },
       }}>
@@ -132,17 +120,16 @@ export const WorkerStackScreen = () => {
     <WorkerStack.Navigator
       screenOptions={{
         headerTitleStyle: {
-          color: '#fff',
+          color: COLORS.white,
         },
 
-        headerTintColor: '#fff',
+        headerTintColor: COLORS.white,
         headerStyle: {
-          backgroundColor: '#6200EE',
+          backgroundColor: COLORS.primary,
           fontWeight: 'bold',
         },
       }}>
       <WorkerStack.Group>
-        {/*<WorkerStack.Screen name="WorkerHomePage" component={WorkerHomePage} />*/}
         <WorkerStack.Screen
           name="CY.market.admin"
           component={TabStackScreenWorkers}
@@ -159,10 +146,8 @@ export const WorkerStackScreen = () => {
   );
 };
 
-const TabStack = createMaterialBottomTabNavigator();
-
 export const TabStackScreen = () => {
-  const {t, i18n} = useTranslation();
+  const {t} = useTranslation();
 
   const [index, setIndex] = React.useState(1);
   const [routes] = React.useState([
@@ -171,9 +156,8 @@ export const TabStackScreen = () => {
       title: t('Markets'),
       focusedIcon: 'warehouse',
       unfocusedIcon: 'home-outline',
-      color: '#6203EC',
+      color: COLORS.primary,
     },
-    // { key: 'search', title: t('Search'),focusedIcon:'magnify',color: '#BF571A'},
     {
       key: 'map',
       focusedIcon: ({}) => (
@@ -181,7 +165,7 @@ export const TabStackScreen = () => {
           style={{
             justifyContent: 'center',
             alignItems: 'center',
-            shadowColor: '#6203EC',
+            shadowColor: COLORS.primary,
             shadowOpacity: 5,
             shadowRadius: 16.0,
             shadowOffset: {
@@ -191,8 +175,8 @@ export const TabStackScreen = () => {
           }}>
           <Shadow
             distance={15}
-            startColor={'#eb9066d8'}
-            endColor={'#ff00ff10'}
+            startColor={COLORS.shadowGlowStart}
+            endColor={COLORS.shadowGlowEnd}
             offset={[3, 4]}>
             <Image
               source={require('../assets/buttomIcon.png')}
@@ -201,7 +185,7 @@ export const TabStackScreen = () => {
                 height: 68,
                 borderRadius: 30,
                 borderWidth: 10,
-                borderColor: '#6203EC',
+                borderColor: COLORS.primary,
                 resizeMode: 'contain',
               }}
             />
@@ -213,7 +197,7 @@ export const TabStackScreen = () => {
           style={{
             justifyContent: 'center',
             alignItems: 'center',
-            shadowColor: '#6203EC',
+            shadowColor: COLORS.primary,
             shadowOpacity: 5,
             shadowRadius: 16.0,
             shadowOffset: {
@@ -228,29 +212,26 @@ export const TabStackScreen = () => {
               height: 68,
               borderRadius: 30,
               borderWidth: 10,
-              borderColor: '#6203EC',
+              borderColor: COLORS.primary,
               resizeMode: 'contain',
             }}
           />
         </View>
       ),
-      color: '#6203EC',
+      color: COLORS.primary,
     },
-    // { key: 'offer', title: t('Offer'),focusedIcon: 'star',unfocusedIcon: 'star-outline',color: '#009688'},
     {
       key: 'dashboard',
       title: t('Dashboard'),
       focusedIcon: 'account-circle',
       unfocusedIcon: 'account-circle-outline',
-      color: '#6203EC',
+      color: COLORS.primary,
     },
-    // icon:()=> <Icon name='user' color='white'/>
   ]);
   const renderScene = BottomNavigation.SceneMap({
     markets: Markets,
     dashboard: Dashboard,
     search: Search,
-    // offer: Offer,
     map: Map,
   });
   return (
@@ -259,13 +240,12 @@ export const TabStackScreen = () => {
       onIndexChange={setIndex}
       renderScene={renderScene}
       shifting={true}
-      // barStyle={{backgroundColor:'#312534'}}
     />
   );
 };
 
 export const TabStackScreenWorkers = () => {
-  const {t, i18n} = useTranslation();
+  const {t} = useTranslation();
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -273,13 +253,13 @@ export const TabStackScreenWorkers = () => {
       key: 'workerHome',
       title: t('QR Code'),
       focusedIcon: 'qrcode',
-      color: '#6203EC',
+      color: COLORS.primary,
     },
     {
       key: 'orders',
       title: t('Orders'),
       focusedIcon: 'order-bool-ascending',
-      color: '#6203EC',
+      color: COLORS.primary,
     },
   ]);
   const renderScene = BottomNavigation.SceneMap({

@@ -1,8 +1,7 @@
 import {action, makeObservable, observable} from 'mobx';
-import {Stores} from '../../store';
 import {getOffersApi} from '../../api/api';
 
-class offerStore {
+class OfferStore {
   constructor() {
     makeObservable(this, {
       offer: observable,
@@ -34,14 +33,11 @@ class offerStore {
 
   getOffers = async () => {
     try {
-      let data = await getOffersApi();
-      // this.offer(data,)
-
-      console.log('offers', this.offer);
+      await getOffersApi();
     } catch (err) {
-      console.log('offers err', err);
+      // offers are optional — keep the default list on failure
     }
   };
 }
 
-export default offerStore;
+export default OfferStore;

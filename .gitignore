@@ -62,3 +62,8 @@ buck-out/
 # Ruby / CocoaPods
 /ios/Pods/
 /vendor/bundle/
+
+# React Native JS bundles (build artifacts)
+android/app/src/main/assets/index.android.bundle
+*.android.bundle
+*.ios.bundle

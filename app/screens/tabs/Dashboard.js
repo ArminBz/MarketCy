@@ -1,20 +1,20 @@
 import React from 'react';
-import {Dimensions, Linking, Text, View} from 'react-native';
+import {COLORS} from '../../style';
+import {Dimensions, Linking, View} from 'react-native';
 import {observer} from 'mobx-react';
-import {IconButton, List, TextInput} from 'react-native-paper';
+import {List, TextInput} from 'react-native-paper';
 import NavigationService from '../../router/NavigationService';
 import {useStores} from '../../store';
-import navigationService from '../../router/NavigationService';
 import {useTranslation} from 'react-i18next';
 import Button from '../../components/Button';
 import Background from '../../components/Background';
 
-const {height, width} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 const Dashboard = () => {
   const {t, i18n} = useTranslation();
 
-  const {languageStore, authStore, categoryStore, productStore} = useStores();
+  const {languageStore, authStore} = useStores();
 
   const [text, setText] = React.useState('');
 
@@ -42,18 +42,18 @@ const Dashboard = () => {
         <List.Item
           onPress={() => NavigationService.navigate('ModalUserAddress')}
           title={t('Set Address')}
-          left={() => <List.Icon color="#000" icon="home" />}
+          left={() => <List.Icon color={COLORS.black} icon="home" />}
         />
         <List.Subheader style={{paddingTop: 30}}>{t('Setting')}</List.Subheader>
         <List.Item
           onPress={() => Linking.openURL('app-settings://')}
           title={t('Notification')}
-          left={() => <List.Icon color="#000" icon="alarm" />}
+          left={() => <List.Icon color={COLORS.black} icon="alarm" />}
         />
         <List.Item
           onPress={() => authStore.onSignOut()}
           title={t('Log out')}
-          left={() => <List.Icon color="#000" icon="logout" />}
+          left={() => <List.Icon color={COLORS.black} icon="logout" />}
         />
       </List.Section>
 

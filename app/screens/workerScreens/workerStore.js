@@ -1,12 +1,8 @@
 import {action, makeObservable, observable} from 'mobx';
-import {Stores} from '../../store';
-import {signInApi, userAddressApi} from '../../api/api';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {resetToken, setToken} from '../../utils/Api';
 import {StoreService} from '../../../src/services/openapi';
 import {Alert} from 'react-native';
 
-class workerStore {
+class WorkerStore {
   constructor() {
     makeObservable(this, {
       errorMessage: observable,
@@ -103,11 +99,9 @@ class workerStore {
     if (err?.body?.message) {
       this.setErrorMessage(err.body.message);
       this.setShowErrMessage(true);
-      console.log('handleError err', err.body.message);
     } else if (err?.message) {
       this.setErrorMessage(err.message);
       this.setShowErrMessage(true);
-      console.log('handleError err', err.message);
     }
   };
 
@@ -117,13 +111,11 @@ class workerStore {
       const response = await StoreService.adminGetProduct(barCode);
       this.setSearchResult({});
       this.setSearchResult(response);
-      console.log('barCode search', response.discount_price);
       this.setPriceProduct(response.price);
       this.setDiscountPriceProduct(response.discount_price);
       this.setPriceToString(response.price.toString());
       this.setDiscountPriceToString(response.discount_price.toString());
     } catch (err) {
-      console.log('login err', err);
       this.handleError(err);
     } finally {
       this.setLoading(false);
@@ -140,10 +132,7 @@ class workerStore {
         available: available,
       });
       Alert.alert('Successful', response.message);
-      // console.log("barCode search",response)
-      console.log('add response', response);
     } catch (err) {
-      console.log('adminCreateProd err', err);
       Alert.alert('Error:', err.message);
       this.handleError(err);
     } finally {
@@ -157,7 +146,6 @@ class workerStore {
       const response = await StoreService.adminGetOrders('pending');
       this.setPendingOrders(response);
     } catch (err) {
-      console.log('adminPendingGetOrder', err);
       this.handleError(err);
     } finally {
       this.setLoading(false);
@@ -170,7 +158,6 @@ class workerStore {
       const response = await StoreService.adminGetOrders('accepted');
       this.setAcceptedOrders(response);
     } catch (err) {
-      console.log('adminAcceptedGetOrder', err);
       this.handleError(err);
     } finally {
       this.setLoading(false);
@@ -183,7 +170,6 @@ class workerStore {
       const response = await StoreService.adminGetOrders('rejected');
       this.setRejectedOrders(response);
     } catch (err) {
-      console.log('adminAcceptedGetOrder', err);
       this.handleError(err);
     } finally {
       this.setLoading(false);
@@ -196,7 +182,6 @@ class workerStore {
       const response = await StoreService.adminGetOrders('delivered');
       this.setDeliveredOrders(response);
     } catch (err) {
-      console.log('adminAcceptedGetOrder', err);
       this.handleError(err);
     } finally {
       this.setLoading(false);
@@ -212,7 +197,6 @@ class workerStore {
       );
       Alert.alert('Successful', response.message);
     } catch (err) {
-      console.log('adminUpdateOrder err', err);
       Alert.alert('Error:', err.message);
       this.handleError(err);
     } finally {
@@ -221,4 +205,4 @@ class workerStore {
   };
 }
 
-export default workerStore;
+export default WorkerStore;

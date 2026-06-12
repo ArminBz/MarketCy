@@ -1,43 +1,24 @@
 import {
   Text,
   View,
-  SafeAreaView,
-  Pressable,
   Dimensions,
   Image,
   TextInput,
-  FlatList,
   TouchableOpacity,
   ScrollView,
-  ActivityIndicator,
 } from 'react-native';
-import React, {useEffect, useState, useRef} from 'react';
+import {COLORS} from '../../style';
+import React, {useEffect} from 'react';
 import {observer} from 'mobx-react';
 import {useStores} from '../../store';
 import NavigationService from '../../router/NavigationService';
-import {useTranslation} from 'react-i18next';
 import {Button} from 'react-native-paper';
+import LoadingOverlay from '../../components/LoadingOverlay';
 
-const _iconStyle = borderColor => ({
-  height: 50,
-  width: 50,
-  borderRadius: 25,
-  borderColor: borderColor,
-});
-
-const styles = {
-  container: {marginTop: 24},
-  verticalStyle: {marginTop: 16},
-  textStyle: {textDecorationLine: 'none'},
-  iconImageStyle: {height: 20, width: 20},
-};
-
-const {height, width} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 const ModalOrderProducts = props => {
-  const {t, i18n} = useTranslation();
-
-  const {authStore, productStore, userAddressStore, workerStore} = useStores();
+  const {authStore, workerStore} = useStores();
 
   useEffect(() => {
     authStore.getUser();
@@ -59,14 +40,14 @@ const ModalOrderProducts = props => {
                 width: width,
                 flexDirection: 'row',
                 borderWidth: 1,
-                borderColor: '#E2E2E2',
+                borderColor: COLORS.borderLight,
               }}>
               <Image
                 style={{
                   flex: 0.4,
                   height: 100,
                   borderWidth: 0.8,
-                  borderColor: '#C6C6C6',
+                  borderColor: COLORS.border,
                   width: 60,
                   padding: 6,
                   marginRight: 10,
@@ -91,7 +72,7 @@ const ModalOrderProducts = props => {
                       flex: 0.2,
                       fontSize: 15,
                       fontWeight: 'bold',
-                      color: '#6200EE',
+                      color: COLORS.primary,
                       marginBottom: 5,
                     }}>
                     {item.product.product.discount_price} TL
@@ -102,16 +83,16 @@ const ModalOrderProducts = props => {
                 <TextInput
                   style={{
                     margin: 12,
-                    borderColor: '#E9E9E9',
+                    borderColor: COLORS.borderInput,
                     borderWidth: 2,
                     padding: 10,
-                    color: '#4700AE',
+                    color: COLORS.primaryDark,
                     fontSize: 15,
                     textAlign: 'center',
                   }}
                   keyboardType="numeric"
                   placeholder={item.quantity.toString()}
-                  placeholderTextColor="#6200EE"
+                  placeholderTextColor={COLORS.primary}
                   editable={false}
                   selectTextOnFocus={false}
                   value={item.quantity}
@@ -134,7 +115,7 @@ const ModalOrderProducts = props => {
             marginTop: 20,
             fontSize: 17,
             fontWeight: 'bold',
-            color: '#6200EE',
+            color: COLORS.primary,
           }}>
           Total: {workerStore.selectedOrderProducts.total} TL
         </Text>
@@ -163,7 +144,7 @@ const ModalOrderProducts = props => {
             workerStore.getAdminAcceptOrders();
             NavigationService.goBack();
           }}
-          style={{backgroundColor: 'green'}}
+          style={{backgroundColor: COLORS.success}}
           icon="check"
           mode="contained">
           Accept
@@ -180,7 +161,7 @@ const ModalOrderProducts = props => {
             workerStore.getAdminAcceptOrders();
             NavigationService.goBack();
           }}
-          style={{backgroundColor: 'red'}}
+          style={{backgroundColor: COLORS.danger}}
           icon="circle"
           mode="contained">
           Reject
@@ -203,21 +184,7 @@ const ModalOrderProducts = props => {
           Deliver
         </Button>
       </View>
-      {workerStore.loading ? (
-        <View
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0,0,0,0.5)',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <ActivityIndicator size="large" color="#6200EE" />
-        </View>
-      ) : null}
+      <LoadingOverlay visible={workerStore.loading} />
     </View>
   );
 };

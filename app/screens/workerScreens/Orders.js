@@ -1,217 +1,27 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React from 'react';
+import {COLORS} from '../../style';
 import {
-  ActivityIndicator,
   Dimensions,
-  FlatList,
-  Image,
-  Linking,
-  SafeAreaView,
   ScrollView,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import {observer} from 'mobx-react';
-import {IconButton, List, TextInput} from 'react-native-paper';
+import {List, TextInput} from 'react-native-paper';
 import NavigationService from '../../router/NavigationService';
 import {useStores} from '../../store';
 import {useTranslation} from 'react-i18next';
+import LoadingOverlay from '../../components/LoadingOverlay';
 
-const {height, width} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 const Orders = () => {
-  const {t, i18n} = useTranslation();
+  const {t} = useTranslation();
 
-  const {languageStore, authStore, workerStore, productStore} = useStores();
+  const {authStore, workerStore} = useStores();
 
   const [text, setText] = React.useState('');
-
-  const renderPendingItem = ({item}) => {
-    return (
-      <ScrollView
-        style={{
-          flex: 1,
-          marginBottom: 10,
-          marginTop: 5,
-          padding: 10,
-          width: width,
-          borderWidth: 1,
-          borderColor: '#E2E2E2',
-        }}>
-        <TouchableOpacity
-          onPress={() => {
-            workerStore.setSelectedOrderProducts(item);
-            NavigationService.navigate('ModalOrderProducts');
-          }}>
-          <View style={{flex: 1}}>
-            <List.Icon
-              color="#6200EE"
-              icon="phone"
-              style={{position: 'absolute', left: -12, bottom: 38}}
-            />
-            {/*<Text style={{ flex: 0.2, fontSize: 15, fontWeight: 'bold' }}>{price}</Text>*/}
-            <Text
-              style={{
-                flex: 0.2,
-                fontSize: 15,
-                fontWeight: 'bold',
-                paddingLeft: 30,
-              }}>
-              {item.phone}
-            </Text>
-            <List.Icon
-              color="#6200EE"
-              icon="update"
-              style={{position: 'absolute', left: -12, top: 10}}
-            />
-            <Text
-              style={{
-                flex: 0.2,
-                fontSize: 15,
-                fontWeight: 'bold',
-
-                paddingLeft: 30,
-                paddingTop: 10,
-              }}>
-              {item.created_at}
-            </Text>
-            <List.Icon
-              color="#6200EE"
-              icon="location-enter"
-              style={{position: 'absolute', left: -11, top: 37}}
-            />
-            <Text
-              style={{
-                flex: 0.2,
-                fontSize: 14,
-                fontWeight: 'bold',
-                paddingLeft: 30,
-                paddingTop: 10,
-              }}>
-              {item.address}
-            </Text>
-            <Text
-              style={{
-                flex: 0.2,
-                fontSize: 15,
-                fontWeight: 'bold',
-                color: '#6200EE',
-                position: 'absolute',
-                left: 340,
-              }}>
-              {item.status}
-            </Text>
-            <Text
-              style={{
-                flex: 0.2,
-                fontSize: 15,
-                fontWeight: 'bold',
-                color: '#6200EE',
-                position: 'absolute',
-                left: 340,
-                top: 30,
-              }}>
-              {item.total} TL
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </ScrollView>
-    );
-  };
-
-  const renderAcceptedItem = ({item}) => {
-    return (
-      <ScrollView
-        style={{
-          flex: 1,
-          marginBottom: 10,
-          marginTop: 5,
-          padding: 10,
-          width: width,
-
-          borderWidth: 1,
-          borderColor: '#E2E2E2',
-        }}>
-        <TouchableOpacity
-          onPress={() => {
-            workerStore.setSelectedOrderProducts(item);
-            NavigationService.navigate('ModalOrderProducts');
-          }}>
-          <View style={{flex: 1}}>
-            <List.Icon
-              color="#6200EE"
-              icon="phone"
-              style={{position: 'absolute', left: -12, bottom: 38}}
-            />
-            {/*<Text style={{ flex: 0.2, fontSize: 15, fontWeight: 'bold' }}>{price}</Text>*/}
-            <Text
-              style={{
-                flex: 0.2,
-                fontSize: 15,
-                fontWeight: 'bold',
-                paddingLeft: 30,
-              }}>
-              {item.phone}
-            </Text>
-            <List.Icon
-              color="#6200EE"
-              icon="update"
-              style={{position: 'absolute', left: -12, top: 10}}
-            />
-            <Text
-              style={{
-                flex: 0.2,
-                fontSize: 15,
-                fontWeight: 'bold',
-
-                paddingLeft: 30,
-                paddingTop: 10,
-              }}>
-              {item.created_at}
-            </Text>
-            <List.Icon
-              color="#6200EE"
-              icon="location-enter"
-              style={{position: 'absolute', left: -11, top: 37}}
-            />
-            <Text
-              style={{
-                flex: 0.2,
-                fontSize: 14,
-                fontWeight: 'bold',
-                paddingLeft: 30,
-                paddingTop: 10,
-              }}>
-              {item.address}
-            </Text>
-            <Text
-              style={{
-                flex: 0.2,
-                fontSize: 15,
-                fontWeight: 'bold',
-                color: 'green',
-                position: 'absolute',
-                left: 340,
-              }}>
-              {item.status}
-            </Text>
-            <Text
-              style={{
-                flex: 0.2,
-                fontSize: 15,
-                fontWeight: 'bold',
-                color: 'green',
-                position: 'absolute',
-                left: 340,
-                top: 30,
-              }}>
-              {item.total} TL
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </ScrollView>
-    );
-  };
 
   return (
     <View style={{flex: 1}}>
@@ -235,21 +45,7 @@ const Orders = () => {
       </View>
       <ScrollView>
         <View style={{paddingTop: 10, flex: 1}}>
-          {/*<List.Subheader style={{paddingTop:30,color:'#6200EE'}}>{t('Pending Orders')}</List.Subheader>*/}
-          {/*<List.Item*/}
-          {/*  onPress={() => authStore.onSignOut()}*/}
-          {/*  title={t("Pending")}*/}
-          {/*  left={() => <List.Icon color="#000" icon="logout" />}*/}
-          {/*/>*/}
-          {/*<View style={{paddingTop:10}}>*/}
-          {/*<FlatList*/}
-          {/*  data={workerStore.pendingOrders}*/}
-          {/*  renderItem={renderPendingItem}*/}
-          {/*  keyExtractor={item => item.id}*/}
-          {/*  />*/}
-          {/*</View>*/}
           {Object.keys(workerStore.pendingOrders).map(item => {
-            // console.log('sasa',workerStore.pendingOrders[item])
             return (
               <View
                 key={item}
@@ -259,7 +55,7 @@ const Orders = () => {
                   padding: 10,
                   width: width,
                   borderWidth: 1,
-                  borderColor: '#E2E2E2',
+                  borderColor: COLORS.borderLight,
                 }}>
                 <TouchableOpacity
                   style={{width: width}}
@@ -302,7 +98,7 @@ const Orders = () => {
                         style={{
                           fontSize: 15,
                           fontWeight: 'bold',
-                          color: '#6200EE',
+                          color: COLORS.primary,
                         }}>
                         {workerStore.pendingOrders[item].status}
                       </Text>
@@ -311,7 +107,7 @@ const Orders = () => {
                         style={{
                           fontSize: 15,
                           fontWeight: 'bold',
-                          color: '#6200EE',
+                          color: COLORS.primary,
                           top: 10,
                         }}>
                         {workerStore.pendingOrders[item].total} TL
@@ -334,7 +130,7 @@ const Orders = () => {
                   padding: 10,
                   width: '100%',
                   borderWidth: 1,
-                  borderColor: '#E2E2E2',
+                  borderColor: COLORS.borderLight,
                 }}>
                 <TouchableOpacity
                   style={{width: '100%'}}
@@ -376,7 +172,7 @@ const Orders = () => {
                         style={{
                           fontSize: 15,
                           fontWeight: 'bold',
-                          color: 'green',
+                          color: COLORS.success,
                         }}>
                         {workerStore.acceptedOrders[item].status}
                       </Text>
@@ -385,7 +181,7 @@ const Orders = () => {
                         style={{
                           fontSize: 15,
                           fontWeight: 'bold',
-                          color: 'green',
+                          color: COLORS.success,
                           top: 10,
                         }}>
                         {workerStore.acceptedOrders[item].total} TL
@@ -398,27 +194,13 @@ const Orders = () => {
           })}
         </View>
 
-        {workerStore.loading ? (
-          <View
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundColor: 'rgba(0,0,0,0.5)',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <ActivityIndicator size="large" color="#6200EE" />
-          </View>
-        ) : null}
+        <LoadingOverlay visible={workerStore.loading} />
       </ScrollView>
-      <View style={{borderWidth: 10, borderColor: '#30262E', bottom: 0}}>
+      <View style={{borderWidth: 10, borderColor: COLORS.dark, bottom: 0}}>
         <List.Item
           onPress={() => authStore.onSignOut()}
           title={t('Log out')}
-          left={() => <List.Icon color="#000" icon="logout" />}
+          left={() => <List.Icon color={COLORS.black} icon="logout" />}
         />
       </View>
     </View>

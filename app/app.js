@@ -1,33 +1,30 @@
 import {NavigationContainer} from '@react-navigation/native';
-import * as React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import React, {useEffect} from 'react';
 import {
   SignedInStackScreen,
   SignedOutStackScreen,
-  TabStackScreen,
   WorkerStackScreen,
 } from './router';
 import {observer} from 'mobx-react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {View} from 'react-native';
 import {navigationRef} from './router/NavigationService';
-import {useEffect, useState} from 'react';
 import {useStores} from './store';
 import {OpenAPI} from '../src/services/openapi';
 import Landing from './screens/landing/Landing';
 import './screens/translation/i18n';
 
+OpenAPI.BASE = 'https://m.up.railway.app';
+
+const RootStack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator();
+
 const App = () => {
-  const {authStore, categoryStore} = useStores();
+  const {authStore} = useStores();
 
   useEffect(() => {
     authStore.checkIsSignedIn();
   }, [authStore]);
-
-  const RootStack = createNativeStackNavigator();
-  const Stack = createNativeStackNavigator();
-  const Tab = createBottomTabNavigator();
-  OpenAPI.BASE = 'https://m.up.railway.app';
 
   return (
     <View style={{flex: 1}}>

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import config from '../config/env/config';
 
 axios.defaults.timeout = 20000;
 axios.defaults.headers.post['Content-Type'] = 'application/json';

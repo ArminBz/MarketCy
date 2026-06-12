@@ -104,11 +104,9 @@ class AuthStore {
     if (err?.body?.message) {
       this.setErrorMessage(err.body.message);
       this.setShowErrMessage(true);
-      console.log('handleError err', err.body.message);
     } else if (err?.message) {
       this.setErrorMessage(err.message);
       this.setShowErrMessage(true);
-      console.log('handleError err', err.message);
     }
   };
 
@@ -119,7 +117,6 @@ class AuthStore {
         phone: this.phoneNumber,
       });
 
-      console.log('response', response);
       if (response.success === true) {
         NavigationService.navigate('Verify Your Number');
       }
@@ -127,7 +124,6 @@ class AuthStore {
       return response.success;
     } catch (err) {
       alert('Invalid phone number');
-      console.log('login err', err);
       this.handleError(err);
     } finally {
       this.setLoading(false);
@@ -151,9 +147,7 @@ class AuthStore {
       if (response.addresses !== null) {
         this.setAddressesOfUser(response.addresses);
       }
-      console.log('get user response', this.addressesOfUser);
     } catch (err) {
-      console.log('get user err', err.body.message);
       this.handleError(err);
     } finally {
       this.setLoading(false);
@@ -167,10 +161,8 @@ class AuthStore {
         phone: this.phoneNumber,
         code: this.codeCheck,
       };
-      // console.log('confirmOtp params', params)
 
       const response = await UserService.otp(params);
-      // console.log('confirmOtp response', response.user)
 
       if (response.api_key) {
         this.setUserLogin(response.api_key, response.user);
@@ -179,7 +171,6 @@ class AuthStore {
         return response.user;
       }
     } catch (err) {
-      console.log('login err', err.body.message);
       this.handleError(err);
     } finally {
       this.setLoading(false);
@@ -193,7 +184,6 @@ class AuthStore {
       let token = await AsyncStorage.getItem('token');
       let number = await AsyncStorage.getItem('phone');
       let userStatus = await AsyncStorage.getItem('userStatus');
-      console.log('userStatus', userStatus);
 
       if (token !== null) {
         OpenAPI.TOKEN = token;
@@ -206,8 +196,6 @@ class AuthStore {
       this.setCheckIsSignedInLoading(false);
     } catch (err) {
       this.setCheckIsSignedInLoading(false);
-      console.log('isSignedIn() err:', err);
-      console.log('isSignedIn() err.response:', err.response);
     }
   };
 
@@ -218,7 +206,7 @@ class AuthStore {
       await AsyncStorage.removeItem('userStatus');
       this.setLoggedIn(false);
     } catch (err) {
-      console.log('onSignOut err', err);
+      // ignore — local sign-out should always succeed
     }
   };
 }

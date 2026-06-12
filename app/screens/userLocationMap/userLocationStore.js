@@ -1,10 +1,9 @@
-import {action, makeObservable, observable} from 'mobx';
-import {Stores} from '../../store';
+import {makeObservable} from 'mobx';
 
-class userLocationStore {
+class UserLocationStore {
   constructor() {
     makeObservable(this, {});
   }
 }
 
-export default userLocationStore;
+export default UserLocationStore;

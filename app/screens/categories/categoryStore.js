@@ -1,8 +1,8 @@
 import {action, makeObservable, observable} from 'mobx';
 
-import {StoreService, UserService} from '../../../src/services/openapi';
+import {StoreService} from '../../../src/services/openapi';
 
-class categoryStore {
+class CategoryStore {
   constructor() {
     makeObservable(this, {
       categories: observable,
@@ -52,11 +52,9 @@ class categoryStore {
     if (err?.body?.message) {
       this.setErrorMessage(err.body.message);
       this.setShowErrMessage(true);
-      console.log('handleError err', err.body.message);
     } else if (err?.message) {
       this.setErrorMessage(err.message);
       this.setShowErrMessage(true);
-      console.log('handleError err', err.message);
     }
   };
 
@@ -77,10 +75,9 @@ class categoryStore {
       }
     } catch (err) {
       this.setOnEndReachedLoading(false);
-      console.log('getCategory err', err);
       this.handleError(err);
     }
   };
 }
 
-export default categoryStore;
+export default CategoryStore;

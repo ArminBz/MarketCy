@@ -1,11 +1,106 @@
-## MarketCy
+# MarketCy 🛒
 
-React Native app for a market/shopping experience with products, basket, orders, worker tools, and i18n.
+> A mobile grocery-ordering and delivery app for a Northern-Cyprus supermarket — browse stores on a map, shop by category, and check out for delivery. Includes a separate **staff/admin** experience for managing inventory and fulfilling orders.
+
+![React Native](https://img.shields.io/badge/React%20Native-0.70-61DAFB?logo=react&logoColor=white)
+![MobX](https://img.shields.io/badge/State-MobX-FF9955?logo=mobx&logoColor=white)
+![React Navigation](https://img.shields.io/badge/Navigation-React%20Navigation-6B52AE)
+![Firebase](https://img.shields.io/badge/Push-Firebase%20FCM-FFCA28?logo=firebase&logoColor=black)
+![i18n](https://img.shields.io/badge/i18n-EN%20%7C%20TR%20%7C%20UK%20%7C%20FA-2EAD33)
+![Platforms](https://img.shields.io/badge/Platforms-iOS%20%7C%20Android-lightgrey)
+
+---
+
+## Overview
+
+MarketCy is a **React Native (CLI)** app built around a real supermarket chain (*Sayılı Market*, İskele).
+Customers sign in with their phone number, discover store branches on an interactive map, browse the
+catalogue by category, build a basket, pick a delivery address and payment method, and place an order.
+A second, role-gated **staff app** lets employees scan product barcodes to manage pricing/availability
+and move incoming orders through a *pending → accepted → delivered* workflow.
+
+The client is fully decoupled from the backend through a **generated OpenAPI client** — the app talks to a
+REST API and never hand-writes request/response types.
+
+## Features
+
+**Customer**
+- 📱 Phone-number **OTP authentication**
+- 🗺️ **Map discovery** of store branches (Google Maps) with animated markers and a synced card carousel
+- 🛍️ **Catalogue** browsing by category with infinite scroll, search, and discount pricing
+- 🧺 **Basket** with per-item quantities, live totals, and edit/remove
+- 📍 **Delivery address** book and **Card / Cash** payment selection
+- 🌍 **4 languages** — English, Türkçe, Українська, فارسی — switchable in-app
+
+**Staff / Admin** (role-gated by account type)
+- 🔳 **QR / barcode scanner** to look up products and set price, discount, and availability
+- 📦 **Order queue** — review pending & accepted orders and **accept / reject / deliver**
+- 🔔 **Push notifications** via Firebase Cloud Messaging
+
+## Screens
+
+| Area | Screens |
+|------|---------|
+| **Auth** | Phone entry → OTP verification |
+| **Discover** | Map (branch markers + carousel), Markets list |
+| **Shopping** | Product list (category tabs + search), Product detail modal, Basket, Address modal, Checkout |
+| **Account** | Dashboard (number, address, language, sign-out) |
+| **Staff** | QR scanner / product editor, Orders queue, Order detail modal |
+
+> 📸 _Screenshots can be dropped into `docs/screenshots/` and embedded here._
+
+## Tech Stack
+
+| Concern | Choice |
+|---------|--------|
+| Framework | React Native **0.70** (bare CLI) |
+| State management | **MobX** (`mobx` + `mobx-react`) with a root-store / context pattern |
+| Navigation | **React Navigation** native-stack + React Native Paper `BottomNavigation` tabs |
+| UI kit | **React Native Paper** (Material) |
+| Networking | **Axios** + an **OpenAPI-generated** TypeScript client (`src/services/openapi`) |
+| Maps | `react-native-maps` (Google provider) |
+| Push | **Firebase Cloud Messaging** (`@react-native-firebase/messaging`) |
+| i18n | `i18next` + `react-i18next` (EN / TR / UK / FA) |
+| Camera | `react-native-qrcode-scanner` (barcode scanning) |
+
+## Architecture
+
+```
+app/
+├── api/            # thin axios helpers
+├── components/     # shared UI (Logo, Button, Background, LoadingOverlay)
+├── core/           # Paper theme
+├── router/         # navigation stacks + central NavigationService
+├── screens/        # feature screens, each with a co-located MobX store
+│   ├── auth/         (Intro, VerifyNumber, authStore)
+│   ├── tabs/         (Markets, Map, Dashboard, Search)
+│   ├── products/     (ListOfProducts, ModalEachProduct, productStore)
+│   ├── basket/       (Basket, basketStore, …)
+│   ├── workerScreens/(WorkerHomePage, Orders, workerStore)
+│   └── translation/  (i18n setup + locale JSON)
+├── store/          # RootStore wiring all feature stores into one context
+└── style/          # central color palette + shared style tokens
+
+src/services/openapi/ # auto-generated API client (models + services)
+ios/ · android/        # native projects
+```
+
+**State** — every feature owns a small MobX store (`authStore`, `productStore`, `basketStore`, `workerStore`, …).
+`store/index.js` instantiates them once into a `RootStore` exposed through React context, so any screen reads
+them with a single `useStores()` hook.
+
+**Navigation** — three top-level stacks (`SignedOut`, `SignedIn`, `Worker`) are chosen from auth state in
+`app/app.js`; a `NavigationService` ref allows navigation from outside the React tree (e.g. from stores).
+
+**API client** — `src/services/openapi` is **generated**, not written by hand. Regenerate it from the running
+backend with `yarn openapi:dev`, keeping client types in lock-step with the server.
+
+## Getting Started
 
 ### Prerequisites
-- Node 16/18 and Yarn or npm
-- Xcode (iOS) and Android Studio + SDKs (Android)
-- CocoaPods (iOS): `sudo gem install cocoapods`
+- **Node 18** and Yarn (or npm)
+- **Xcode** (iOS) and **Android Studio** + SDKs (Android)
+- **CocoaPods** (iOS): `sudo gem install cocoapods`
 
 ### Install
 ```bash
@@ -16,69 +111,44 @@ cd ios && pod install && cd ..
 
 ### Run
 ```bash
-# Start Metro
-yarn start
-
-# iOS
-yarn ios
-
-# Android (emulator or device)
-yarn android
+yarn start          # Metro bundler
+yarn ios            # build & run on iOS simulator/device
+yarn android        # build & run on Android emulator/device
 ```
 
-### Scripts
-- `yarn start` – start Metro bundler
-- `yarn ios` – build and run iOS app
-- `yarn android` – build and run Android app
-- `yarn lint` – run eslint
-- `yarn test` – run Jest
-- `yarn openapi:dev` – regenerate API client from dev server
-- `yarn openapi:local` – regenerate API client from local server
+## Scripts
 
-### API Client
-OpenAPI client is generated into `src/services/openapi`. Base URL is set in `app/app.js` via `OpenAPI.BASE`.
+| Script | Purpose |
+|--------|---------|
+| `yarn start` | Start the Metro bundler |
+| `yarn ios` / `yarn android` | Build & run on the platform |
+| `yarn lint` | ESLint |
+| `yarn test` | Jest |
+| `yarn openapi:dev` | Regenerate the API client from the dev server |
+| `yarn openapi:local` | Regenerate the API client from a local server |
 
-### Internationalization (i18n)
-Translations live under `app/screens/translation`. Languages: `en`, `fa`, `tr`, `uk`. Initialized in `app/screens/translation/i18n.js`.
+## Internationalization
 
-### Firebase & Push
-- iOS: `ios/GoogleService-Info.plist` is included.
-- Android: `android/app/google-services.json` is included.
-Ensure bundle identifiers/package names match your Firebase project if you fork.
+Translations live in `app/screens/translation/<lng>/<lng>.json` (`en`, `tr`, `uk`, `fa`) and are initialised in
+`app/screens/translation/i18n.js`. Every locale file mirrors the same keys; the language is switchable at runtime.
 
-### Maps
-Uses `react-native-maps`. Verify iOS and Android map setup if enabling map features.
+## Configuration Notes
+
+- **Firebase** — `ios/GoogleService-Info.plist` and `android/app/google-services.json` are included; match the
+  bundle id / package name to your own Firebase project if you fork. These are client identifiers, not secrets.
+- **Maps** — uses `react-native-maps` with the Google provider; supply the relevant Maps API keys for each platform.
+- **API base URL** — set via `OpenAPI.BASE` in `app/app.js`.
 
 ### Troubleshooting
-- Metro cache issues:
-  ```bash
-  rm -rf $TMPDIR/metro-* && yarn start --reset-cache
-  ```
-- Android build issues:
-  ```bash
-  cd android && ./gradlew clean && cd ..
-  ```
-- iOS Pod issues:
-  ```bash
-  cd ios && pod deintegrate && pod install && cd ..
-  ```
-- “Type annotations can only be used in TypeScript files.”
-  This project uses JavaScript. Remove Flow/TS annotations from `.js` files or convert to TypeScript.
-
-### Project Structure (selected)
-```
-app/
-  app.js
-  screens/
-    products/, basket/, workerScreens/, auth/, translation/
-  router/
-  components/
-  store/
-src/services/openapi/   # generated API client
-ios/, android/          # native projects
+```bash
+# Metro cache
+rm -rf $TMPDIR/metro-* && yarn start --reset-cache
+# Android
+cd android && ./gradlew clean && cd ..
+# iOS pods
+cd ios && pod deintegrate && pod install && cd ..
 ```
 
-### License
-MIT (or project default)
+## License
 
-
+Published as a portfolio work sample. © Armin.

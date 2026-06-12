@@ -1,9 +1,7 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import Background from '../../components/Background';
-import Logo from '../../components/Logo';
 import Button from '../../components/Button';
 import {
-  ActivityIndicator,
   Dimensions,
   FlatList,
   Image,
@@ -17,31 +15,22 @@ import {
 import {observer} from 'mobx-react';
 import {useStores} from '../../store';
 import NavigationService from '../../router/NavigationService';
-import {Colors, IconButton} from 'react-native-paper';
-import NumericInput from 'react-native-numeric-input';
-import {greenButton, purpleButton} from '../../style';
+import {IconButton} from 'react-native-paper';
+import {COLORS, discountedPriceStyle} from '../../style';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useTranslation} from 'react-i18next';
+import LoadingOverlay from '../../components/LoadingOverlay';
 
-const {height, width} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 const Basket = () => {
-  const {t, i18n} = useTranslation();
+  const {t} = useTranslation();
 
-  const {authStore, productStore, basketStore} = useStores();
+  const {productStore, basketStore} = useStores();
 
   useEffect(() => {
     basketStore.getBasket();
-    // authStore.getUser()
   }, [basketStore]);
-
-  const deleteItemById = id => {
-    // console.log('id=>',id)
-    let index = productStore.addProducts.findIndex(product => product.id == id);
-    // console.log('index=>',index)
-
-    productStore.addProducts.splice(index, 1);
-  };
 
   const renderItem = ({item}) => {
     let name = item?.store_product.product?.name || null;
@@ -60,7 +49,7 @@ const Basket = () => {
             width: width,
             flexDirection: 'row',
             borderWidth: 1,
-            borderColor: '#E2E2E2',
+            borderColor: COLORS.borderLight,
           }}
           onPress={() => {
             productStore.setSelectedProducts(item);
@@ -71,7 +60,7 @@ const Basket = () => {
               flex: 0.4,
               height: 130,
               borderWidth: 0.8,
-              borderColor: '#C6C6C6',
+              borderColor: COLORS.border,
               width: 60,
               padding: 6,
               marginRight: 10,
@@ -91,21 +80,10 @@ const Basket = () => {
                 flex: 0.2,
                 fontSize: 15,
                 fontWeight: 'bold',
-                color:
+                ...discountedPriceStyle(
                   item.store_product.discount_price !== null &&
-                  item.store_product.discount_price !== 0
-                    ? 'red'
-                    : '#6200EE',
-                textDecorationLine:
-                  item.store_product.discount_price !== null &&
-                  item.store_product.discount_price !== 0
-                    ? 'line-through'
-                    : '',
-                textDecorationStyle:
-                  item.store_product.discount_price !== null &&
-                  item.store_product.discount_price !== 0
-                    ? 'solid'
-                    : '',
+                    item.store_product.discount_price !== 0,
+                ),
               }}>
               {price}
             </Text>
@@ -116,22 +94,21 @@ const Basket = () => {
                   flex: 0.2,
                   fontSize: 15,
                   fontWeight: 'bold',
-                  color: '#6200EE',
+                  color: COLORS.primary,
                   marginBottom: 5,
                 }}>
                 {item.store_product.discount_price} TL
               </Text>
             ) : null}
-            {/*<Text style={{ flex: 0.2, fontSize: 12, }}>{item.amount}</Text>*/}
           </View>
           <View>
             <TextInput
               style={{
                 margin: 12,
-                borderColor: '#E9E9E9',
+                borderColor: COLORS.borderInput,
                 borderWidth: 2,
                 padding: 10,
-                color: '#4700AE',
+                color: COLORS.primaryDark,
                 fontSize: 15,
                 height: 40,
                 width: 55,
@@ -139,7 +116,7 @@ const Basket = () => {
               }}
               keyboardType="numeric"
               placeholder={quantity.toString()}
-              placeholderTextColor="#6200EE"
+              placeholderTextColor={COLORS.primary}
               editable={false}
               selectTextOnFocus={false}
               value={quantity}
@@ -150,7 +127,7 @@ const Basket = () => {
                 basketStore.getBasket();
               }}>
               {' '}
-              <Icon name={'trash'} size={25} color={'#6200EE'} />
+              <Icon name={'trash'} size={25} color={COLORS.primary} />
             </Button>
 
             <View
@@ -161,13 +138,14 @@ const Basket = () => {
                 width: 33,
                 borderRadius: 8,
                 elevation: 3,
-                backgroundColor: '#6200EE',
+                backgroundColor: COLORS.primary,
                 textAlign: 'center',
                 position: 'absolute',
                 right: 80,
                 top: 85,
               }}>
-              <Text style={{fontWeight: 'bold', color: 'white', fontSize: 12}}>
+              <Text
+                style={{fontWeight: 'bold', color: COLORS.white, fontSize: 12}}>
                 {' '}
                 {t('Edit')}
               </Text>
@@ -199,7 +177,7 @@ const Basket = () => {
                 marginTop: 20,
                 fontSize: 17,
                 fontWeight: 'bold',
-                color: '#6200EE',
+                color: COLORS.primary,
               }}>
               Total: {basketStore.totalPrice} TL
             </Text>
@@ -212,7 +190,7 @@ const Basket = () => {
               paddingHorizontal: 46,
               borderRadius: 85,
               elevation: 3,
-              backgroundColor: '#6200EE',
+              backgroundColor: COLORS.primary,
 
               marginTop: 20,
             }}
@@ -223,7 +201,7 @@ const Basket = () => {
                 lineHeight: 21,
                 fontWeight: 'bold',
                 letterSpacing: 0.25,
-                color: 'white',
+                color: COLORS.white,
               }}>
               {t('Proceed to CheckOut')}
             </Text>
@@ -233,7 +211,7 @@ const Basket = () => {
         <Background>
           <IconButton
             icon="basket"
-            iconColor={'#6200EE'}
+            iconColor={COLORS.primary}
             size={120}
             onPress={() => NavigationService.navigate('Basket')}
           />
@@ -248,21 +226,7 @@ const Basket = () => {
           </Button>
         </Background>
       )}
-      {basketStore.loading ? (
-        <View
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0,0,0,0.5)',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <ActivityIndicator size="large" color="#6200EE" />
-        </View>
-      ) : null}
+      <LoadingOverlay visible={basketStore.loading} />
     </View>
   );
 };

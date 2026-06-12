@@ -23,10 +23,9 @@ const closeDrawer = () => {
 };
 
 const currentRoute = () => {
-  console.log(navigationRef.getCurrentRoute());
-  let cuurentRoute = navigationRef.getCurrentRoute();
-  if (cuurentRoute.name) {
-    return cuurentRoute.name;
+  const route = navigationRef.getCurrentRoute();
+  if (route?.name) {
+    return route.name;
   }
 };
 

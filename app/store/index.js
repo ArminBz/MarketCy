@@ -1,26 +1,26 @@
 import AuthStore from '../screens/auth/authStore';
-import productStore from '../screens/products/productStore';
-import categoryStore from '../screens/categories/categoryStore';
-import userAddressStore from '../screens/userAddress/userAddressStore';
-import userLocationStore from '../screens/userLocationMap/userLocationStore';
-import offerStore from '../screens/tabs/offerStore';
-import languageStore from '../screens/translation/languageStore';
-import basketStore from '../screens/basket/basketStore';
-import workerStore from '../screens/workerScreens/workerStore';
+import ProductStore from '../screens/products/productStore';
+import CategoryStore from '../screens/categories/categoryStore';
+import UserAddressStore from '../screens/userAddress/userAddressStore';
+import UserLocationStore from '../screens/userLocationMap/userLocationStore';
+import OfferStore from '../screens/tabs/offerStore';
+import LanguageStore from '../screens/translation/languageStore';
+import BasketStore from '../screens/basket/basketStore';
+import WorkerStore from '../screens/workerScreens/workerStore';
 
 import React from 'react';
 
 class RootStore {
   constructor() {
     this.authStore = new AuthStore(this);
-    this.productStore = new productStore(this);
-    this.categoryStore = new categoryStore(this);
-    this.userAddressStore = new userAddressStore(this);
-    this.userLocationStore = new userLocationStore(this);
-    this.offerStore = new offerStore(this);
-    this.languageStore = new languageStore(this);
-    this.basketStore = new basketStore(this);
-    this.workerStore = new workerStore(this);
+    this.productStore = new ProductStore(this);
+    this.categoryStore = new CategoryStore(this);
+    this.userAddressStore = new UserAddressStore(this);
+    this.userLocationStore = new UserLocationStore(this);
+    this.offerStore = new OfferStore(this);
+    this.languageStore = new LanguageStore(this);
+    this.basketStore = new BasketStore(this);
+    this.workerStore = new WorkerStore(this);
   }
 }
 

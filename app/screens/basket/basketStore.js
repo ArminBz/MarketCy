@@ -3,7 +3,7 @@ import {action, makeObservable, observable} from 'mobx';
 import {StoreService} from '../../../src/services/openapi';
 import {Alert} from 'react-native';
 
-class basketStore {
+class BasketStore {
   constructor() {
     makeObservable(this, {
       errorMessage: observable,
@@ -52,11 +52,9 @@ class basketStore {
     if (err?.body?.message) {
       this.setErrorMessage(err.body.message);
       this.setShowErrMessage(true);
-      console.log('handleError err', err.body.message);
     } else if (err?.message) {
       this.setErrorMessage(err.message);
       this.setShowErrMessage(true);
-      console.log('handleError err', err.message);
     }
   };
 
@@ -69,7 +67,6 @@ class basketStore {
       this.setTotalPrice(response.total_price);
       this.setQuantityFromBack(response.items.quantity);
     } catch (err) {
-      console.log('login err', err);
       this.handleError(err);
     } finally {
       this.setLoading(false);
@@ -78,13 +75,8 @@ class basketStore {
 
   updateBasket = async (store_id, product_id, quantity) => {
     try {
-      const response = await StoreService.updateBasket(
-        store_id,
-        product_id,
-        quantity,
-      );
+      await StoreService.updateBasket(store_id, product_id, quantity);
     } catch (err) {
-      console.log('login err', err);
       this.handleError(err);
     }
   };
@@ -92,14 +84,8 @@ class basketStore {
   deleteBasketItem = async (store_id, product_id) => {
     try {
       this.setLoading(true);
-      const response = await StoreService.deleteBasketItem(
-        store_id,
-        product_id,
-      );
-      console.log('deleteItemBasket', response);
-      // return response
+      await StoreService.deleteBasketItem(store_id, product_id);
     } catch (err) {
-      console.log('login err', err);
       this.handleError(err);
     } finally {
       this.setLoading(false);
@@ -116,7 +102,6 @@ class basketStore {
       );
       Alert.alert('Successful', response.message);
     } catch (err) {
-      console.log('checkout err', err);
       Alert.alert('Error:', err.message);
       this.handleError(err);
     } finally {
@@ -125,4 +110,4 @@ class basketStore {
   };
 }
 
-export default basketStore;
+export default BasketStore;

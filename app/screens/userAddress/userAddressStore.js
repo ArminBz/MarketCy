@@ -1,8 +1,8 @@
 import {action, makeObservable, observable} from 'mobx';
-import {StoreService, UserService} from '../../../src/services/openapi';
+import {UserService} from '../../../src/services/openapi';
 import {Alert} from 'react-native';
 
-class userAddressStore {
+class UserAddressStore {
   constructor() {
     makeObservable(this, {
       errorMessage: observable,
@@ -16,7 +16,7 @@ class userAddressStore {
     });
   }
 
-  userAddress: '';
+  userAddress = '';
   errorMessage = '';
   showErrMessage = false;
   loading = false;
@@ -38,27 +38,22 @@ class userAddressStore {
     if (err?.body?.message) {
       this.setErrorMessage(err.body.message);
       this.setShowErrMessage(true);
-      console.log('handleError err', err.body.message);
     } else if (err?.message) {
       this.setErrorMessage(err.message);
       this.setShowErrMessage(true);
-      console.log('handleError err', err.message);
     }
   };
 
   addAddresses = async () => {
     try {
       this.setLoading(true);
-      console.log('jj', this.userAddress);
       const response = await UserService.addAddress({
         address: this.userAddress,
       });
-      console.log('add address', response);
       if (response) {
         Alert.alert('Address added successfully');
       }
     } catch (err) {
-      console.log('add address err', err);
       Alert.alert('Error:', err.message);
       this.handleError(err);
     } finally {
@@ -70,12 +65,10 @@ class userAddressStore {
     try {
       this.setLoading(true);
       const response = await UserService.deleteAddress(index);
-      console.log('add address', response);
       if (response) {
         alert('Address deleted successfully');
       }
     } catch (err) {
-      console.log('add address err', err);
       this.handleError(err);
     } finally {
       this.setLoading(false);
@@ -83,4 +76,4 @@ class userAddressStore {
   };
 }
 
-export default userAddressStore;
+export default UserAddressStore;

@@ -1,33 +1,18 @@
-import {
-  ActivityIndicator,
-  Alert,
-  Dimensions,
-  Keyboard,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import {Alert, Dimensions, ScrollView, Text, View} from 'react-native';
+import {COLORS} from '../../style';
 import {observer} from 'mobx-react';
-import NavigationService from '../../router/NavigationService';
-import React, {useEffect, useState, useRef} from 'react';
-import Background from '../../components/Background';
+import React from 'react';
 import Logo from '../../components/Logo';
-import {Paragraph} from 'react-native-paper';
 import Button from '../../components/Button';
 import PhoneInput from 'react-native-phone-number-input';
-
 import {useStores} from '../../store';
-import VerifyNumber from './VerifyNumber';
 import {useTranslation} from 'react-i18next';
+import LoadingOverlay from '../../components/LoadingOverlay';
 
-const {height, width} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 const Intro = () => {
   const {t, i18n} = useTranslation();
-
-  useEffect(() => {}, []);
 
   const {authStore, languageStore} = useStores();
 
@@ -38,7 +23,7 @@ const Intro = () => {
       Alert.alert('Confirm Number', authStore.phoneNumber, [
         {
           text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
         },
         {
           text: 'OK',
@@ -67,7 +52,7 @@ const Intro = () => {
         <Text
           style={{
             paddingBottom: 30,
-            color: '#6203EC',
+            color: COLORS.primary,
             fontWeight: 'bold',
             fontSize: 15,
           }}>
@@ -75,7 +60,6 @@ const Intro = () => {
         </Text>
         <PhoneInput
           ref={phoneInput}
-          // defaultValue={authStore.phoneNumber}
           defaultCode="TR"
           layout="first"
           onChangeFormattedText={text => {
@@ -94,21 +78,7 @@ const Intro = () => {
           {t('Send me the code!')}
         </Button>
       </View>
-      {authStore.loading ? (
-        <View
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0,0,0,0.5)',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <ActivityIndicator size="large" color="#6200EE" />
-        </View>
-      ) : null}
+      <LoadingOverlay visible={authStore.loading} />
 
       <View
         style={{

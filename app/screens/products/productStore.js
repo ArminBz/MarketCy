@@ -1,15 +1,9 @@
 import {action, makeObservable, observable} from 'mobx';
-import {
-  basketReceiptApi,
-  getOffersApi,
-  getProductApi,
-  signInApi,
-} from '../../api/api';
+import {basketReceiptApi} from '../../api/api';
 import {Stores} from '../../store';
-import authStore from '../auth/authStore';
 import {StoreService} from '../../../src/services/openapi';
 
-class productStore {
+class ProductStore {
   constructor() {
     makeObservable(this, {
       quantityOfProduct: observable,
@@ -31,7 +25,7 @@ class productStore {
       setSelectedProducts: action,
       setAddProducts: action,
       setErrorMessage: action,
-      setLoading: observable,
+      setLoading: action,
       setShowErrMessage: action,
       setProduct: action,
       setPayment: action,
@@ -103,24 +97,15 @@ class productStore {
   setProduct = value => {
     this.product = value;
   };
-  sumOfBasket = () => {
-    let quantity;
-    let sum = 0;
-    for (const value of this.addProducts) {
-      quantity = value.quantityOfProduct;
-    }
-    return sum;
-  };
-
   orderReceipt = async () => {
     try {
-      const response = await basketReceiptApi(
+      await basketReceiptApi(
         Stores.userAddressStore.userAddress,
         this.selectedProducts,
         Stores.authStore.phoneNumber,
       );
     } catch (err) {
-      console.log('login err', err);
+      this.handleError(err);
     }
   };
 
@@ -128,11 +113,9 @@ class productStore {
     if (err?.body?.message) {
       this.setErrorMessage(err.body.message);
       this.setShowErrMessage(true);
-      console.log('handleError err', err.body.message);
     } else if (err?.message) {
       this.setErrorMessage(err.message);
       this.setShowErrMessage(true);
-      console.log('handleError err', err.message);
     }
   };
 
@@ -159,7 +142,6 @@ class productStore {
       }
       this.setOnEndReachedLoading(false);
     } catch (err) {
-      console.log('getProd err', err);
       this.setOnEndReachedLoading(false);
       this.handleError(err);
     } finally {
@@ -168,4 +150,4 @@ class productStore {
   };
 }
 
-export default productStore;
+export default ProductStore;
