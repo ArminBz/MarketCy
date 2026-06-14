@@ -1,0 +1,9 @@
+{
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "typeRoots": ["./node_modules/@types", "./types"]
+  },
+  "include": ["app", "src", "App.tsx", "types"],
+  "exclude": ["node_modules"]
+}

@@ -3,6 +3,7 @@
 > A mobile grocery-ordering and delivery app for a Northern-Cyprus supermarket — browse stores on a map, shop by category, and check out for delivery. Includes a separate **staff/admin** experience for managing inventory and fulfilling orders.
 
 ![React Native](https://img.shields.io/badge/React%20Native-0.70-61DAFB?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)
 ![MobX](https://img.shields.io/badge/State-MobX-FF9955?logo=mobx&logoColor=white)
 ![React Navigation](https://img.shields.io/badge/Navigation-React%20Navigation-6B52AE)
 ![Firebase](https://img.shields.io/badge/Push-Firebase%20FCM-FFCA28?logo=firebase&logoColor=black)
@@ -13,7 +14,7 @@
 
 ## Overview
 
-MarketCy is a **React Native (CLI)** app built around a real supermarket chain (*Sayılı Market*, İskele).
+MarketCy is a **React Native (CLI)** app, written in **strict TypeScript**, built around a real supermarket chain (*Sayılı Market*, İskele).
 Customers sign in with their phone number, discover store branches on an interactive map, browse the
 catalogue by category, build a basket, pick a delivery address and payment method, and place an order.
 A second, role-gated **staff app** lets employees scan product barcodes to manage pricing/availability
@@ -54,6 +55,7 @@ REST API and never hand-writes request/response types.
 | Concern | Choice |
 |---------|--------|
 | Framework | React Native **0.70** (bare CLI) |
+| Language | **TypeScript** (strict mode), end to end |
 | State management | **MobX** (`mobx` + `mobx-react`) with a root-store / context pattern |
 | Navigation | **React Navigation** native-stack + React Native Paper `BottomNavigation` tabs |
 | UI kit | **React Native Paper** (Material) |
@@ -85,12 +87,15 @@ src/services/openapi/ # auto-generated API client (models + services)
 ios/ · android/        # native projects
 ```
 
-**State** — every feature owns a small MobX store (`authStore`, `productStore`, `basketStore`, `workerStore`, …).
-`store/index.js` instantiates them once into a `RootStore` exposed through React context, so any screen reads
+**State** — every feature owns a small, fully-typed MobX store (`authStore`, `productStore`, `basketStore`, `workerStore`, …).
+`store/index.ts` instantiates them once into a `RootStore` exposed through React context, so any screen reads
 them with a single `useStores()` hook.
 
 **Navigation** — three top-level stacks (`SignedOut`, `SignedIn`, `Worker`) are chosen from auth state in
-`app/app.js`; a `NavigationService` ref allows navigation from outside the React tree (e.g. from stores).
+`app/app.tsx`; a `NavigationService` ref allows navigation from outside the React tree (e.g. from stores).
+
+**Types** — the app is **strict TypeScript**. Domain shapes are reused from the generated OpenAPI models via
+`app/types.ts`, so stores, screens and the API client stay in lock-step.
 
 **API client** — `src/services/openapi` is **generated**, not written by hand. Regenerate it from the running
 backend with `yarn openapi:dev`, keeping client types in lock-step with the server.
@@ -123,6 +128,7 @@ yarn android        # build & run on Android emulator/device
 | `yarn start` | Start the Metro bundler |
 | `yarn ios` / `yarn android` | Build & run on the platform |
 | `yarn lint` | ESLint |
+| `yarn typecheck` | TypeScript type-check (`tsc --noEmit`) |
 | `yarn test` | Jest |
 | `yarn openapi:dev` | Regenerate the API client from the dev server |
 | `yarn openapi:local` | Regenerate the API client from a local server |
