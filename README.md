@@ -153,8 +153,9 @@ Translations live in `app/screens/translation/<lng>/<lng>.json` (`en`, `tr`, `uk
 
 ## Configuration Notes
 
-- **Firebase** — `ios/GoogleService-Info.plist` and `android/app/google-services.json` are included; match the
-  bundle id / package name to your own Firebase project if you fork. These are client identifiers, not secrets.
+- **Firebase** — push notifications use Firebase Cloud Messaging. The `google-services.json` /
+  `GoogleService-Info.plist` config files are **not committed** — add your own (from your Firebase project) at
+  `android/app/` and `ios/` to build with Firebase enabled.
 - **Maps** — uses `react-native-maps` with the Google provider; supply the relevant Maps API keys for each platform.
 - **API base URL** — set via `OpenAPI.BASE` in `app/app.js`.
 
