@@ -67,7 +67,7 @@ class UserAddressStore {
       this.setLoading(true);
       const response = await UserService.deleteAddress(index);
       if (response) {
-        alert('Address deleted successfully');
+        Alert.alert('Address deleted successfully');
       }
     } catch (err) {
       this.handleError(err as ApiError);

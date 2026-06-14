@@ -18,7 +18,7 @@ import WorkerHomePage from '../screens/workerScreens/WorkerHomePage';
 import ModalEachProductsFromBasket from '../screens/basket/ModalEachProductsFromBasket';
 import ModalOrderProducts from '../screens/workerScreens/ModalOrderProducts';
 import {BottomNavigation, IconButton} from 'react-native-paper';
-import {Image, View} from 'react-native';
+import {StyleSheet, Image, View} from 'react-native';
 import NavigationService from './NavigationService';
 import {useTranslation} from 'react-i18next';
 import {Shadow} from 'react-native-shadow-2';
@@ -158,18 +158,7 @@ export const TabStackScreen = () => {
     {
       key: 'map',
       focusedIcon: ({}) => (
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            shadowColor: COLORS.primary,
-            shadowOpacity: 5,
-            shadowRadius: 16.0,
-            shadowOffset: {
-              height: 0,
-              width: 0,
-            },
-          }}>
+        <View style={styles.view}>
           <Shadow
             distance={15}
             startColor={COLORS.shadowGlowStart}
@@ -177,41 +166,16 @@ export const TabStackScreen = () => {
             offset={[3, 4]}>
             <Image
               source={require('../assets/buttomIcon.png')}
-              style={{
-                width: 75,
-                height: 68,
-                borderRadius: 30,
-                borderWidth: 10,
-                borderColor: COLORS.primary,
-                resizeMode: 'contain',
-              }}
+              style={styles.image}
             />
           </Shadow>
         </View>
       ),
       unfocusedIcon: ({}) => (
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            shadowColor: COLORS.primary,
-            shadowOpacity: 5,
-            shadowRadius: 16.0,
-            shadowOffset: {
-              height: 0,
-              width: 0,
-            },
-          }}>
+        <View style={styles.view2}>
           <Image
             source={require('../assets/buttomIcon.png')}
-            style={{
-              width: 75,
-              height: 68,
-              borderRadius: 30,
-              borderWidth: 10,
-              borderColor: COLORS.primary,
-              resizeMode: 'contain',
-            }}
+            style={styles.image2}
           />
         </View>
       ),
@@ -272,3 +236,44 @@ export const TabStackScreenWorkers = () => {
     />
   );
 };
+
+const styles = StyleSheet.create({
+  view: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: COLORS.primary,
+    shadowOpacity: 5,
+    shadowRadius: 16.0,
+    shadowOffset: {
+      height: 0,
+      width: 0,
+    },
+  },
+  image: {
+    width: 75,
+    height: 68,
+    borderRadius: 30,
+    borderWidth: 10,
+    borderColor: COLORS.primary,
+    resizeMode: 'contain',
+  },
+  view2: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: COLORS.primary,
+    shadowOpacity: 5,
+    shadowRadius: 16.0,
+    shadowOffset: {
+      height: 0,
+      width: 0,
+    },
+  },
+  image2: {
+    width: 75,
+    height: 68,
+    borderRadius: 30,
+    borderWidth: 10,
+    borderColor: COLORS.primary,
+    resizeMode: 'contain',
+  },
+});

@@ -1,0 +1,4 @@
+node_modules/
+
+# Generated OpenAPI client — codegen output, not hand-written
+src/services/openapi/

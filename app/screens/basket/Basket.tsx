@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import Background from '../../components/Background';
 import Button from '../../components/Button';
 import {
+  StyleSheet,
   Dimensions,
   FlatList,
   Image,
@@ -42,79 +43,41 @@ const Basket = () => {
     return (
       <ScrollView>
         <TouchableOpacity
-          style={{
-            flex: 1,
-            marginBottom: 10,
-            marginTop: 5,
-            padding: 10,
-            width: width,
-            flexDirection: 'row',
-            borderWidth: 1,
-            borderColor: COLORS.borderLight,
-          }}
+          style={styles.touchableOpacity}
           onPress={() => {
             productStore.setSelectedProducts(item);
             NavigationService.navigate('ModalEachProductsFromBasket');
           }}>
           <Image
-            style={{
-              flex: 0.4,
-              height: 130,
-              borderWidth: 0.8,
-              borderColor: COLORS.border,
-              width: 60,
-              padding: 6,
-              marginRight: 10,
-            }}
+            style={styles.image}
             source={{
               uri: thumb,
             }}
             resizeMode="cover"
           />
-          <View style={{flex: 0.6}}>
-            <Text style={{flex: 0.2, fontSize: 14, fontWeight: 'bold'}}>
-              {name}
-            </Text>
+          <View style={styles.view}>
+            <Text style={styles.text}>{name}</Text>
 
             <Text
-              style={{
-                flex: 0.2,
-                fontSize: 15,
-                fontWeight: 'bold',
-                ...discountedPriceStyle(
+              style={[
+                styles.priceText,
+                discountedPriceStyle(
                   item.store_product.discount_price !== null &&
                     item.store_product.discount_price !== 0,
                 ),
-              }}>
+              ]}>
               {price}
             </Text>
             {item.store_product.discount_price !== null &&
             item.store_product.discount_price !== 0 ? (
-              <Text
-                style={{
-                  flex: 0.2,
-                  fontSize: 15,
-                  fontWeight: 'bold',
-                  color: COLORS.primary,
-                  marginBottom: 5,
-                }}>
+              <Text style={styles.text2}>
                 {item.store_product.discount_price} TL
               </Text>
             ) : null}
           </View>
           <View>
             <TextInput
-              style={{
-                margin: 12,
-                borderColor: COLORS.borderInput,
-                borderWidth: 2,
-                padding: 10,
-                color: COLORS.primaryDark,
-                fontSize: 15,
-                height: 40,
-                width: 55,
-                textAlign: 'center',
-              }}
+              style={styles.textInput}
               keyboardType="numeric"
               placeholder={quantity.toString()}
               placeholderTextColor={COLORS.primary}
@@ -131,24 +94,8 @@ const Basket = () => {
               <Icon name={'trash'} size={25} color={COLORS.primary} />
             </Button>
 
-            <View
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: 33,
-                width: 33,
-                borderRadius: 8,
-                elevation: 3,
-                backgroundColor: COLORS.primary,
-                position: 'absolute',
-                right: 80,
-                top: 85,
-              }}>
-              <Text
-                style={{fontWeight: 'bold', color: COLORS.white, fontSize: 12}}>
-                {' '}
-                {t('Edit')}
-              </Text>
+            <View style={styles.view2}>
+              <Text style={styles.text3}> {t('Edit')}</Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -156,55 +103,22 @@ const Basket = () => {
     );
   };
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.view3}>
       {basketStore.basketItems.length > 0 ? (
-        <View style={{flex: 1}}>
+        <View style={styles.view4}>
           <FlatList
             extraData={basketStore.loading}
             data={basketStore.basketItems}
             renderItem={renderItem}
             keyExtractor={item => (item.id ?? 0).toString()}
           />
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              alignContent: 'center',
-            }}>
-            <Text
-              style={{
-                marginBottom: 2,
-                marginTop: 20,
-                fontSize: 17,
-                fontWeight: 'bold',
-                color: COLORS.primary,
-              }}>
-              Total: {basketStore.totalPrice} TL
-            </Text>
+          <View style={styles.view5}>
+            <Text style={styles.text4}>Total: {basketStore.totalPrice} TL</Text>
           </View>
           <Pressable
-            style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              paddingVertical: 20,
-              paddingHorizontal: 46,
-              borderRadius: 85,
-              elevation: 3,
-              backgroundColor: COLORS.primary,
-
-              marginTop: 20,
-            }}
+            style={styles.pressable}
             onPress={() => NavigationService.navigate('ModalReceiveOrder')}>
-            <Text
-              style={{
-                fontSize: 16,
-                lineHeight: 21,
-                fontWeight: 'bold',
-                letterSpacing: 0.25,
-                color: COLORS.white,
-              }}>
-              {t('Proceed to CheckOut')}
-            </Text>
+            <Text style={styles.text5}>{t('Proceed to CheckOut')}</Text>
           </Pressable>
         </View>
       ) : (
@@ -216,9 +130,7 @@ const Basket = () => {
             onPress={() => NavigationService.navigate('Basket')}
           />
 
-          <Text style={{fontSize: 14, fontWeight: 'bold'}}>
-            {t('Your Basket is Empty!')}
-          </Text>
+          <Text style={styles.text6}>{t('Your Basket is Empty!')}</Text>
           <Button
             onPress={() => NavigationService.navigate('ListOfProducts')}
             mode="outlined">
@@ -230,4 +142,94 @@ const Basket = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  priceText: {flex: 0.2, fontSize: 15, fontWeight: 'bold'},
+  touchableOpacity: {
+    flex: 1,
+    marginBottom: 10,
+    marginTop: 5,
+    padding: 10,
+    width: width,
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderColor: COLORS.borderLight,
+  },
+  image: {
+    flex: 0.4,
+    height: 130,
+    borderWidth: 0.8,
+    borderColor: COLORS.border,
+    width: 60,
+    padding: 6,
+    marginRight: 10,
+  },
+  view: {flex: 0.6},
+  text: {flex: 0.2, fontSize: 14, fontWeight: 'bold'},
+  text2: {
+    flex: 0.2,
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: COLORS.primary,
+    marginBottom: 5,
+  },
+  textInput: {
+    margin: 12,
+    borderColor: COLORS.borderInput,
+    borderWidth: 2,
+    padding: 10,
+    color: COLORS.primaryDark,
+    fontSize: 15,
+    height: 40,
+    width: 55,
+    textAlign: 'center',
+  },
+  view2: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 33,
+    width: 33,
+    borderRadius: 8,
+    elevation: 3,
+    backgroundColor: COLORS.primary,
+    position: 'absolute',
+    right: 80,
+    top: 85,
+  },
+  text3: {fontWeight: 'bold', color: COLORS.white, fontSize: 12},
+  view3: {flex: 1},
+  view4: {flex: 1},
+  view5: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignContent: 'center',
+  },
+  text4: {
+    marginBottom: 2,
+    marginTop: 20,
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: COLORS.primary,
+  },
+  pressable: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 20,
+    paddingHorizontal: 46,
+    borderRadius: 85,
+    elevation: 3,
+    backgroundColor: COLORS.primary,
+
+    marginTop: 20,
+  },
+  text5: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: COLORS.white,
+  },
+  text6: {fontSize: 14, fontWeight: 'bold'},
+});
+
 export default observer(Basket);

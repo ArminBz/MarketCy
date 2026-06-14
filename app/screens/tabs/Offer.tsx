@@ -1,6 +1,7 @@
 import React from 'react';
 import {COLORS} from '../../style';
 import {
+  StyleSheet,
   Dimensions,
   FlatList,
   Image,
@@ -18,28 +19,9 @@ const Offer = () => {
 
   const renderItem = ({item}: {item: {id: number; image: string}}) => (
     <ScrollView>
-      <TouchableOpacity
-        style={{
-          flex: 1,
-          marginBottom: 10,
-          marginTop: 5,
-          padding: 10,
-          width: width,
-          flexDirection: 'row',
-          borderWidth: 1,
-          borderColor: COLORS.borderLight,
-        }}
-        onPress={() => {}}>
+      <TouchableOpacity style={styles.touchableOpacity} onPress={() => {}}>
         <Image
-          style={{
-            flex: 1,
-            height: 150,
-            borderWidth: 0.8,
-            borderColor: COLORS.border,
-            width: 80,
-            padding: 6,
-            marginRight: 10,
-          }}
+          style={styles.image}
           source={{
             uri: item.image,
           }}
@@ -50,7 +32,7 @@ const Offer = () => {
   );
 
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.view}>
       <FlatList
         extraData={offerStore.offer}
         data={offerStore.offer}
@@ -60,5 +42,28 @@ const Offer = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  touchableOpacity: {
+    flex: 1,
+    marginBottom: 10,
+    marginTop: 5,
+    padding: 10,
+    width: width,
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderColor: COLORS.borderLight,
+  },
+  image: {
+    flex: 1,
+    height: 150,
+    borderWidth: 0.8,
+    borderColor: COLORS.border,
+    width: 80,
+    padding: 6,
+    marginRight: 10,
+  },
+  view: {flex: 1},
+});
 
 export default observer(Offer);

@@ -1,5 +1,6 @@
 import {COLORS} from '../../style';
 import {
+  StyleSheet,
   Dimensions,
   FlatList,
   Image,
@@ -48,57 +49,21 @@ const Markets = () => {
 
   const renderItem = ({item}: {item: (typeof markets)[number]}) => (
     <ScrollView>
-      <TouchableOpacity
-        style={{
-          flex: 1,
-          marginBottom: 10,
-          marginTop: 5,
-          padding: 10,
-          width: width,
-          flexDirection: 'row',
-          borderWidth: 1,
-          borderColor: COLORS.borderLight,
-        }}>
-        <Image
-          style={{
-            flex: 0.4,
-            height: 180,
-            borderWidth: 0.8,
-            borderColor: COLORS.border,
-            width: 60,
-            padding: 6,
-            marginRight: 10,
-          }}
-          source={item.image}
-        />
-        <View style={{flex: 0.6}}>
-          <Text
-            style={{
-              flex: 0.2,
-              fontSize: 17,
-              fontWeight: 'bold',
-              color: COLORS.primary,
-            }}>
-            {item.name}
-          </Text>
-          <Text
-            style={{flex: 0.2, fontSize: 14, fontWeight: 'bold', marginTop: 8}}>
-            {item.description}
-          </Text>
-          <Text style={{flex: 0.2, fontSize: 15, marginTop: 8}}>
-            {item.time}
-          </Text>
-          <Text style={{flex: 0.2, fontSize: 15, marginTop: 8}}>
-            {item.number}
-          </Text>
+      <TouchableOpacity style={styles.touchableOpacity}>
+        <Image style={styles.image} source={item.image} />
+        <View style={styles.view}>
+          <Text style={styles.text}>{item.name}</Text>
+          <Text style={styles.text2}>{item.description}</Text>
+          <Text style={styles.text3}>{item.time}</Text>
+          <Text style={styles.text4}>{item.number}</Text>
         </View>
       </TouchableOpacity>
     </ScrollView>
   );
 
   return (
-    <View style={{flex: 1}}>
-      <View style={{flex: 1}}>
+    <View style={styles.view2}>
+      <View style={styles.view3}>
         <FlatList
           extraData={markets}
           data={markets}
@@ -109,5 +74,39 @@ const Markets = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  touchableOpacity: {
+    flex: 1,
+    marginBottom: 10,
+    marginTop: 5,
+    padding: 10,
+    width: width,
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderColor: COLORS.borderLight,
+  },
+  image: {
+    flex: 0.4,
+    height: 180,
+    borderWidth: 0.8,
+    borderColor: COLORS.border,
+    width: 60,
+    padding: 6,
+    marginRight: 10,
+  },
+  view: {flex: 0.6},
+  text: {
+    flex: 0.2,
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: COLORS.primary,
+  },
+  text2: {flex: 0.2, fontSize: 14, fontWeight: 'bold', marginTop: 8},
+  text3: {flex: 0.2, fontSize: 15, marginTop: 8},
+  text4: {flex: 0.2, fontSize: 15, marginTop: 8},
+  view2: {flex: 1},
+  view3: {flex: 1},
+});
 
 export default observer(Markets);

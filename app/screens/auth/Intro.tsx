@@ -1,4 +1,11 @@
-import {Alert, Dimensions, ScrollView, Text, View} from 'react-native';
+import {
+  StyleSheet,
+  Alert,
+  Dimensions,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
 import {COLORS} from '../../style';
 import {observer} from 'mobx-react';
 import React from 'react';
@@ -30,34 +37,17 @@ const Intro = () => {
           onPress: () =>
             authStore.phoneNumber
               ? authStore.login()
-              : alert('please Enter your Number'),
+              : Alert.alert('please Enter your Number'),
         },
       ]);
     }
   };
 
   return (
-    <ScrollView contentContainerStyle={{flexGrow: 1}}>
-      <View
-        style={{
-          flex: 1,
-          padding: 20,
-          maxWidth: 340,
-          alignSelf: 'center',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginBottom: 80,
-        }}>
+    <ScrollView contentContainerStyle={styles.scrollContent}>
+      <View style={styles.view}>
         <Logo />
-        <Text
-          style={{
-            paddingBottom: 30,
-            color: COLORS.primary,
-            fontWeight: 'bold',
-            fontSize: 15,
-          }}>
-          {t('Enter Your Phone Number')}
-        </Text>
+        <Text style={styles.text}>{t('Enter Your Phone Number')}</Text>
         <PhoneInput
           ref={phoneInput}
           defaultCode="TR"
@@ -72,7 +62,7 @@ const Intro = () => {
           autoFocus
         />
         <Button
-          style={{marginTop: 40, width: 240}}
+          style={styles.button}
           mode="contained"
           onPress={() => OnPress()}>
           {t('Send me the code!')}
@@ -80,21 +70,11 @@ const Intro = () => {
       </View>
       <LoadingOverlay visible={authStore.loading} />
 
-      <View
-        style={{
-          flexDirection: 'row',
-          width: width / 4,
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'absolute',
-          bottom: 0,
-          flex: 1,
-          alignSelf: 'center',
-        }}>
+      <View style={styles.view2}>
         {Object.keys(languageStore.lngs).map(lng => (
           <Button
             key={lng}
-            style={{borderRadius: 20}}
+            style={styles.button2}
             onPress={() => {
               i18n.changeLanguage(lng);
               languageStore.setCounter(languageStore.count + 1);
@@ -106,5 +86,36 @@ const Intro = () => {
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  scrollContent: {flexGrow: 1},
+  view: {
+    flex: 1,
+    padding: 20,
+    maxWidth: 340,
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 80,
+  },
+  text: {
+    paddingBottom: 30,
+    color: COLORS.primary,
+    fontWeight: 'bold',
+    fontSize: 15,
+  },
+  button: {marginTop: 40, width: 240},
+  view2: {
+    flexDirection: 'row',
+    width: width / 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 0,
+    flex: 1,
+    alignSelf: 'center',
+  },
+  button2: {borderRadius: 20},
+});
 
 export default observer(Intro);

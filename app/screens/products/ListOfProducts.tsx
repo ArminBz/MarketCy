@@ -1,4 +1,5 @@
 import {
+  StyleSheet,
   ActivityIndicator,
   Dimensions,
   FlatList,
@@ -39,7 +40,7 @@ const ListOfProducts = () => {
 
   const renderItemHeader = ({item}: {item: Category}) => (
     <TouchableOpacity
-      style={{borderWidth: 6, borderColor: COLORS.surfaceMuted}}
+      style={styles.touchableOpacity}
       onPress={async () => {
         productStore.setProduct([]);
         await productStore.getProducts(
@@ -50,28 +51,8 @@ const ListOfProducts = () => {
           null,
         );
       }}>
-      <View
-        style={{
-          borderWidth: 1,
-          borderColor: COLORS.border,
-          borderRadius: 8,
-          height: 60,
-          width: 140,
-          backgroundColor: COLORS.primary,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <Text
-          style={{
-            fontSize: 14,
-            fontWeight: 'bold',
-            color: COLORS.white,
-            textAlign: 'center',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          {item.name}
-        </Text>
+      <View style={styles.view}>
+        <Text style={styles.text}>{item.name}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -81,82 +62,36 @@ const ListOfProducts = () => {
     const thumb = item?.product?.thumb;
     return (
       <TouchableOpacity
-        style={{
-          flex: 1,
-          marginBottom: 15,
-          marginTop: 1,
-          padding: 10,
-          width: width,
-          borderWidth: 0.8,
-          borderColor: COLORS.border,
-          backgroundColor: COLORS.white,
-        }}
+        style={styles.touchableOpacity2}
         onPress={() => {
           productStore.setSelectedProducts(item);
           NavigationService.navigate('ModalEachProduct');
         }}>
         <Image
-          style={{
-            height: 150,
-            width: 150,
-            marginBottom: 7,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            display: 'flex',
-          }}
+          style={styles.image}
           source={{
             uri: thumb,
           }}
           resizeMode="cover"
         />
 
+        <Text style={styles.text2}>{name}</Text>
         <Text
-          style={{
-            flex: 0.2,
-            fontSize: 14,
-            fontWeight: 'bold',
-            marginBottom: 5,
-          }}>
-          {name}
-        </Text>
-        <Text
-          style={{
-            flex: 0.2,
-            fontSize: 15,
-            fontWeight: 'bold',
-            marginBottom: 5,
-            ...discountedPriceStyle(
+          style={[
+            styles.priceText,
+            discountedPriceStyle(
               item.discount_price !== null && item.discount_price !== 0,
             ),
-          }}>
+          ]}>
           {item.price} TL
         </Text>
         {item.discount_price !== null && item.discount_price !== 0 ? (
-          <Text
-            style={{
-              flex: 0.2,
-              fontSize: 15,
-              fontWeight: 'bold',
-              color: COLORS.primary,
-              marginBottom: 5,
-            }}>
-            {item.discount_price} TL
-          </Text>
+          <Text style={styles.text3}>{item.discount_price} TL</Text>
         ) : null}
 
-        <View
-          style={{
-            borderRadius: 10,
-            width: 30,
-            height: 30,
-            marginLeft: 'auto',
-            marginRight: 0,
-            backgroundColor: COLORS.primary,
-            justifyContent: 'center',
-            alignContent: 'center',
-          }}>
+        <View style={styles.view2}>
           <Icon
-            style={{textAlign: 'center'}}
+            style={styles.icon}
             name="plus"
             size={15}
             color={COLORS.white}
@@ -166,15 +101,15 @@ const ListOfProducts = () => {
     );
   };
   return (
-    <View style={{flex: 1}}>
-      <View style={{paddingBottom: 1}}>
+    <View style={styles.view3}>
+      <View style={styles.view4}>
         <FlatList
           data={categoryStore.categories}
           renderItem={renderItemHeader}
           keyExtractor={item => (item.id ?? 0).toString()}
           ListHeaderComponent={
             <TouchableOpacity
-              style={{borderWidth: 6, borderColor: COLORS.surfaceMuted}}
+              style={styles.touchableOpacity3}
               onPress={async () => {
                 productStore.setProduct([]);
                 productStore.setPage(1);
@@ -186,29 +121,8 @@ const ListOfProducts = () => {
                   null,
                 );
               }}>
-              <View
-                style={{
-                  borderWidth: 1,
-                  borderColor: COLORS.border,
-                  borderRadius: 8,
-                  height: 60,
-                  width: 140,
-                  backgroundColor: COLORS.primary,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    fontWeight: 'bold',
-                    color: COLORS.white,
-                    textAlign: 'center',
-                    lineHeight: 35,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  All
-                </Text>
+              <View style={styles.view5}>
+                <Text style={styles.text4}>All</Text>
               </View>
             </TouchableOpacity>
           }
@@ -224,12 +138,7 @@ const ListOfProducts = () => {
           ListFooterComponent={() => {
             if (categoryStore.onEndReachedLoading) {
               return (
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
+                <View style={styles.view6}>
                   <ActivityIndicator color={COLORS.primary} />
                 </View>
               );
@@ -239,7 +148,7 @@ const ListOfProducts = () => {
           }}
           showsVerticalScrollIndicator={false}
         />
-        <View style={{paddingBottom: 10, paddingTop: 10}}>
+        <View style={styles.view7}>
           <Searchbar
             placeholder="Search Products"
             onChangeText={setSearchQuery}
@@ -257,7 +166,7 @@ const ListOfProducts = () => {
           renderItem={renderItem}
           horizontal={false}
           numColumns={2}
-          columnWrapperStyle={{flex: 1, justifyContent: 'space-around'}}
+          columnWrapperStyle={styles.columnWrapper}
           keyExtractor={item => (item.id ?? 0).toString()}
           onEndReachedThreshold={0.1}
           onEndReached={async () => {
@@ -276,12 +185,7 @@ const ListOfProducts = () => {
           ListFooterComponent={() => {
             if (productStore.onEndReachedLoading) {
               return (
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
+                <View style={styles.view8}>
                   <ActivityIndicator color={COLORS.primary} />
                 </View>
               );
@@ -300,7 +204,7 @@ const ListOfProducts = () => {
             onPress={() => NavigationService.navigate('Basket')}
           />
 
-          <Text style={{fontSize: 14, fontWeight: 'bold'}}>
+          <Text style={styles.text5}>
             {t('There is no product in this category!')}
           </Text>
           <Button
@@ -314,5 +218,105 @@ const ListOfProducts = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  priceText: {flex: 0.2, fontSize: 15, fontWeight: 'bold', marginBottom: 5},
+  columnWrapper: {flex: 1, justifyContent: 'space-around'},
+  touchableOpacity: {borderWidth: 6, borderColor: COLORS.surfaceMuted},
+  view: {
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    borderRadius: 8,
+    height: 60,
+    width: 140,
+    backgroundColor: COLORS.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: COLORS.white,
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  touchableOpacity2: {
+    flex: 1,
+    marginBottom: 15,
+    marginTop: 1,
+    padding: 10,
+    width: width,
+    borderWidth: 0.8,
+    borderColor: COLORS.border,
+    backgroundColor: COLORS.white,
+  },
+  image: {
+    height: 150,
+    width: 150,
+    marginBottom: 7,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    display: 'flex',
+  },
+  text2: {
+    flex: 0.2,
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  text3: {
+    flex: 0.2,
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: COLORS.primary,
+    marginBottom: 5,
+  },
+  view2: {
+    borderRadius: 10,
+    width: 30,
+    height: 30,
+    marginLeft: 'auto',
+    marginRight: 0,
+    backgroundColor: COLORS.primary,
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  icon: {textAlign: 'center'},
+  view3: {flex: 1},
+  view4: {paddingBottom: 1},
+  touchableOpacity3: {borderWidth: 6, borderColor: COLORS.surfaceMuted},
+  view5: {
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    borderRadius: 8,
+    height: 60,
+    width: 140,
+    backgroundColor: COLORS.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text4: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: COLORS.white,
+    textAlign: 'center',
+    lineHeight: 35,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  view6: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  view7: {paddingBottom: 10, paddingTop: 10},
+  view8: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text5: {fontSize: 14, fontWeight: 'bold'},
+});
 
 export default observer(ListOfProducts);

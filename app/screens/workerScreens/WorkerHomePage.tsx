@@ -76,20 +76,20 @@ const WorkerHomePage = () => {
         <View style={styles.cardView}>
           <Image
             source={require('./../../assets/camera.png')}
-            style={{height: 36, width: 36}}
+            style={styles.image}
           />
           <Text numberOfLines={8} style={styles.descText}>
             Please move your camera {'\n'} over the QR Code
           </Text>
           <Image
             source={require('./../../assets/qr-code.png')}
-            style={{margin: 20}}
+            style={styles.image2}
           />
           <TouchableOpacity onPress={activeQR} style={styles.buttonScan}>
             <View style={styles.buttonWrapper}>
               <Image
                 source={require('./../../assets/camera.png')}
-                style={{height: 36, width: 36}}
+                style={styles.image3}
               />
               <Text style={{...styles.buttonTextStyle, color: COLORS.white}}>
                 Scan QR Code
@@ -99,53 +99,23 @@ const WorkerHomePage = () => {
         </View>
       ) : null}
       {ScanResult ? (
-        <View style={{alignItems: 'center', justifyContent: 'center'}}>
+        <View style={styles.view}>
           <Image
-            style={{
-              height: 200,
-              borderWidth: 0.8,
-              borderColor: COLORS.border,
-              width: 200,
-              marginBottom: 10,
-            }}
+            style={styles.image4}
             source={{
               uri: workerStore.searchResult.thumb,
             }}
             resizeMode="cover"
           />
-          <Text style={{fontSize: 17, fontWeight: 'bold', marginBottom: 1}}>
-            {workerStore.searchResult.name}
-          </Text>
-          <Text style={{fontSize: 16}}>
+          <Text style={styles.text}>{workerStore.searchResult.name}</Text>
+          <Text style={styles.text2}>
             {workerStore.searchResult.description}
           </Text>
-          <View style={{height: 90}}>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-                width: '50%',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  fontWeight: 'bold',
-                  color: COLORS.primary,
-                }}>
-                {' '}
-                Price:{' '}
-              </Text>
+          <View style={styles.view2}>
+            <View style={styles.view3}>
+              <Text style={styles.text3}> Price: </Text>
               <TextInput
-                style={{
-                  margin: 12,
-                  borderWidth: 1,
-                  padding: 10,
-                  color: COLORS.primaryDark,
-                  fontSize: 20,
-                }}
+                style={styles.textInput}
                 keyboardType="numeric"
                 onChangeText={workerStore.setPriceProduct}
                 // keyboardType='decimal-pad'
@@ -154,25 +124,8 @@ const WorkerHomePage = () => {
                 value={workerStore.priceProduct}
                 /*{workerStore.searchResult.price}*/
               />
-              <Text
-                style={{
-                  fontSize: 14,
-                  fontWeight: 'bold',
-                  color: COLORS.primary,
-                  left: -10,
-                }}>
-                {' '}
-                TL{' '}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 14,
-                  fontWeight: 'bold',
-                  color: COLORS.primary,
-                  paddingLeft: 30,
-                }}>
-                Discount Price:{' '}
-              </Text>
+              <Text style={styles.text4}> TL </Text>
+              <Text style={styles.text5}>Discount Price: </Text>
               <TextInput
                 keyboardType="numeric"
                 style={INPUT}
@@ -182,25 +135,9 @@ const WorkerHomePage = () => {
                 value={workerStore.discountPriceProduct}
               />
             </View>
-            <Text
-              style={{
-                fontSize: 14,
-                fontWeight: 'bold',
-                color: COLORS.primary,
-                position: 'absolute',
-                right: -15,
-                bottom: 35,
-              }}>
-              {' '}
-              TL{' '}
-            </Text>
+            <Text style={styles.text6}> TL </Text>
           </View>
-          <View
-            style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              paddingBottom: 20,
-            }}>
+          <View style={styles.view4}>
             <Switch
               trackColor={{
                 false: COLORS.switchTrackOff,
@@ -216,16 +153,7 @@ const WorkerHomePage = () => {
           </View>
           <View>
             <Pressable
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                paddingVertical: 12,
-                paddingHorizontal: 46,
-                borderRadius: 8,
-                elevation: 3,
-                backgroundColor: COLORS.primary,
-                marginTop: 2,
-              }}
+              style={styles.pressable}
               onPress={async () => {
                 await workerStore.adminCreateProduct(
                   barcode,
@@ -235,29 +163,10 @@ const WorkerHomePage = () => {
                 );
                 setScanResult(false);
               }}>
-              <Text
-                style={{
-                  fontSize: 16,
-                  lineHeight: 21,
-                  fontWeight: 'bold',
-                  letterSpacing: 0.25,
-                  color: COLORS.white,
-                }}>
-                {' '}
-                {t('Add')}
-              </Text>
+              <Text style={styles.text7}> {t('Add')}</Text>
             </Pressable>
             <Pressable style={greenButton} onPress={() => setScanResult(false)}>
-              <Text
-                style={{
-                  fontSize: 16,
-                  lineHeight: 21,
-                  fontWeight: 'bold',
-                  letterSpacing: 0.25,
-                  color: COLORS.white,
-                }}>
-                {t('Close')}
-              </Text>
+              <Text style={styles.text8}>{t('Close')}</Text>
             </Pressable>
           </View>
 
@@ -265,7 +174,7 @@ const WorkerHomePage = () => {
             <View style={styles.buttonWrapper}>
               <Image
                 source={require('./../../assets/camera.png')}
-                style={{height: 36, width: 36}}
+                style={styles.image5}
               />
               <Text style={{...styles.buttonTextStyle, color: COLORS.primary}}>
                 Click to scan again
@@ -293,6 +202,90 @@ const WorkerHomePage = () => {
 export default observer(WorkerHomePage);
 
 const styles = StyleSheet.create({
+  image: {height: 36, width: 36},
+  image2: {margin: 20},
+  image3: {height: 36, width: 36},
+  view: {alignItems: 'center', justifyContent: 'center'},
+  image4: {
+    height: 200,
+    borderWidth: 0.8,
+    borderColor: COLORS.border,
+    width: 200,
+    marginBottom: 10,
+  },
+  text: {fontSize: 17, fontWeight: 'bold', marginBottom: 1},
+  text2: {fontSize: 16},
+  view2: {height: 90},
+  view3: {
+    flex: 1,
+    flexDirection: 'row',
+    width: '50%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  text3: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: COLORS.primary,
+  },
+  textInput: {
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    color: COLORS.primaryDark,
+    fontSize: 20,
+  },
+  text4: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: COLORS.primary,
+    left: -10,
+  },
+  text5: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: COLORS.primary,
+    paddingLeft: 30,
+  },
+  text6: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: COLORS.primary,
+    position: 'absolute',
+    right: -15,
+    bottom: 35,
+  },
+  view4: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: 20,
+  },
+  pressable: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 46,
+    borderRadius: 8,
+    elevation: 3,
+    backgroundColor: COLORS.primary,
+    marginTop: 2,
+  },
+  text7: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: COLORS.white,
+  },
+  text8: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: COLORS.white,
+  },
+  image5: {height: 36, width: 36},
   scrollViewStyle: {
     flex: 1,
     justifyContent: 'flex-start',

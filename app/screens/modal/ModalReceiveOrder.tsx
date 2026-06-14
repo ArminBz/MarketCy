@@ -28,7 +28,7 @@ const _iconStyle = (borderColor: string) => ({
   borderColor: borderColor,
 });
 
-const styles = {
+const iconStyles = {
   container: {marginTop: 24},
   verticalStyle: {marginTop: 16},
   textStyle: {textDecorationLine: 'none'},
@@ -42,9 +42,9 @@ const verticalStaticData = [
     fillColor: COLORS.primary,
     unfillColor: COLORS.checkboxPurpleUnfill,
     iconStyle: _iconStyle(COLORS.checkboxPurpleUnfill),
-    textStyle: styles.textStyle,
-    style: styles.verticalStyle,
-    iconImageStyle: styles.iconImageStyle,
+    textStyle: iconStyles.textStyle,
+    style: iconStyles.verticalStyle,
+    iconImageStyle: iconStyles.iconImageStyle,
   },
 
   {
@@ -53,9 +53,9 @@ const verticalStaticData = [
     fillColor: COLORS.green,
     unfillColor: COLORS.checkboxGreenUnfill,
     iconStyle: _iconStyle(COLORS.checkboxGreenUnfill),
-    textStyle: styles.textStyle,
-    style: styles.verticalStyle,
-    iconImageStyle: styles.iconImageStyle,
+    textStyle: iconStyles.textStyle,
+    style: iconStyles.verticalStyle,
+    iconImageStyle: iconStyles.iconImageStyle,
   },
 ];
 
@@ -77,58 +77,30 @@ const ModalReceiveOrder = () => {
     const price = item?.store_product?.price || null;
     const quantity = item.quantity ?? 0;
     return (
-      <View
-        style={{
-          flex: 1,
-          marginBottom: 10,
-          marginTop: 5,
-          padding: 10,
-          width: width,
-          flexDirection: 'row',
-          borderWidth: 1,
-          borderColor: COLORS.borderLight,
-        }}>
-        <View style={{flex: 1}}>
-          <Text style={{flex: 0.2, fontSize: 14, fontWeight: 'bold'}}>
-            {name}
-          </Text>
+      <View style={styles.view}>
+        <View style={styles.view2}>
+          <Text style={styles.text}>{name}</Text>
 
           <Text
-            style={{
-              flex: 0.2,
-              fontSize: 15,
-              fontWeight: 'bold',
-              ...discountedPriceStyle(
+            style={[
+              styles.priceText,
+              discountedPriceStyle(
                 item.store_product.discount_price !== null &&
                   item.store_product.discount_price !== 0,
               ),
-            }}>
+            ]}>
             {price}
           </Text>
           {item.store_product.discount_price !== null &&
           item.store_product.discount_price !== 0 ? (
-            <Text
-              style={{
-                flex: 0.2,
-                fontSize: 15,
-                fontWeight: 'bold',
-                color: COLORS.primary,
-              }}>
+            <Text style={styles.text2}>
               {item.store_product.discount_price}
             </Text>
           ) : null}
         </View>
-        <View style={{marginTop: 17}}>
+        <View style={styles.view3}>
           <TextInput
-            style={{
-              margin: 12,
-              borderWidth: 2,
-              borderColor: COLORS.borderInput,
-              padding: 10,
-              color: COLORS.primaryDark,
-              fontSize: 15,
-              textAlign: 'center',
-            }}
+            style={styles.textInput}
             keyboardType="numeric"
             placeholder={quantity.toString()}
             placeholderTextColor={COLORS.primary}
@@ -142,19 +114,18 @@ const ModalReceiveOrder = () => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.view4}>
       <View>
-        <ScrollView style={{height: 200}}>
+        <ScrollView style={styles.scrollView}>
           <List.Section title="Your Addresses">
             <List.Accordion
-              style={{}}
               title="Select your address"
               left={props => <List.Icon {...props} icon="location-enter" />}>
               {authStore.addressesOfUser.map((address, index) => (
                 <List.Item
                   style={
                     indexChangeColorAddress === index
-                      ? stylesAddress.alphabetContainerSelected
+                      ? styles.alphabetContainerSelected
                       : null
                   }
                   onPress={() => {
@@ -174,7 +145,7 @@ const ModalReceiveOrder = () => {
         </ScrollView>
       </View>
 
-      <View style={{flex: 0.8}}>
+      <View style={styles.view5}>
         <FlatList
           extraData={basketStore.basketItems}
           data={basketStore.basketItems}
@@ -183,39 +154,15 @@ const ModalReceiveOrder = () => {
         />
 
         <View>
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              alignContent: 'center',
-              paddingBottom: 10,
-            }}>
-            <Text
-              style={{
-                marginBottom: 2,
-                marginTop: 20,
-                fontSize: 20,
-                fontWeight: 'bold',
-                color: COLORS.primary,
-              }}>
-              Total: {basketStore.totalPrice} TL
-            </Text>
+          <View style={styles.view6}>
+            <Text style={styles.text3}>Total: {basketStore.totalPrice} TL</Text>
           </View>
         </View>
-        <SafeAreaView
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <View
-            style={{
-              marginBottom: 10,
-              marginLeft: 32,
-              justifyContent: 'center',
-            }}>
+        <SafeAreaView style={styles.safeAreaView}>
+          <View style={styles.view7}>
             <BouncyCheckboxGroup
               data={verticalStaticData}
-              style={{flexDirection: 'column'}}
+              style={styles.bouncyCheckboxGroup}
               onChange={(selectedItem: {id: number; text: string}) => {
                 productStore.setPayment(selectedItem.text);
                 JSON.stringify(selectedItem.id)
@@ -225,34 +172,20 @@ const ModalReceiveOrder = () => {
             />
           </View>
           <View
-            style={{
-              width: 250,
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 12,
-              backgroundColor: checkboxState
-                ? COLORS.paymentOn
-                : COLORS.paymentOff,
-              marginBottom: 18,
-            }}>
+            style={[
+              styles.paymentBox,
+              checkboxState ? styles.paymentOn : styles.paymentOff,
+            ]}>
             <Text
-              style={{
-                color: COLORS.white,
-              }}>{`Check Payment method: ${checkboxState.toString()}`}</Text>
+              style={
+                styles.text4
+              }>{`Check Payment method: ${checkboxState.toString()}`}</Text>
           </View>
         </SafeAreaView>
       </View>
-      <View
-        style={{flex: 0.15, alignItems: 'center', justifyContent: 'center'}}>
+      <View style={styles.view8}>
         <Pressable
-          style={{
-            paddingVertical: 12,
-            paddingHorizontal: 130,
-            borderRadius: 8,
-            elevation: 3,
-            backgroundColor: COLORS.primary,
-            marginTop: 10,
-          }}
+          style={styles.pressable}
           onPress={() => {
             checkboxState === true &&
             userAddressStore.userAddress !== undefined &&
@@ -265,45 +198,117 @@ const ModalReceiveOrder = () => {
               : Alert.alert('Check the Payment method or add your address');
             NavigationService.navigate('ListOfProducts');
           }}>
-          <Text
-            style={{
-              fontSize: 16,
-              lineHeight: 21,
-              fontWeight: 'bold',
-              letterSpacing: 0.25,
-              color: COLORS.white,
-            }}>
-            {' '}
-            Order
-          </Text>
+          <Text style={styles.text5}> Order</Text>
         </Pressable>
         <Pressable
-          style={{
-            paddingVertical: 12,
-            paddingHorizontal: 130,
-            borderRadius: 8,
-            elevation: 3,
-            backgroundColor: COLORS.green,
-            marginTop: 10,
-          }}
+          style={styles.pressable2}
           onPress={() => NavigationService.goBack()}>
-          <Text
-            style={{
-              fontSize: 16,
-              lineHeight: 21,
-              fontWeight: 'bold',
-              letterSpacing: 0.25,
-              color: COLORS.white,
-            }}>
-            Close
-          </Text>
+          <Text style={styles.text6}>Close</Text>
         </Pressable>
       </View>
     </View>
   );
 };
 export default observer(ModalReceiveOrder);
-const stylesAddress = StyleSheet.create({
+const styles = StyleSheet.create({
+  priceText: {flex: 0.2, fontSize: 15, fontWeight: 'bold'},
+  paymentBox: {
+    width: 250,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 12,
+    marginBottom: 18,
+  },
+  paymentOn: {backgroundColor: COLORS.paymentOn},
+  paymentOff: {backgroundColor: COLORS.paymentOff},
+  view: {
+    flex: 1,
+    marginBottom: 10,
+    marginTop: 5,
+    padding: 10,
+    width: width,
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderColor: COLORS.borderLight,
+  },
+  view2: {flex: 1},
+  text: {flex: 0.2, fontSize: 14, fontWeight: 'bold'},
+  text2: {
+    flex: 0.2,
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: COLORS.primary,
+  },
+  view3: {marginTop: 17},
+  textInput: {
+    margin: 12,
+    borderWidth: 2,
+    borderColor: COLORS.borderInput,
+    padding: 10,
+    color: COLORS.primaryDark,
+    fontSize: 15,
+    textAlign: 'center',
+  },
+  view4: {flex: 1},
+  scrollView: {height: 200},
+  view5: {flex: 0.8},
+  view6: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignContent: 'center',
+    paddingBottom: 10,
+  },
+  text3: {
+    marginBottom: 2,
+    marginTop: 20,
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: COLORS.primary,
+  },
+  safeAreaView: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  view7: {
+    marginBottom: 10,
+    marginLeft: 32,
+    justifyContent: 'center',
+  },
+  bouncyCheckboxGroup: {flexDirection: 'column'},
+  text4: {
+    color: COLORS.white,
+  },
+  view8: {flex: 0.15, alignItems: 'center', justifyContent: 'center'},
+  pressable: {
+    paddingVertical: 12,
+    paddingHorizontal: 130,
+    borderRadius: 8,
+    elevation: 3,
+    backgroundColor: COLORS.primary,
+    marginTop: 10,
+  },
+  text5: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: COLORS.white,
+  },
+  pressable2: {
+    paddingVertical: 12,
+    paddingHorizontal: 130,
+    borderRadius: 8,
+    elevation: 3,
+    backgroundColor: COLORS.green,
+    marginTop: 10,
+  },
+  text6: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: COLORS.white,
+  },
   alphabetContainer: {
     backgroundColor: COLORS.white,
   },

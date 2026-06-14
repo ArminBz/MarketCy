@@ -1,4 +1,4 @@
-import {Text, View, Pressable, Image} from 'react-native';
+import {StyleSheet, Text, View, Pressable, Image} from 'react-native';
 import * as React from 'react';
 import {observer} from 'mobx-react';
 import {useStores} from '../../store';
@@ -20,61 +20,35 @@ const ModalEachProduct = () => {
   const selected = productStore.selectedProducts as StoreProduct;
 
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={styles.view}>
       <Image
-        style={{
-          flex: 0.5,
-          height: 200,
-          borderWidth: 0.8,
-          borderColor: COLORS.border,
-          width: 200,
-          marginBottom: 30,
-        }}
+        style={styles.image}
         source={{
           uri: selected.product.thumb,
         }}
         resizeMode="cover"
       />
 
-      <Text
-        style={{
-          padding: 2,
-          fontSize: 15,
-          fontWeight: 'bold',
-          flexShrink: 1,
-          paddingBottom: 10,
-        }}>
-        {selected.product.name}
-      </Text>
+      <Text style={styles.text}>{selected.product.name}</Text>
       {selected.product.description &&
       selected.product.description !== 'No description found.' &&
       selected.product.description !== 'No description found' ? (
-        <View style={{padding: 5, flex: 0.3}}>
-          <Text style={{fontSize: 16}}>{selected.product.description}</Text>
+        <View style={styles.view2}>
+          <Text style={styles.text2}>{selected.product.description}</Text>
         </View>
       ) : null}
-      <View
-        style={{
-          flex: 0.07,
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginBottom: 15,
-        }}>
+      <View style={styles.view3}>
         <Text
-          style={{
-            fontSize: 17,
-            fontWeight: 'bold',
-            ...discountedPriceStyle(
+          style={[
+            styles.priceText,
+            discountedPriceStyle(
               selected.discount_price !== null && selected.discount_price !== 0,
             ),
-          }}>
+          ]}>
           {selected.price} TL
         </Text>
         {selected.discount_price !== null && selected.discount_price !== 0 ? (
-          <Text
-            style={{fontSize: 17, fontWeight: 'bold', color: COLORS.primary}}>
-            {selected.discount_price} TL
-          </Text>
+          <Text style={styles.text3}>{selected.discount_price} TL</Text>
         ) : null}
       </View>
       <NumericInput
@@ -103,31 +77,56 @@ const ModalEachProduct = () => {
           );
           NavigationService.goBack();
         }}>
-        <Text
-          style={{
-            fontSize: 16,
-            lineHeight: 21,
-            fontWeight: 'bold',
-            letterSpacing: 0.25,
-            color: COLORS.white,
-          }}>
-          {' '}
-          {t('Add')}
-        </Text>
+        <Text style={styles.text4}> {t('Add')}</Text>
       </Pressable>
       <Pressable style={greenButton} onPress={() => NavigationService.goBack()}>
-        <Text
-          style={{
-            fontSize: 16,
-            lineHeight: 21,
-            fontWeight: 'bold',
-            letterSpacing: 0.25,
-            color: COLORS.white,
-          }}>
-          {t('Close')}
-        </Text>
+        <Text style={styles.text5}>{t('Close')}</Text>
       </Pressable>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  priceText: {fontSize: 17, fontWeight: 'bold'},
+  view: {flex: 1, alignItems: 'center', justifyContent: 'center'},
+  image: {
+    flex: 0.5,
+    height: 200,
+    borderWidth: 0.8,
+    borderColor: COLORS.border,
+    width: 200,
+    marginBottom: 30,
+  },
+  text: {
+    padding: 2,
+    fontSize: 15,
+    fontWeight: 'bold',
+    flexShrink: 1,
+    paddingBottom: 10,
+  },
+  view2: {padding: 5, flex: 0.3},
+  text2: {fontSize: 16},
+  view3: {
+    flex: 0.07,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  text3: {fontSize: 17, fontWeight: 'bold', color: COLORS.primary},
+  text4: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: COLORS.white,
+  },
+  text5: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: COLORS.white,
+  },
+});
+
 export default observer(ModalEachProduct);

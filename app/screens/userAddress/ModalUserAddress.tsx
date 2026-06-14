@@ -1,4 +1,11 @@
-import {Text, View, Pressable, Dimensions, FlatList} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  Dimensions,
+  FlatList,
+} from 'react-native';
 import React, {useState} from 'react';
 import {observer} from 'mobx-react';
 import {useStores} from '../../store';
@@ -19,10 +26,10 @@ const ModalUserAddress = () => {
   const renderItem = () => <View />;
 
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.view}>
       <List.Section>
         <List.Subheader>Add Address</List.Subheader>
-        <View style={{top: 10, width: width - 40, left: 20, zIndex: 99}}>
+        <View style={styles.view2}>
           <TextInput
             placeholder={t('Add Address')}
             maxLength={40}
@@ -33,7 +40,7 @@ const ModalUserAddress = () => {
       <View>
         <FlatList data={[]} renderItem={renderItem} />
       </View>
-      <View style={{position: 'absolute', bottom: 40, left: 60, right: 60}}>
+      <View style={styles.view3}>
         <Pressable
           style={purpleButton}
           onPress={async () => {
@@ -45,34 +52,36 @@ const ModalUserAddress = () => {
             await authStore.getUser();
             setShowAddress(true);
           }}>
-          <Text
-            style={{
-              fontSize: 16,
-              lineHeight: 21,
-              fontWeight: 'bold',
-              letterSpacing: 0.25,
-              color: COLORS.white,
-            }}>
-            {' '}
-            {t('Add')}
-          </Text>
+          <Text style={styles.text}> {t('Add')}</Text>
         </Pressable>
         <Pressable
           style={greenButton}
           onPress={() => NavigationService.goBack()}>
-          <Text
-            style={{
-              fontSize: 16,
-              lineHeight: 21,
-              fontWeight: 'bold',
-              letterSpacing: 0.25,
-              color: COLORS.white,
-            }}>
-            {t('Close')}
-          </Text>
+          <Text style={styles.text2}>{t('Close')}</Text>
         </Pressable>
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  view: {flex: 1},
+  view2: {top: 10, width: width - 40, left: 20, zIndex: 99},
+  view3: {position: 'absolute', bottom: 40, left: 60, right: 60},
+  text: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: COLORS.white,
+  },
+  text2: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: COLORS.white,
+  },
+});
+
 export default observer(ModalUserAddress);

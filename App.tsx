@@ -1,6 +1,13 @@
 import {Suspense} from 'react';
 import React, {useEffect} from 'react';
-import {View, StatusBar, Platform, TextInput, Text} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  StatusBar,
+  Platform,
+  TextInput,
+  Text,
+} from 'react-native';
 import App from './app/app';
 import {Provider as PaperProvider} from 'react-native-paper';
 import SplashScreen from 'react-native-splash-screen';
@@ -67,7 +74,7 @@ const MarketCy = () => {
   }, []);
 
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.view}>
       <StatusBar
         backgroundColor="#000000"
         barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
@@ -81,5 +88,9 @@ const MarketCy = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  view: {flex: 1},
+});
 
 export default MarketCy;

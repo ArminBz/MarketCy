@@ -1,4 +1,5 @@
 import {
+  Alert,
   Animated,
   Dimensions,
   Text,
@@ -154,7 +155,7 @@ const Map = () => {
           longitudeDelta: region.longitudeDelta,
         });
       },
-      error => alert(error.message),
+      error => Alert.alert(error.message),
       {
         enableHighAccuracy: true,
         timeout: 20000,
@@ -189,7 +190,7 @@ const Map = () => {
   });
 
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.view}>
       <MapView
         provider={PROVIDER_GOOGLE}
         ref={mapRef}
@@ -273,6 +274,7 @@ const Map = () => {
 export default observer(Map);
 
 const styles = StyleSheet.create({
+  view: {flex: 1},
   container: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,

@@ -7,7 +7,7 @@ import {
 } from './router';
 import {observer} from 'mobx-react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {navigationRef} from './router/NavigationService';
 import {useStores} from './store';
 import {OpenAPI} from '../src/services/openapi';
@@ -27,7 +27,7 @@ const App = () => {
   }, [authStore]);
 
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.view}>
       <NavigationContainer ref={navigationRef}>
         <RootStack.Navigator>
           {authStore.checkIsSignedInLoading ? (
@@ -80,5 +80,9 @@ const App = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  view: {flex: 1},
+});
 
 export default observer(App);

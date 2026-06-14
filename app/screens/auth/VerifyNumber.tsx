@@ -1,4 +1,4 @@
-import {View, TextInput, ScrollView} from 'react-native';
+import {StyleSheet, View, TextInput, ScrollView} from 'react-native';
 import {observer} from 'mobx-react';
 import React from 'react';
 import Logo from '../../components/Logo';
@@ -14,40 +14,25 @@ const VerifyNumber = () => {
   const {authStore} = useStores();
 
   return (
-    <ScrollView contentContainerStyle={{flexGrow: 1}}>
-      <View
-        style={{
-          flex: 1,
-          paddingTop: 80,
-          width: '100%',
-          maxWidth: 340,
-          alignSelf: 'center',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
+    <ScrollView contentContainerStyle={styles.scrollContent}>
+      <View style={styles.view}>
         <Logo />
         <TextInput
-          style={{
-            height: 40,
-            margin: 12,
-            borderWidth: 1,
-            padding: 10,
-            color: COLORS.primaryDark,
-          }}
+          style={styles.textInput}
           onChangeText={authStore.setCodeCheck}
           // value={authStore.codeCheck}
           placeholder="Enter the code here"
           keyboardType="numeric"
         />
         <Button
-          style={{width: 240}}
+          style={styles.button}
           mode="contained"
           onPress={() => authStore.confirmOtp()}>
           {t('Check')}
         </Button>
 
         <Button
-          style={{marginBottom: 220, width: 240}}
+          style={styles.button2}
           mode="outlined"
           onPress={() => authStore.login()}>
           {t('Resend the code')}
@@ -57,5 +42,27 @@ const VerifyNumber = () => {
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  scrollContent: {flexGrow: 1},
+  view: {
+    flex: 1,
+    paddingTop: 80,
+    width: '100%',
+    maxWidth: 340,
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textInput: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    color: COLORS.primaryDark,
+  },
+  button: {width: 240},
+  button2: {marginBottom: 220, width: 240},
+});
 
 export default observer(VerifyNumber);

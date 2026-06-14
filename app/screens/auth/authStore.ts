@@ -1,5 +1,6 @@
 import {action, makeObservable, observable} from 'mobx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Alert} from 'react-native';
 import {OpenAPI, UserService} from '../../../src/services/openapi';
 import NavigationService from '../../router/NavigationService';
 import type {ApiError, User} from '../../types';
@@ -123,7 +124,7 @@ class AuthStore {
       }
       return response.success;
     } catch (err) {
-      alert('Invalid phone number');
+      Alert.alert('Invalid phone number');
       this.handleError(err as ApiError);
     } finally {
       this.setLoading(false);

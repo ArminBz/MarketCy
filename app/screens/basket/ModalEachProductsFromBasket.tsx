@@ -1,4 +1,4 @@
-import {Text, View, Pressable, Image} from 'react-native';
+import {StyleSheet, Text, View, Pressable, Image} from 'react-native';
 import * as React from 'react';
 import {observer} from 'mobx-react';
 import {useStores} from '../../store';
@@ -19,35 +19,19 @@ const ModalEachProductsFromBasket = () => {
   const description = selected?.store_product.product?.description || null;
   const id = selected?.store_product?.id ?? 0;
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={styles.view}>
       <Image
-        style={{
-          flex: 0.4,
-          height: 200,
-          borderWidth: 0.8,
-          borderColor: COLORS.border,
-          width: 200,
-          marginBottom: 30,
-        }}
+        style={styles.image}
         source={{
           uri: thumb,
         }}
         resizeMode="cover"
       />
 
-      <Text style={{flex: 0.06, fontSize: 17, fontWeight: 'bold'}}>{name}</Text>
-      <Text style={{flex: 0.06, fontSize: 16}}>{description}</Text>
-      <View
-        style={{
-          flex: 0.07,
-          height: 60,
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginBottom: 10,
-        }}>
-        <Text style={{fontSize: 17, fontWeight: 'bold', color: COLORS.primary}}>
-          {price} TL
-        </Text>
+      <Text style={styles.text}>{name}</Text>
+      <Text style={styles.text2}>{description}</Text>
+      <View style={styles.view2}>
+        <Text style={styles.text3}>{price} TL</Text>
       </View>
       <NumericInput
         value={productStore.quantityOfProduct}
@@ -69,31 +53,49 @@ const ModalEachProductsFromBasket = () => {
 
           NavigationService.goBack();
         }}>
-        <Text
-          style={{
-            fontSize: 16,
-            lineHeight: 21,
-            fontWeight: 'bold',
-            letterSpacing: 0.25,
-            color: COLORS.white,
-          }}>
-          {' '}
-          {t('Add')}
-        </Text>
+        <Text style={styles.text4}> {t('Add')}</Text>
       </Pressable>
       <Pressable style={greenButton} onPress={() => NavigationService.goBack()}>
-        <Text
-          style={{
-            fontSize: 16,
-            lineHeight: 21,
-            fontWeight: 'bold',
-            letterSpacing: 0.25,
-            color: COLORS.white,
-          }}>
-          {t('Close')}
-        </Text>
+        <Text style={styles.text5}>{t('Close')}</Text>
       </Pressable>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  view: {flex: 1, alignItems: 'center', justifyContent: 'center'},
+  image: {
+    flex: 0.4,
+    height: 200,
+    borderWidth: 0.8,
+    borderColor: COLORS.border,
+    width: 200,
+    marginBottom: 30,
+  },
+  text: {flex: 0.06, fontSize: 17, fontWeight: 'bold'},
+  text2: {flex: 0.06, fontSize: 16},
+  view2: {
+    flex: 0.07,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  text3: {fontSize: 17, fontWeight: 'bold', color: COLORS.primary},
+  text4: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: COLORS.white,
+  },
+  text5: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: COLORS.white,
+  },
+});
+
 export default observer(ModalEachProductsFromBasket);

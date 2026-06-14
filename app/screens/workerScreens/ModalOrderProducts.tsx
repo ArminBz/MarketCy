@@ -1,4 +1,5 @@
 import {
+  StyleSheet,
   Text,
   View,
   Dimensions,
@@ -27,69 +28,34 @@ const ModalOrderProducts = () => {
   const items = workerStore.selectedOrderProducts?.items ?? [];
 
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.view}>
       <ScrollView>
         {items.map((item, index) => {
           return (
-            <TouchableOpacity
-              key={index}
-              style={{
-                marginBottom: 10,
-                marginTop: 5,
-                padding: 10,
-                width: width,
-                flexDirection: 'row',
-                borderWidth: 1,
-                borderColor: COLORS.borderLight,
-              }}>
+            <TouchableOpacity key={index} style={styles.touchableOpacity}>
               <Image
-                style={{
-                  flex: 0.4,
-                  height: 100,
-                  borderWidth: 0.8,
-                  borderColor: COLORS.border,
-                  width: 60,
-                  padding: 6,
-                  marginRight: 10,
-                }}
+                style={styles.image}
                 source={{
                   uri: item.product.product.thumb,
                 }}
                 resizeMode="cover"
               />
-              <View style={{flex: 0.6}}>
-                <Text style={{flex: 0.2, fontSize: 14, fontWeight: 'bold'}}>
-                  {item.product.product.name}
-                </Text>
+              <View style={styles.view2}>
+                <Text style={styles.text}>{item.product.product.name}</Text>
 
-                <Text style={{flex: 0.2, fontSize: 15, fontWeight: 'bold'}}>
+                <Text style={styles.text2}>
                   {item.product.product.price} TL
                 </Text>
                 {item.product.product.discount_price !== null &&
                 item.product.product.discount_price !== 0 ? (
-                  <Text
-                    style={{
-                      flex: 0.2,
-                      fontSize: 15,
-                      fontWeight: 'bold',
-                      color: COLORS.primary,
-                      marginBottom: 5,
-                    }}>
+                  <Text style={styles.text3}>
                     {item.product.product.discount_price} TL
                   </Text>
                 ) : null}
               </View>
               <View>
                 <TextInput
-                  style={{
-                    margin: 12,
-                    borderColor: COLORS.borderInput,
-                    borderWidth: 2,
-                    padding: 10,
-                    color: COLORS.primaryDark,
-                    fontSize: 15,
-                    textAlign: 'center',
-                  }}
+                  style={styles.textInput}
                   keyboardType="numeric"
                   placeholder={(item.quantity ?? 0).toString()}
                   placeholderTextColor={COLORS.primary}
@@ -102,36 +68,12 @@ const ModalOrderProducts = () => {
           );
         })}
       </ScrollView>
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          alignContent: 'center',
-          marginBottom: 80,
-        }}>
-        <Text
-          style={{
-            marginBottom: 2,
-            marginTop: 20,
-            fontSize: 17,
-            fontWeight: 'bold',
-            color: COLORS.primary,
-          }}>
+      <View style={styles.view3}>
+        <Text style={styles.text4}>
           Total: {workerStore.selectedOrderProducts.total} TL
         </Text>
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          width: width / 3,
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'absolute',
-          bottom: 0,
-          flex: 1,
-          alignSelf: 'center',
-          height: 80,
-        }}>
+      <View style={styles.view4}>
         <Button
           onPress={() => {
             workerStore.adminUpdateOrderStatus(
@@ -144,7 +86,7 @@ const ModalOrderProducts = () => {
             workerStore.getAdminAcceptOrders();
             NavigationService.goBack();
           }}
-          style={{backgroundColor: COLORS.success}}
+          style={styles.button}
           icon="check"
           mode="contained">
           Accept
@@ -161,7 +103,7 @@ const ModalOrderProducts = () => {
             workerStore.getAdminAcceptOrders();
             NavigationService.goBack();
           }}
-          style={{backgroundColor: COLORS.danger}}
+          style={styles.button2}
           icon="circle"
           mode="contained">
           Reject
@@ -188,4 +130,72 @@ const ModalOrderProducts = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  view: {flex: 1},
+  touchableOpacity: {
+    marginBottom: 10,
+    marginTop: 5,
+    padding: 10,
+    width: width,
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderColor: COLORS.borderLight,
+  },
+  image: {
+    flex: 0.4,
+    height: 100,
+    borderWidth: 0.8,
+    borderColor: COLORS.border,
+    width: 60,
+    padding: 6,
+    marginRight: 10,
+  },
+  view2: {flex: 0.6},
+  text: {flex: 0.2, fontSize: 14, fontWeight: 'bold'},
+  text2: {flex: 0.2, fontSize: 15, fontWeight: 'bold'},
+  text3: {
+    flex: 0.2,
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: COLORS.primary,
+    marginBottom: 5,
+  },
+  textInput: {
+    margin: 12,
+    borderColor: COLORS.borderInput,
+    borderWidth: 2,
+    padding: 10,
+    color: COLORS.primaryDark,
+    fontSize: 15,
+    textAlign: 'center',
+  },
+  view3: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignContent: 'center',
+    marginBottom: 80,
+  },
+  text4: {
+    marginBottom: 2,
+    marginTop: 20,
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: COLORS.primary,
+  },
+  view4: {
+    flexDirection: 'row',
+    width: width / 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 0,
+    flex: 1,
+    alignSelf: 'center',
+    height: 80,
+  },
+  button: {backgroundColor: COLORS.success},
+  button2: {backgroundColor: COLORS.danger},
+});
+
 export default observer(ModalOrderProducts);
