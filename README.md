@@ -170,4 +170,4 @@ cd ios && pod deintegrate && pod install && cd ..
 
 ## License
 
-Published as a portfolio work sample. © Armin.
+Released under the [MIT License](LICENSE). © 2026 Armin.
