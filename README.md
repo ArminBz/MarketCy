@@ -2,6 +2,7 @@
 
 > A mobile grocery-ordering and delivery app for a Northern-Cyprus supermarket — browse stores on a map, shop by category, and check out for delivery. Includes a separate **staff/admin** experience for managing inventory and fulfilling orders.
 
+[![CI](https://github.com/ArminBz/MarketCy/actions/workflows/ci.yml/badge.svg)](https://github.com/ArminBz/MarketCy/actions/workflows/ci.yml)
 ![React Native](https://img.shields.io/badge/React%20Native-0.70-61DAFB?logo=react&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)
 ![MobX](https://img.shields.io/badge/State-MobX-FF9955?logo=mobx&logoColor=white)
