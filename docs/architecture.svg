@@ -1,0 +1,74 @@
+<svg viewBox="0 0 920 560" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="abg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FAF9FF"/><stop offset="1" stop-color="#FFFFFF"/></linearGradient>
+    <marker id="arr" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#6200EE"/></marker>
+    <marker id="arrG" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#9CA3AF"/></marker>
+  </defs>
+  <rect width="920" height="560" rx="18" fill="url(#abg)"/>
+  <text x="40" y="46" font-size="22" font-weight="800" fill="#1A1A2E">MarketCy — Architecture</text>
+  <text x="40" y="68" font-size="13" fill="#6B7280">React Native (TypeScript) · MobX · generated OpenAPI client · REST backend</text>
+
+  <!-- App container -->
+  <rect x="40" y="90" width="540" height="350" rx="16" fill="#FFFFFF" stroke="#E3DEF9" stroke-width="2"/>
+  <rect x="40" y="90" width="540" height="38" rx="16" fill="#6200EE"/>
+  <rect x="40" y="112" width="540" height="16" fill="#6200EE"/>
+  <text x="60" y="115" font-size="14" font-weight="800" fill="#FFFFFF">React Native App · TypeScript (strict)</text>
+
+  <!-- Screens layer -->
+  <rect x="60" y="146" width="500" height="74" rx="11" fill="#F4F2FF" stroke="#DDD6FE" stroke-width="1.5"/>
+  <text x="74" y="168" font-size="13" font-weight="800" fill="#4700AE">Screens &amp; Components</text>
+  <g font-size="10.5" fill="#5B21B6">
+    <rect x="74" y="180" width="74" height="26" rx="7" fill="#FFFFFF" stroke="#DDD6FE"/><text x="111" y="197" text-anchor="middle">Auth</text>
+    <rect x="156" y="180" width="86" height="26" rx="7" fill="#FFFFFF" stroke="#DDD6FE"/><text x="199" y="197" text-anchor="middle">Discover/Map</text>
+    <rect x="250" y="180" width="92" height="26" rx="7" fill="#FFFFFF" stroke="#DDD6FE"/><text x="296" y="197" text-anchor="middle">Catalogue</text>
+    <rect x="350" y="180" width="74" height="26" rx="7" fill="#FFFFFF" stroke="#DDD6FE"/><text x="387" y="197" text-anchor="middle">Basket</text>
+    <rect x="432" y="180" width="114" height="26" rx="7" fill="#FFFFFF" stroke="#DDD6FE"/><text x="489" y="197" text-anchor="middle">Staff / Orders</text>
+  </g>
+
+  <!-- Navigation -->
+  <rect x="60" y="232" width="500" height="48" rx="11" fill="#ECFDF8" stroke="#A7F3D0" stroke-width="1.5"/>
+  <text x="74" y="252" font-size="12.5" font-weight="800" fill="#047857">Navigation</text>
+  <text x="74" y="270" font-size="10.5" fill="#0F766E">native-stack ×3 (SignedOut · SignedIn · Worker) + NavigationService ref</text>
+
+  <!-- MobX -->
+  <rect x="60" y="292" width="500" height="62" rx="11" fill="#FFF7ED" stroke="#FED7AA" stroke-width="1.5"/>
+  <text x="74" y="312" font-size="12.5" font-weight="800" fill="#C2410C">MobX Stores · RootStore → useStores()</text>
+  <text x="74" y="332" font-size="10.5" fill="#9A3412">authStore · productStore · basketStore · categoryStore · workerStore · …</text>
+  <text x="74" y="347" font-size="10.5" fill="#9A3412">fully typed, reusing the generated API models</text>
+
+  <!-- OpenAPI client -->
+  <rect x="60" y="366" width="500" height="56" rx="11" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.5"/>
+  <text x="74" y="388" font-size="12.5" font-weight="800" fill="#1D4ED8">Generated OpenAPI Client  (src/services/openapi)</text>
+  <text x="74" y="407" font-size="10.5" fill="#1E40AF">typed models + services · regenerated with `yarn openapi:dev`</text>
+
+  <!-- right side services -->
+  <rect x="620" y="146" width="260" height="86" rx="13" fill="#FFFFFF" stroke="#FDE68A" stroke-width="2"/>
+  <text x="640" y="172" font-size="13" font-weight="800" fill="#B45309">Firebase Cloud Messaging</text>
+  <text x="640" y="192" font-size="11" fill="#92400E">push notifications</text>
+  <text x="640" y="212" font-size="11" fill="#92400E">(message / request deep-links)</text>
+
+  <rect x="620" y="248" width="260" height="86" rx="13" fill="#FFFFFF" stroke="#A7F3D0" stroke-width="2"/>
+  <text x="640" y="274" font-size="13" font-weight="800" fill="#047857">react-native-maps</text>
+  <text x="640" y="294" font-size="11" fill="#065F46">Google provider · branch markers</text>
+  <text x="640" y="314" font-size="11" fill="#065F46">+ synced card carousel</text>
+
+  <!-- Backend -->
+  <rect x="620" y="366" width="260" height="92" rx="13" fill="#1A1A2E"/>
+  <text x="640" y="392" font-size="14" font-weight="800" fill="#FFFFFF">Backend REST API</text>
+  <text x="640" y="413" font-size="11" fill="#C7C7D9">Railway · m.up.railway.app/v1</text>
+  <text x="640" y="433" font-size="11" fill="#C7C7D9">products · basket · orders · auth</text>
+
+  <!-- arrows app -> backend -->
+  <path d="M560 394 H600" fill="none" stroke="#6200EE" stroke-width="2.4" marker-end="url(#arr)"/>
+  <text x="566" y="386" font-size="10" font-weight="700" fill="#6200EE">REST</text>
+  <path d="M560 175 H612" fill="none" stroke="#9CA3AF" stroke-width="2" marker-end="url(#arrG)" stroke-dasharray="4 3"/>
+  <path d="M560 280 H612" fill="none" stroke="#9CA3AF" stroke-width="2" marker-end="url(#arrG)" stroke-dasharray="4 3"/>
+
+  <!-- inner downward flow hint -->
+  <g stroke="#C4B5FD" stroke-width="1.6" fill="none" marker-end="url(#arr)" opacity="0.8">
+    <path d="M310 220 V230"/><path d="M310 280 V290"/><path d="M310 354 V364"/>
+  </g>
+
+  <text x="40" y="500" font-size="11.5" fill="#9CA3AF">One-way data flow: Screens read MobX stores (useStores) → stores call the typed OpenAPI client → REST backend. NavigationService enables navigation from outside the React tree.</text>
+  <text x="40" y="522" font-size="11.5" fill="#9CA3AF">Validation: tsc (strict) · eslint . · Jest — all green.</text>
+</svg>

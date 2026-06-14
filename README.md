@@ -10,6 +10,12 @@
 ![i18n](https://img.shields.io/badge/i18n-EN%20%7C%20TR%20%7C%20UK%20%7C%20FA-2EAD33)
 ![Platforms](https://img.shields.io/badge/Platforms-iOS%20%7C%20Android-lightgrey)
 
+<p align="center">
+  <img src="docs/preview.svg" alt="MarketCy — app screens" width="100%">
+</p>
+
+_UI mockups of the core flows (customer + staff), rendered from the app's real screens and color palette. Drop live device captures into [`docs/screenshots/`](docs/screenshots) to swap them in._
+
 ---
 
 ## Overview
@@ -48,7 +54,7 @@ REST API and never hand-writes request/response types.
 | **Account** | Dashboard (number, address, language, sign-out) |
 | **Staff** | QR scanner / product editor, Orders queue, Order detail modal |
 
-> 📸 _Screenshots can be dropped into `docs/screenshots/` and embedded here._
+> 📸 _The [screen preview](docs/preview.svg) up top shows these flows. Drop real device captures into [`docs/screenshots/`](docs/screenshots) to replace the mockups._
 
 ## Tech Stack
 
@@ -66,6 +72,12 @@ REST API and never hand-writes request/response types.
 | Camera | `react-native-qrcode-scanner` (barcode scanning) |
 
 ## Architecture
+
+<p align="center">
+  <img src="docs/architecture.svg" alt="MarketCy architecture diagram" width="92%">
+</p>
+
+The folder layout:
 
 ```
 app/
