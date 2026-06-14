@@ -15,7 +15,7 @@
   <img src="docs/preview.svg" alt="MarketCy — app screens" width="100%">
 </p>
 
-_UI mockups of the core flows (customer + staff), rendered from the app's real screens and color palette. Drop live device captures into [`docs/screenshots/`](docs/screenshots) to swap them in._
+_A preview of the core customer + staff flows, rendered from the app's real screens and color palette._
 
 ---
 
@@ -55,7 +55,7 @@ REST API and never hand-writes request/response types.
 | **Account** | Dashboard (number, address, language, sign-out) |
 | **Staff** | QR scanner / product editor, Orders queue, Order detail modal |
 
-> 📸 _The [screen preview](docs/preview.svg) up top shows these flows. Drop real device captures into [`docs/screenshots/`](docs/screenshots) to replace the mockups._
+> 📸 _See the [screen preview](docs/preview.svg) up top for these flows._
 
 ## Tech Stack
 
